@@ -17,7 +17,7 @@ hide:
 
 <h1 id="home-title">Локальная граница для coding-агентов.</h1>
 
-<p class="home-lede">Альфа Sandboxes выпущена. Rheic публикует CLI и daemon как релизные артефакты с контрольными суммами и SLSA-attestations, а daemon загружает настоящие microVM на macOS ARM64 через containerd, nerdbox shim и libkrun. Установите альфу, подключите агента к VM одной командой и посмотрите, что прошло live acceptance, а что пока не поддерживается.</p>
+<p class="home-lede">Запускайте coding-агентов в локальных microVM на macOS ARM64. Установите альфу, настройте daemon и создайте sandbox из терминала.</p>
 
 <div class="home-actions">
 <a class="home-button" href="quickstart/">Начать с быстрого старта <span aria-hidden="true">↗</span></a>
@@ -33,18 +33,12 @@ hide:
 <div class="home-terminal-head"><span class="home-terminal-brand"><img src="../assets/rheic-shark.png" alt=""><strong>Запуск microVM</strong></span><span class="home-terminal-lang">rsbx</span></div>
 <div class="home-terminal-code" markdown>
 ```sh
-curl -fsSL https://raw.githubusercontent.com/rheic/sandboxes-cli/main/scripts/install.sh | sh
 rsbx version
-
 rsbx run shell .
 rsbx ls
-
-# Резервный режим: без --containerd VM не загружается
-sandboxesd --state ~/.sandboxes \\
-  --socket ~/.sandboxes/sandboxesd.sock
 ```
 </div>
-<div class="home-terminal-foot">Основной путь — microVM: <code>rsbx run</code> просит daemon загрузить VM. Режим state-only — резервный: он проверяет локальную control plane, не запускает VM и не подтверждает изоляцию.</div>
+<div class="home-terminal-foot">Сначала установите CLI и настройте VM backend. <a href="quickstart/">Перейти к быстрому старту →</a></div>
 </div>
 </section>
 
