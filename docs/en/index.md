@@ -17,7 +17,7 @@ hide:
 
 <h1 id="home-title">A local boundary for coding agents.</h1>
 
-<p class="home-lede">The Sandboxes alpha is released. Rheic publishes the CLI and daemon as release artifacts with checksums and SLSA attestations, and the daemon boots real microVMs on macOS ARM64 through containerd, the nerdbox shim, and libkrun. Install the alpha, run one command to attach an agent to a VM, then check what passed live acceptance and what is still unsupported.</p>
+<p class="home-lede">Run coding agents in local microVMs on macOS ARM64. Install the alpha, configure the daemon, and start a sandbox from your terminal.</p>
 
 <div class="home-actions">
 <a class="home-button" href="quickstart/">Start with the quick start <span aria-hidden="true">↗</span></a>
@@ -33,18 +33,12 @@ hide:
 <div class="home-terminal-head"><span class="home-terminal-brand"><img src="assets/rheic-shark.png" alt=""><strong>Boot a microVM</strong></span><span class="home-terminal-lang">rsbx</span></div>
 <div class="home-terminal-code" markdown>
 ```sh
-curl -fsSL https://raw.githubusercontent.com/rheic/sandboxes-cli/main/scripts/install.sh | sh
 rsbx version
-
 rsbx run shell .
 rsbx ls
-
-# Fallback: no --containerd, so no VM is booted
-sandboxesd --state ~/.sandboxes \\
-  --socket ~/.sandboxes/sandboxesd.sock
 ```
 </div>
-<div class="home-terminal-foot">The microVM path is primary: <code>rsbx run</code> asks the daemon to boot a VM. State-only mode is a fallback that checks the local control plane and does not boot a VM or prove isolation.</div>
+<div class="home-terminal-foot">Install the CLI and configure the VM backend first. <a href="quickstart/">Follow the quick start →</a></div>
 </div>
 </section>
 

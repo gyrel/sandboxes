@@ -1,4 +1,4 @@
-site_name: Sandboxes — local microVMs for coding agents, by Rheic
+site_name: Sandboxes by Rheic
 site_url: https://rheic.github.io/sandboxes/
 site_description: Sandboxes, the Rheic alpha. Install the released CLI and daemon, boot real microVMs on macOS ARM64, and review guides, runtime boundaries, and command reference.
 site_dir: site
@@ -41,12 +41,12 @@ plugins:
           name: English
           default: true
           build: true
-          site_name: Sandboxes — local microVMs for coding agents, by Rheic
+          site_name: Sandboxes by Rheic
           site_description: Sandboxes, the Rheic alpha. Install the released CLI and daemon, boot real microVMs on macOS ARM64, and review guides, runtime boundaries, and command reference.
         - locale: ru
           name: Русский
           build: true
-          site_name: Sandboxes — локальные microVM для coding-агентов от Rheic
+          site_name: Sandboxes by Rheic
           site_description: "Sandboxes, альфа-версия Rheic: установите выпущенные CLI и daemon, запустите microVM на macOS ARM64, изучите руководства, границы runtime и справочник команд."
           nav:
             - Начать:
