@@ -18,7 +18,7 @@ CLI вызывает локальный daemon через официальный
 
 ## Runtime и guest
 
-VM runtime, guest image, shim и вспомогательные бинарники — внешние зависимости с привязкой к версиям. Проверенный native VM путь сейчас нацелен на macOS с Apple silicon. Другие платформы не проверены или не завершены. Агент запускается в guest; mounts workspace определяют доступ к данным проекта на хосте.
+VM runtime, guest image, shim и вспомогательные бинарники — внешние зависимости с привязкой к версиям. Ограниченный VM-backed lifecycle проверен на macOS с Apple silicon. Отдельная Linux ARM64 guest-task прошла detach/reattach managed containerd в Ubuntu Lima/QEMU с nested KVM на macOS. Это не квалифицирует native Linux host или rootless-режим; Windows остаётся незавершённым. Агент запускается в guest; mounts workspace определяют доступ к данным проекта на хосте.
 
 ## Сетевой периметр
 

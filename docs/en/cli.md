@@ -10,7 +10,10 @@ The canonical user-facing executable is `rsbx`. Most commands accept `--socket P
 rsbx run shell .
 rsbx run --detach --name api --cpus 2 --memory 2g shell .
 rsbx create --name api shell . /path/to/docs:ro
+rsbx run --clone shell .
 ```
+
+`--clone` mounts the single workspace read-only and works in a private in-guest clone, exposing agent commits through the host remote `sandbox-<name>` while the sandbox runs. The image must provide `git` and `git daemon`, and an existing non-empty destination is rejected. See [workspaces and files](workspaces.md#clone-mode) for the lifecycle, endpoint form, and limits.
 
 The CLI grammar defines `run` as create-or-reuse, start, and attach. Runtime and daemon include exec/PTY implementations, but the complete agent lifecycle has not passed shared platform acceptance. The current directory is the default workspace. `--detach` returns after startup; `create` creates without attaching. The CLI README describes only the shell adapter as implemented; other agent support is marked preview or unsupported.
 
@@ -58,13 +61,25 @@ On upgrade, existing settings are read from the previous `~/.config/klorq/settin
 rsbx run --publish 127.0.0.1:8080:3000 shell .
 rsbx ports api
 rsbx policy ls api
+rsbx policy org
 ```
 
-The default egress policy is deny. Explicit policy supports IPv4 CIDR and domain targets where the configured gateway supports them. Port publishing is limited to host loopback addresses; public host bindings are rejected. A successful `--publish` setup does not grant the guest outbound access. Configure only the egress destinations the workload needs.
+`rsbx policy org` shows the organization policy that is in effect: org, bundle identity, enforcement state, and every rule marked enforced or advisory (human table or `--format json`). The default egress policy is deny. Explicit policy supports IPv4 CIDR and domain targets where the configured gateway supports them. Port publishing is limited to host loopback addresses; public host bindings are rejected. A successful `--publish` setup does not grant the guest outbound access. Configure only the egress destinations the workload needs.
 
 ## Docker
 
 The CLI accepts `--docker` for an opt-in guest Docker profile. It can start `dockerd`, but nested `docker run/load/build` and Compose remain blocked by guest `unshare` restrictions in the current runtime. This does not mean the VM fails to start. `rsbx login` stores Docker account authorization on the host; it does not forward registry credentials into the guest. Read the [Docker guide](docker.md) for the current status and history.
+
+## Experimental commands
+
+```sh
+rsbx setup
+rsbx skills list
+rsbx skills import ./my-skill
+rsbx completion zsh
+```
+
+`setup` is a read-only host readiness report (platform, daemon socket, runtime assets, required binaries, Docker CLI) with `--format json`; it installs nothing and does not claim a VM can boot. `skills` manages host-side agent skill sources (`list`, `import`, `remove`) and never writes into a sandbox workspace. `completion` prints a script for bash, zsh, fish or powershell. Cloud-only Docker commands (`move`, `ttl`, `volume`) stay unsupported in the local build.
 
 ## Get exact options
 

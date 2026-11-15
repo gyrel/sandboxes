@@ -18,7 +18,7 @@ The CLI calls the local daemon through the official Go SDK and the public API mo
 
 ## Runtime and guest
 
-The VM runtime, guest image, shim, and helper binaries are external, version-sensitive inputs. The validated native VM path currently targets macOS on Apple silicon. Other platforms remain unvalidated or incomplete. The agent runs in the guest; workspace mounts define what host project data it can access.
+The VM runtime, guest image, shim, and helper binaries are external, version-sensitive inputs. A limited VM-backed lifecycle is validated on macOS Apple silicon. A separate Linux ARM64 guest task passed managed-containerd detach/reattach in an Ubuntu Lima/QEMU VM with nested KVM hosted by macOS. This does not qualify a native Linux host or rootless operation; Windows remains incomplete. The agent runs in the guest; workspace mounts define what host project data it can access.
 
 ## Network boundary
 

@@ -8,7 +8,10 @@
 rsbx run shell .
 rsbx run --detach --name api --cpus 2 --memory 2g shell .
 rsbx create --name api shell . /путь/к/docs:ro
+rsbx run --clone shell .
 ```
+
+`--clone` подключает единственный workspace только для чтения и работает в приватном клоне внутри гостя, отдавая коммиты агента через host-remote `sandbox-<name>`, пока песочница запущена. Образ должен содержать `git` и `git daemon`, а существующий непустой каталог назначения отклоняется. Жизненный цикл, вид endpoint и ограничения описаны в разделе [workspace и файлы](workspaces.md#clone-mode).
 
 Грамматика CLI определяет `run` как создание или повторное использование песочницы, запуск и подключение оболочки. Runtime и daemon содержат exec/PTY реализацию, но полный agent lifecycle ещё не прошёл общую platform acceptance. Текущий каталог используется по умолчанию. `--detach` возвращает управление после запуска; `create` создаёт песочницу без подключения. README CLI называет реализованным только адаптер shell; остальные агенты отмечены как preview или unsupported.
 
@@ -56,6 +59,7 @@ rsbx secret rm openai --sandbox api
 rsbx run --publish 127.0.0.1:8080:3000 shell .
 rsbx ports api
 rsbx policy ls api
+rsbx policy org
 ```
 
 По умолчанию исходящий трафик запрещён. Явные правила поддерживают IPv4 CIDR и домены, если их поддерживает настроенный gateway. Публикация портов ограничена loopback-адресами; внешние host bindings отклоняются. Успешная настройка `--publish` не разрешает гостю исходящие подключения. Добавляйте только необходимые адреса назначения.
@@ -63,6 +67,17 @@ rsbx policy ls api
 ## Docker
 
 CLI принимает `--docker` для опционального профиля Docker внутри guest. Профиль может запустить `dockerd`, но вложенные `docker run/load/build` и Compose пока блокируются ограничениями `unshare` в текущем runtime. Это не означает, что VM не запускается. `rsbx login` сохраняет авторизацию Docker account на host-системе, но не передаёт registry credentials в гостевую среду. Актуальный статус и история описаны в [руководстве Docker](docker.md).
+
+## Экспериментальные команды
+
+```sh
+rsbx setup
+rsbx skills list
+rsbx skills import ./my-skill
+rsbx completion zsh
+```
+
+`setup` — read-only отчёт о готовности хоста (платформа, сокет daemon, runtime-ассеты, нужные бинарники, Docker CLI) с `--format json`; он ничего не устанавливает и не утверждает, что VM загрузится. `skills` управляет host-side источниками skills агентов (`list`, `import`, `remove`) и никогда не пишет в workspace песочницы. `completion` печатает скрипт для bash, zsh, fish или powershell. Cloud-only команды Docker (`move`, `ttl`, `volume`) в локальной сборке остаются неподдерживаемыми.
 
 ## Точная справка
 

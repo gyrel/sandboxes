@@ -7,7 +7,7 @@ Rheic is pre-alpha and does not have a general-purpose installer. The validated 
 | Host | Current status |
 |---|---|
 | macOS on Apple silicon | Native VM path has local validation; release qualification remains open |
-| Linux with KVM | Development work exists; this documentation does not claim a qualified release |
+| Linux host with KVM | A Linux ARM64 guest task passed a managed-service detach/reattach test in Lima/QEMU with nested KVM on macOS; native Linux host and rootless qualification remain open |
 | Windows with WHP | Runtime integration and guest workflow are incomplete; not available for general use |
 
 Use the project plan for current validation evidence and platform blockers.

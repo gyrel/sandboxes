@@ -6,7 +6,7 @@ Rheic is pre-alpha. This page separates what Docker Sandboxes documents from wha
 
 Docker documents one lightweight microVM and Linux kernel per agent, with a separate Docker Engine inside the VM. The hypervisor is the primary isolation boundary; host workspaces and other integrations cross that boundary only when explicitly shared. See Docker's [isolation layers](https://docs.docker.com/ai/sandboxes/security/isolation/) and [architecture](https://docs.docker.com/ai/sandboxes/architecture/) guides. “MicroVM” describes the virtualization boundary; it is not a guarantee that every configuration or integration is risk-free.
 
-Rheic also targets a microVM boundary, but it does not currently claim Docker parity or complete security qualification. A limited VM-backed lifecycle passed on macOS ARM64. Linux KVM is not qualified, Windows WHP is incomplete, and independent security review remains open. See the [Rheic architecture](architecture.md), [platform requirements](requirements.md), and [security model](security.md).
+Rheic also targets a microVM boundary, but it does not currently claim Docker parity or complete security qualification. A limited VM-backed lifecycle passed on macOS ARM64. A separate Linux ARM64 guest-task test ran under Lima/QEMU with nested KVM on macOS and survived managed-containerd detach and reattach. This does not qualify a native Linux host or rootless operation. Windows WHP is incomplete, and independent security review remains open. See the [Rheic architecture](architecture.md), [platform requirements](requirements.md), and [security model](security.md).
 
 ## Does the quick start launch a VM?
 
@@ -15,6 +15,10 @@ No. It starts the daemon in state-only mode so you can inspect the local control
 ## Can I run a coding agent inside a Rheic sandbox?
 
 The CLI and runtime include agent and exec paths, and limited VM-backed lifecycle acceptance passed on macOS ARM64. Full interactive workflows for every agent and platform have not passed acceptance. See the [agent guide](agents.md) and [platform status](requirements.md).
+
+## Should I mount a repository or use clone mode?
+
+Mount it when the agent should edit your working tree directly. Use `rsbx run --clone` when the host repository must stay read-only: the source is mounted read-only, the agent commits in a private clone inside the guest, and you fetch those commits through the host remote `sandbox-<name>`. Clone mode requires exactly one real Git repository (a linked worktree with a `.git` file is rejected) and an image that provides `git` and `git daemon`; a non-empty destination is rejected. The endpoint exists only while the sandbox runs, and a user-edited remote is preserved rather than overwritten. See [workspaces and files](workspaces.md#clone-mode).
 
 ## Does a successful command prove isolation?
 
