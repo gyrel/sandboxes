@@ -36,7 +36,7 @@ rsbx run --clone shell .
 
 The daemon creates the clone with hooks and credential helpers disabled. As with `sbx`, the clone is placed at the same absolute path the workspace has on the host, and `origin` stays pointed at the read-only source (`/run/sandbox/source`), so the agent can diff its work against the original.
 
-While the sandbox is running, the CLI adds a host Git remote named `sandbox-<name>` to your repository. It points at a host-loopback endpoint served by the guest Git daemon (upload-pack only) and looks like `git://127.0.0.1:<port>/<repository>`, so you can fetch agent commits from the sandbox:
+While the sandbox is running, the CLI adds a host Git remote named `sandbox-<name>` to your repository. It points at a host-loopback endpoint served by the guest Git daemon (upload-pack only) and looks like `git://127.0.0.1:<port>/<token>/<repository>`, so you can fetch agent commits from the sandbox. The token is random per sandbox, lives only while the sandbox exists, is regenerated on every start, and is never written to logs:
 
 ```sh
 git fetch sandbox-api
