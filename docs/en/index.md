@@ -26,7 +26,7 @@ hide:
 
 <label class="home-search-trigger" for="__search"><span>Search the documentation</span><kbd>/</kbd></label>
 
-<p class="home-footnote">Alpha software · microVM path validated live on macOS ARM64 · Windows, cloud, and nested Docker remain unsupported</p>
+<p class="home-footnote">Alpha software · microVM path validated live on macOS ARM64 · Windows WHP, cloud, and nested Docker remain out of scope or blocked</p>
 </div>
 
 <div class="home-terminal" aria-label="Rheic local command examples">
@@ -47,7 +47,7 @@ rsbx ls
 <div class="home-path-grid">
 <a class="home-card" href="quickstart/"><span class="home-card-mark" aria-hidden="true">01</span><h3>Install the alpha and boot a microVM</h3><p>Install the released binaries, start the daemon with the VM backend, then attach a shell to a guest.</p><span class="home-card-link">Quick start →</span></a>
 <a class="home-card" href="workspaces/"><span class="home-card-mark" aria-hidden="true">02</span><h3>Prepare an agent workspace</h3><p>Understand how workspace paths, file operations, and sandbox lifecycle fit together.</p><span class="home-card-link">Workspace guide →</span></a>
-<a class="home-card" href="networking/"><span class="home-card-mark" aria-hidden="true">03</span><h3>Review network boundaries</h3><p>See the deny-default policy model, the opt-in IPv6 and QUIC matrices, and published ports.</p><span class="home-card-link">Network guide →</span></a>
+<a class="home-card" href="networking/"><span class="home-card-mark" aria-hidden="true">03</span><h3>Review network boundaries</h3><p>See the default allow-all profile, deny precedence, HTTP policy conditions, and published ports.</p><span class="home-card-link">Network guide →</span></a>
 <a class="home-card" href="workspaces/#clone-mode"><span class="home-card-mark" aria-hidden="true">04</span><h3>Clone instead of mounting</h3><p>Keep the host repository read-only and fetch agent commits from a private in-guest clone.</p><span class="home-card-link">Clone guide →</span></a>
 </div>
 </section>
@@ -64,12 +64,12 @@ rsbx ls
 
 <section class="home-section" aria-labelledby="status-title">
 <div class="home-status">
-<div class="home-status-copy"><p class="home-kicker">Current project status</p><h2 id="status-title">Rheic boots microVMs on macOS ARM64.</h2><p>The Sandboxes alpha is released: <code>rsbx</code> v0.0.49 and <code>sandboxesd</code> v0.0.56 ship with <code>SHA256SUMS</code> and SLSA provenance, and the daemon boots real microVMs on macOS ARM64 through containerd, the nerdbox shim, and libkrun. Live acceptance covered create, start, exec, stop, start, delete, cross-VM isolation, the IPv6 and QUIC opt-in matrices, the registry broker, and clone mode. Windows WHP, cloud commands (<code>move</code>, <code>ttl</code>, <code>volume</code>), nested Docker workloads inside the guest, and an independent external security review remain unsupported.</p></div>
+<div class="home-status-copy"><p class="home-kicker">Current project status</p><h2 id="status-title">Rheic boots microVMs on macOS ARM64.</h2><p>The Sandboxes alpha is released: <code>rsbx</code> v0.0.53 and <code>sandboxesd</code> v0.0.61 ship with <code>SHA256SUMS</code> and SLSA provenance, and the daemon boots real microVMs on macOS ARM64 through containerd, the nerdbox shim, and libkrun. The CLI adds daemon lifecycle commands and Docker <code>sbx</code>-compatible JSON for core commands. Live acceptance covered create, start, exec, stop, start, delete, cross-VM isolation, the IPv6 and QUIC opt-in matrices, and clone mode. Windows WHP is not implemented, cloud commands (<code>move</code>, <code>ttl</code>, <code>volume</code>) are out of scope, nested Docker workloads inside the guest remain blocked, and no independent external security review has been completed.</p></div>
 <ul class="home-status-list" aria-label="Capability status">
 <li><span class="status-dot" aria-hidden="true"></span><span>Alpha binaries<strong>Released and verified</strong></span></li>
 <li><span class="status-dot" aria-hidden="true"></span><span>macOS ARM64 microVM path<strong>Validated live</strong></span></li>
 <li><span class="status-dot" aria-hidden="true"></span><span>Clone mode<strong>Validated live</strong></span></li>
-<li><span class="status-dot status-dot-off" aria-hidden="true"></span><span>Windows WHP, cloud commands, and nested Docker<strong>Not supported</strong></span></li>
+<li><span class="status-dot status-dot-off" aria-hidden="true"></span><span>Windows WHP, cloud commands, and nested Docker<strong>Not implemented or out of scope</strong></span></li>
 </ul>
 </div>
 </section>
@@ -89,7 +89,8 @@ rsbx ls
 <div class="home-faq">
 <details><summary>Does the quick start launch a VM?</summary><p>Yes. The microVM path is the primary path: the quick start installs the alpha binaries, starts the daemon with the VM backend, and runs <code>rsbx run shell .</code>, which boots a real microVM on macOS ARM64. State-only mode is a fallback for hosts that do not have the runtime assets yet; it checks the local control plane and does not boot a VM. See <a href="quickstart/">Quick start</a> and <a href="requirements/">System requirements</a>.</p></details>
 <details><summary>Can I run a coding agent inside the sandbox?</summary><p>The VM lifecycle passed live acceptance on macOS ARM64, including exec into a running guest. Provider authentication and complete interactive workflows for every agent have not passed acceptance. Check the <a href="agents/">agent guide</a> and <a href="requirements/">platform status</a>.</p></details>
-<details><summary>Should I clone a repository or mount it?</summary><p>Mount it when the agent should edit host files directly. Use <code>rsbx run --clone</code> when the host repository must stay read-only: the agent commits in a private in-guest clone and you fetch those commits through the <code>sandbox-&lt;name&gt;</code> remote. Clone mode requires one real Git repository, and the image needs <code>git</code> with <code>git daemon</code>. See <a href="workspaces/#clone-mode">workspaces</a>.</p></details>
+<details><summary>Should I clone a repository or mount it?</summary><p>Mount it when the agent should edit host files directly. Use <code>rsbx run --clone</code> when the host repository must stay read-only: the agent commits in a private in-guest clone and you fetch those commits through the <code>sandbox-&lt;name&gt;</code> remote. Clone mode requires one real Git repository, and the image needs <code>git</code> with <code>git daemon</code>. The host remote URL carries a random per-sandbox token. See <a href="workspaces/#clone-mode">workspaces</a>.</p></details>
+<details><summary>Is outbound network access allowed by default?</summary><p>Yes. New sandboxes use the <code>allow-all</code> egress profile, matching Docker <code>sbx</code>. Explicit deny rules and organization deny rules still take precedence, and fail-closed controls are unchanged. Start with <code>--policy-profile deny-all</code> when a task should not reach the network. HTTP policy conditions for method, path glob, and query exist in the gateway policy layer; <code>rsbx</code> cannot author them yet, and live gateway enforcement of those conditions remains unverified. See <a href="networking/">network and ports</a>.</p></details>
 <details><summary>Does a successful command prove isolation?</summary><p>No. A CLI response confirms only the operation reported by that command. VM isolation needs its own live runtime and security evidence. See the <a href="security/">security model</a>.</p></details>
 <details><summary>Is Docker Engine inside the guest ready for workloads?</summary><p>The opt-in guest Docker daemon can start, but nested <code>docker run</code>, <code>docker load</code>, <code>docker build</code>, and Compose are blocked by guest <code>unshare</code> restrictions in the current runtime. See <a href="docker/">Docker and Rheic</a>.</p></details>
 </div>

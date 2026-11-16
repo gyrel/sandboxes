@@ -2,7 +2,7 @@
 
 Это руководство устанавливает выпущенную альфу Sandboxes от Rheic и загружает настоящую microVM на macOS ARM64. Основной путь — microVM: daemon управляет containerd, nerdbox shim и libkrun, а `rsbx run shell .` создаёт или переиспользует sandbox, запускает его и подключает shell гостя. Режим state-only — явно обозначенный резервный вариант для host-систем без runtime-артефактов; VM он не запускает.
 
-Текущая альфа — это CLI `rsbx` v0.0.49 и daemon `sandboxesd` v0.0.56. Оба публикуются как релизные артефакты с `SHA256SUMS` и SLSA-attestations. Live acceptance на macOS ARM64 покрыла create, start, exec, stop, start, delete, изоляцию между VM, opt-in матрицы IPv6 и QUIC, registry broker и режим клона. Она не квалифицирует Windows, native Linux и rootless host-системы, облачные команды и вложенные Docker workloads, а также не заменяет независимый внешний security review.
+Опубликованная альфа — это CLI `rsbx` v0.0.53, daemon `sandboxesd` v0.0.61 и локальный API-контракт 0.0.27. Бинарники публикуются как релизные артефакты с `SHA256SUMS` и SLSA-attestations. Live acceptance на macOS ARM64 покрыла create, start, exec, stop, start, delete, изоляцию между VM, opt-in матрицы IPv6 и QUIC и режим клона. Она не квалифицирует Windows, native Linux и rootless host-системы, а также облачные команды. Windows WHP не реализован, облачные команды вне области, независимый внешний security review не проводился.
 
 ## 1. Установите альфа-бинарники
 
@@ -10,10 +10,10 @@
 
 ```sh
 curl -fsSL https://raw.githubusercontent.com/rheic/sandboxes-cli/main/scripts/install.sh | sh
-rsbx version    # rsbx version v0.0.49 для текущей альфы
+rsbx version    # rsbx version v0.0.53 для текущей альфы
 ```
 
-Скачайте `sandboxesd` v0.0.56 для своей платформы из [релизов daemon](https://github.com/rheic/sandboxes-daemon/releases) и проверьте его по опубликованным контрольным суммам и аттестации:
+Скачайте `sandboxesd` v0.0.61 для своей платформы из [релизов daemon](https://github.com/rheic/sandboxes-daemon/releases) и проверьте его по опубликованным контрольным суммам и аттестации:
 
 ```sh
 shasum -a 256 -c SHA256SUMS
@@ -31,7 +31,7 @@ install -m 0755 sandboxesd-darwin-arm64 "$HOME/.local/bin/sandboxesd"
 command -v rsbx sandboxesd
 ```
 
-Daemon и CLI должны быть из совместимых tagged-релизов. Не направляйте daemon на сокет или каталог состояния другой установки.
+Daemon и CLI должны быть из совместимых tagged-релизов. Опубликованная пара — CLI v0.0.53 с daemon v0.0.61 и API-контрактом 0.0.27. Не направляйте daemon на сокет или каталог состояния другой установки.
 
 ## 3. Настройте runtime-артефакты
 
@@ -63,12 +63,14 @@ sandboxesd \
 
 Пустой `--containerd` оставляет daemon в режиме state-only, и VM не запускается. Сеть остаётся выключенной, пока `--gvproxy` не указывает на совместимый policy gateway. Оставьте daemon работать; следующие шаги выполняются во втором терминале.
 
+`rsbx daemon start --detach` может запустить daemon с настройками по умолчанию, а `rsbx daemon status` показывает daemon, который удаётся идентифицировать. Daemon, запущенный с явными runtime-флагами VM, как выше, сохраняет собственный жизненный цикл процесса; используйте `rsbx daemon status`, `rsbx daemon log-level` и `rsbx daemon stop` для проверки и управления. Stop сигналит только тому daemon, чью идентичность удалось доказать. Если daemon запущен вне CLI и идентичность доказать нельзя, stop отказывается и объясняет, как остановить его вручную; на платформах без определения socket peer команда решает по control record. См. [справочник CLI](cli.md#daemon-lifecycle).
+
 ## 5. Запустите microVM
 
 Загрузите shell гостя в текущем каталоге:
 
 ```sh
-cd /path/to/project
+cd /путь/к/проекту
 rsbx run shell .
 ```
 
@@ -78,6 +80,7 @@ rsbx run shell .
 
 ```sh
 rsbx ls
+rsbx ls --json
 ```
 
 Обе команды используют сокет по умолчанию `$HOME/.sandboxes/sandboxesd.sock`. Если daemon запущен с другим путём, передайте `--socket PATH` или задайте `SANDBOXES_SOCKET`. Остальной lifecycle — это `rsbx stop`, `rsbx start` и `rsbx rm`.
@@ -95,13 +98,13 @@ rsbx ls
 rsbx diagnose
 ```
 
-Эти команды проверяют, что CLI видит локальный daemon и состояние control plane. Они не загружают гостя, не подтверждают изоляцию VM и не проверяют сессию агента. Runtime и daemon содержат exec/PTY пути, а live acceptance прошла на macOS ARM64, но авторизация агентов и полные интерактивные сценарии каждого агента пока не проверены.
+Эти команды проверяют, что CLI видит локальный daemon и состояние control plane. Они не загружают гостя, не подтверждают изоляцию VM и не проверяют сессию агента. VM-backed lifecycle и exec-проверки прошли на macOS ARM64, но авторизация агентов и полные интерактивные сценарии каждого агента пока не проверены.
 
 ## Что помнить об ограничениях
 
 - Проверенный нативный VM-путь рассчитан только на macOS с Apple silicon.
-- Windows WHP, облачные команды (`move`, `ttl`, `volume`) и вложенные Docker workloads внутри гостя не поддерживаются.
-- Независимый внешний security review ещё не проводился; см. [модель безопасности](security.md).
+- Windows WHP не реализован. Облачные команды (`move`, `ttl`, `volume`) вне области локальной альфы. Вложенные Docker workloads внутри гостя остаются заблокированными.
+- Независимый внешний security review не проводился; см. [модель безопасности](security.md).
 - Встроенные агенты Docker остаются preview: проверки запуска образов прошли, авторизация провайдера и полные сессии агентов — нет. См. [агенты](agents.md).
 
 ## Следующие шаги

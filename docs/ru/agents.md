@@ -10,22 +10,22 @@
 | Preview | Образ или команда зарегистрированы, но сквозной сценарий или авторизация не завершены |
 | Unsupported | CLI отклоняет агента: контракт образа или интеграции пока отсутствует |
 
-В реестре feature-ветки P-05 есть:
+Реестр альфы включает:
 
 | Агент | Статус | Примечание |
 |---|---|---|
+| `kimi` | Available | Расширение Rheic с предыдущим evidence на выпущенном теге |
 | `claude`, `codex`, `copilot`, `cursor`, `devin`, `docker-agent`, `droid`, `gemini`, `kiro`, `opencode`, `shell` | Preview | Запускаются с закреплёнными Docker-образами; авторизация провайдера, nested Docker workload и полный VM lifecycle ещё не проверены |
-| `kimi` | Available в существующем реестре | Расширение Rheic с предыдущим evidence на выпущенном теге |
-| `dsh` | Preview extension | Агент Rheic, отсутствующий во встроенном списке Docker |
+| `dsh` | Preview extension | Веб-агент Rheic, отсутствующий во встроенном списке Docker |
 | `cline` | Unsupported | Не входит во встроенный список Docker |
 
 Встроенный список для зафиксированной базы `sbx v0.50.1`: Claude, Codex,
 Copilot, Cursor, Devin, Docker Agent, Droid, Gemini, Kiro, OpenCode и Shell.
-Ветка P-05 позволяет запускать все эти имена через `rsbx run`; встроенные
+Альфа позволяет запускать все эти имена через `rsbx run`; встроенные
 агенты Docker остаются preview до проверки авторизации и собственного VM-сценария.
-`rsbx agents list` показывает образ, команду запуска и заметки по авторизации.
+`rsbx agents list` показывает образ, команду запуска, статус и заметки по авторизации.
 
-В той же ветке `rsbx run claude` автоматически выбирает сохранённый host secret
+`rsbx run claude` автоматически выбирает сохранённый host secret
 `anthropic` и передаёт гостю только ссылку `${proxy:anthropic}`. Реальный ключ
 остаётся в host vault. Это пока проверено тестами CLI, но не живым Claude VM
 сценарием. OAuth-вход Claude внутри гостя не включён: он может сохранить
