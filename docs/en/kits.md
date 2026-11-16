@@ -21,8 +21,7 @@ metadata:
   name: review
 spec:
   agent: shell
-  policy:
-    profile: deny-all
+  policy_profile: deny-all
   mounts:
     - path: /reference
       read_only: true
@@ -30,7 +29,7 @@ spec:
     seed: https://github.com/example/project.git
 ```
 
-The kit needs an `agent` or an `image`. Supported policy profiles include `deny-all`, `balanced`, and `sbx-compat`. A workspace seed is cloned into a local cache once; lifecycle hooks are disabled for this path. Use a real repository URL only after reviewing the source and the resulting workspace.
+The kit needs an `agent` or an `image`. The parser accepts `policy_profile` values `deny-all`, `balanced`, and `sbx-compat` (the alias for `allow-all`). Omit the field to inherit the daemon default, which is `allow-all` unless configured otherwise. A workspace seed is cloned into a local cache once; lifecycle hooks are disabled for this path. Use a real repository URL only after reviewing the source and the resulting workspace.
 
 ## Current limits
 

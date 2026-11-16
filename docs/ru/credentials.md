@@ -21,7 +21,7 @@ rsbx secret ls
 rsbx secret rm openai --sandbox agent-task
 ```
 
-Интерактивная команда `set` запрашивает значение без отображения. При удалении из терминала CLI просит подтверждение; для автоматизации передавайте `--force`. Secrets хранятся в системном хранилище credentials хоста; SQLite содержит только несекретные метаданные. Secret может быть глобальным или ограниченным sandbox. Ссылки `${secret:service}` отклоняются: процессы в гостевой системе могут прочитать переменные окружения. Переведите скрипты на поддерживаемый host proxy route. Proxy хранит provider credentials на host и добавляет их только к запросам на фиксированные provider hosts. Поддержка нескольких service secrets на sandbox слита в daemon `main` через PR #41, но отсутствует в опубликованном теге v0.0.32. Дополнительные provider routes агентов проходят review в PR #45. Для P-04 остаются fault matrix и независимый security review. Не выводите раскрытые значения в логи.
+Интерактивная команда `set` запрашивает значение без отображения. При удалении из терминала CLI просит подтверждение; для автоматизации передавайте `--force`. Secrets хранятся в системном хранилище credentials хоста; SQLite содержит только несекретные метаданные. Secret может быть глобальным или ограниченным sandbox. Альфа поддерживает несколько service secrets на sandbox. Ссылки `${secret:service}` отклоняются: процессы в гостевой системе могут прочитать переменные окружения. Переведите скрипты на поддерживаемый host proxy route. Proxy хранит provider credentials на host и добавляет их только к запросам на фиксированные provider hosts. Дополнительные маршруты реализованы для сохранённых ключей GitHub, Cursor и Droid; их OAuth-вход и live-запросы не проверялись. Fault testing и независимый security review остаются открытыми. Не выводите раскрытые значения в логи.
 
 Если не указывать SERVICE в `secret set`, появится список поддерживаемых providers. Выберите нужный стрелками и нажмите Enter; q/Escape/Ctrl-C отменяет команду.
 
@@ -31,7 +31,7 @@ rsbx secret rm openai --sandbox agent-task
 
 Команда `secret rm` также принимает алиасы `remove`, `delete` и `unset`. Без имени открывается терминальный выбор известной daemon записи service secret, registry credential или Docker/OpenAI account token: стрелки выбирают, Enter удаляет, `q`, Escape или Ctrl-C отменяет. Для удаления по имени в скриптах указывайте `--force`. `secret rm --all` после успешного чтения инвентаря удаляет известные записи во всех scope. Если удаление прервётся ошибкой, часть записей уже может быть удалена. Хранилище custom secrets пока не реализовано и не входит в эту команду; удаление custom/placeholder secrets остаётся пробелом parity.
 
-Для `secret ls` доступен алиас `list`, а также фильтры Docker `--global`/`-g`, `--sandbox`, `--service` и `--quiet`/`-q`.
+Для `secret ls` доступен алиас `list`, а также фильтры Docker `--global`/`-g`, `--sandbox`, `--service` и `--quiet`/`-q`. JSON-вывод использует sbx-envelope инвентаря secrets и никогда не включает значение secret.
 
 Как и в Docker `sbx`, команда `secret rm openai` удаляет и глобальный OpenAI API key, и host OAuth-сессию. Укажите `--oauth`, чтобы удалить только OAuth-сессию; команда с `--sandbox` удаляет только API key выбранного sandbox.
 
@@ -47,7 +47,7 @@ rsbx secret ls
 rsbx secret rm --registry ghcr.io --force
 ```
 
-Пароль читается из стандартного ввода. Если scope не указан, `secret rm --registry` удаляет host-only и all-sandboxes записи. Используйте `--all-sandboxes`, чтобы удалить только общую запись, или `--sandbox NAME` для одного sandbox. В терминале удаление просит подтверждение; в скриптах передавайте `--force`. Credentials реестра хранятся на хосте. В текущем checkout есть экспериментальный Docker Hub broker для pull и push из guest: TLS завершается на host, guest получает scoped token, а реальный registry bearer остаётся на host. Поддерживается только Docker Hub. Есть synthetic contract-тесты, но нет live-приёмки registry в VM и runtime-сравнения с `sbx`; функция не выпущена и не прошла production-квалификацию. Host-only credentials в запросах guest не используются. Не делитесь sandbox с задачей, которой нельзя использовать scoped credential.
+Пароль читается из стандартного ввода. Если scope не указан, `secret rm --registry` удаляет host-only и all-sandboxes записи. Используйте `--all-sandboxes`, чтобы удалить только общую запись, или `--sandbox NAME` для одного sandbox. В терминале удаление просит подтверждение; в скриптах передавайте `--force`. Credentials реестра хранятся на хосте. Альфа содержит экспериментальный Docker Hub broker для pull и push из guest: TLS завершается на host, guest получает scoped token, а реальный registry bearer остаётся на host. Поддерживается только Docker Hub. Есть synthetic contract-тесты, но нет live-приёмки registry в VM и сравнения с той же версией `sbx`; функция не прошла production-квалификацию. Host-only credentials в запросах guest не используются. Не делитесь sandbox с задачей, которой нельзя использовать scoped credential.
 
 ## Что пока не подключено
 

@@ -21,8 +21,7 @@ metadata:
   name: review
 spec:
   agent: shell
-  policy:
-    profile: deny-all
+  policy_profile: deny-all
   mounts:
     - path: /reference
       read_only: true
@@ -30,7 +29,7 @@ spec:
     seed: https://github.com/example/project.git
 ```
 
-Нужно указать `agent` или `image`. Поддерживаются профили `deny-all`, `balanced` и `sbx-compat`. Seed workspace клонируется в локальный cache один раз; lifecycle hooks для этого пути отключены. Используйте URL репозитория только после проверки источника и получившейся workspace.
+Нужно указать `agent` или `image`. Парсер принимает значения `policy_profile`: `deny-all`, `balanced` и `sbx-compat` (alias для `allow-all`). Если поле не указано, используется значение daemon по умолчанию — `allow-all`, если не настроено иначе. Seed workspace клонируется в локальный cache один раз; lifecycle hooks для этого пути отключены. Используйте URL репозитория только после проверки источника и получившейся workspace.
 
 ## Текущие ограничения
 

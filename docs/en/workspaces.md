@@ -1,6 +1,6 @@
 # Workspaces and files
 
-A workspace is a host directory mounted into a sandbox. A writable workspace lets processes in the guest change those host files. Add only the directories the agent needs. Runtime and daemon include exec/PTY paths, and a limited macOS VM-backed lifecycle test passed; these CLI options do not establish workspace safety or full agent parity on every platform.
+A workspace is a host directory mounted into a sandbox. A writable workspace lets processes in the guest change those host files. Add only the directories the agent needs. VM-backed lifecycle and exec checks passed on macOS ARM64; these CLI options do not establish workspace safety or full agent parity on every platform.
 
 ## Choose what to mount
 
@@ -70,4 +70,4 @@ The command copies regular files and directory trees. Symbolic links, hard links
 
 ## Limits
 
-Workspace mounts are direct host file access. A read-only mount prevents writes through that mount; it does not hide data in the guest image or protect a different writable mount to the same host path. Read-only mounts now ask the guest runtime for recursive read-only (`rbind:ro:rro`), so a nested submount under the repository is not silently writable; a guest that rejects the option fails the create instead of falling back to a weaker mount. Clone mode is validated end to end on an owned macOS ARM64 VM (create, read-only source, host fetch, stop/start, delete). Host crash cleanup and broad adversarial filesystem validation remain open work. See the [security guide](security.md) before mounting sensitive directories.
+Workspace mounts are direct host file access. A read-only mount prevents writes through that mount; it does not hide data in the guest image or protect a different writable mount to the same host path. Read-only mounts ask the guest runtime for recursive read-only (`rbind:ro:rro`), so a nested submount under the repository is not silently writable; a guest that rejects the option fails the create instead of falling back to a weaker mount. Clone mode is validated end to end on an owned macOS ARM64 VM (create, read-only source, host fetch, stop/start, delete). Host crash cleanup and broad adversarial filesystem validation remain open work. See the [security guide](security.md) before mounting sensitive directories.

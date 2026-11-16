@@ -26,7 +26,7 @@ hide:
 
 <label class="home-search-trigger" for="__search"><span>Поиск по документации</span><kbd>/</kbd></label>
 
-<p class="home-footnote">Альфа-ПО · VM-путь проверен live на macOS ARM64 · Windows, облако и nested Docker не поддерживаются</p>
+<p class="home-footnote">Альфа-ПО · VM-путь проверен live на macOS ARM64 · Windows WHP, облако и nested Docker вне области или заблокированы</p>
 </div>
 
 <div class="home-terminal" aria-label="Примеры локальных команд Rheic">
@@ -47,7 +47,7 @@ rsbx ls
 <div class="home-path-grid">
 <a class="home-card" href="quickstart/"><span class="home-card-mark" aria-hidden="true">01</span><h3>Установить альфу и запустить microVM</h3><p>Установите выпущенные бинарники, запустите daemon с VM-backend и подключите shell к гостю.</p><span class="home-card-link">Быстрый старт →</span></a>
 <a class="home-card" href="workspaces/"><span class="home-card-mark" aria-hidden="true">02</span><h3>Подготовить workspace агента</h3><p>Разберитесь с путями workspace, файловыми операциями и lifecycle sandbox.</p><span class="home-card-link">Руководство workspace →</span></a>
-<a class="home-card" href="networking/"><span class="home-card-mark" aria-hidden="true">03</span><h3>Изучить сетевые границы</h3><p>Посмотрите deny-default модель, opt-in матрицы IPv6 и QUIC и опубликованные порты.</p><span class="home-card-link">Руководство по сети →</span></a>
+<a class="home-card" href="networking/"><span class="home-card-mark" aria-hidden="true">03</span><h3>Изучить сетевые границы</h3><p>Посмотрите профиль allow-all по умолчанию, приоритет deny, HTTP-условия политики и опубликованные порты.</p><span class="home-card-link">Руководство по сети →</span></a>
 <a class="home-card" href="workspaces/#clone-mode"><span class="home-card-mark" aria-hidden="true">04</span><h3>Клонировать вместо монтирования</h3><p>Оставьте репозиторий на хосте read-only и забирайте коммиты агента из приватного клона в госте.</p><span class="home-card-link">Руководство по клону →</span></a>
 </div>
 </section>
@@ -64,12 +64,12 @@ rsbx ls
 
 <section class="home-section" aria-labelledby="status-title">
 <div class="home-status">
-<div class="home-status-copy"><p class="home-kicker">Текущее состояние проекта</p><h2 id="status-title">Rheic загружает microVM на macOS ARM64.</h2><p>Альфа Sandboxes выпущена: <code>rsbx</code> v0.0.49 и <code>sandboxesd</code> v0.0.56 публикуются с <code>SHA256SUMS</code> и SLSA-attestations, а daemon загружает настоящие microVM на macOS ARM64 через containerd, nerdbox shim и libkrun. Live acceptance покрыла create, start, exec, stop, start, delete, изоляцию между VM, opt-in матрицы IPv6 и QUIC, registry broker и режим клона. Windows WHP, облачные команды (<code>move</code>, <code>ttl</code>, <code>volume</code>), вложенные Docker workloads внутри гостя и независимый внешний security review пока не поддерживаются.</p></div>
+<div class="home-status-copy"><p class="home-kicker">Текущее состояние проекта</p><h2 id="status-title">Rheic загружает microVM на macOS ARM64.</h2><p>Альфа Sandboxes выпущена: <code>rsbx</code> v0.0.53 и <code>sandboxesd</code> v0.0.61 публикуются с <code>SHA256SUMS</code> и SLSA-attestations, а daemon загружает настоящие microVM на macOS ARM64 через containerd, nerdbox shim и libkrun. CLI добавляет команды жизненного цикла daemon и совместимый с Docker <code>sbx</code> JSON для основных команд. Live acceptance покрыла create, start, exec, stop, start, delete, изоляцию между VM, opt-in матрицы IPv6 и QUIC и режим клона. Windows WHP не реализован, облачные команды (<code>move</code>, <code>ttl</code>, <code>volume</code>) вне области, вложенные Docker workloads внутри гостя остаются заблокированными, а независимый внешний security review не проводился.</p></div>
 <ul class="home-status-list" aria-label="Статус возможностей">
 <li><span class="status-dot" aria-hidden="true"></span><span>Альфа-бинарники<strong>Выпущены и проверены</strong></span></li>
 <li><span class="status-dot" aria-hidden="true"></span><span>VM-путь macOS ARM64<strong>Проверен live</strong></span></li>
 <li><span class="status-dot" aria-hidden="true"></span><span>Режим клона<strong>Проверен live</strong></span></li>
-<li><span class="status-dot status-dot-off" aria-hidden="true"></span><span>Windows WHP, облачные команды и nested Docker<strong>Не поддерживаются</strong></span></li>
+<li><span class="status-dot status-dot-off" aria-hidden="true"></span><span>Windows WHP, облачные команды и nested Docker<strong>Не реализованы или вне области</strong></span></li>
 </ul>
 </div>
 </section>
@@ -89,7 +89,8 @@ rsbx ls
 <div class="home-faq">
 <details><summary>Быстрый старт запускает VM?</summary><p>Да. Основной путь — microVM: быстрый старт устанавливает альфа-бинарники, запускает daemon с VM-backend и выполняет <code>rsbx run shell .</code>, что загружает настоящую microVM на macOS ARM64. Режим state-only — резервный вариант для host-систем, где runtime-артефакты ещё не подготовлены: он проверяет локальную control plane и не запускает VM. См. <a href="quickstart/">Быстрый старт</a> и <a href="requirements/">Системные требования</a>.</p></details>
 <details><summary>Можно ли запустить coding-агента внутри sandbox?</summary><p>VM lifecycle прошёл live acceptance на macOS ARM64, включая exec в запущенный гость. Авторизация провайдера и полные интерактивные сценарии каждого агента acceptance не прошли. Смотрите <a href="agents/">руководство по агентам</a> и <a href="requirements/">статус платформ</a>.</p></details>
-<details><summary>Клонировать репозиторий или монтировать его?</summary><p>Монтируйте, если агент должен напрямую менять файлы на хосте. Используйте <code>rsbx run --clone</code>, когда репозиторий на хосте должен остаться read-only: агент коммитит в приватном клоне внутри гостя, а вы забираете эти коммиты через remote <code>sandbox-&lt;name&gt;</code>. Режиму клона нужен один настоящий Git-репозиторий, а образу — <code>git</code> вместе с <code>git daemon</code>. См. <a href="workspaces/#clone-mode">workspace</a>.</p></details>
+<details><summary>Клонировать репозиторий или монтировать его?</summary><p>Монтируйте, если агент должен напрямую менять файлы на хосте. Используйте <code>rsbx run --clone</code>, когда репозиторий на хосте должен остаться read-only: агент коммитит в приватном клоне внутри гостя, а вы забираете эти коммиты через remote <code>sandbox-&lt;name&gt;</code>. Режиму клона нужен один настоящий Git-репозиторий, а образу — <code>git</code> вместе с <code>git daemon</code>. URL host-remote содержит случайный токен для каждой песочницы. См. <a href="workspaces/#clone-mode">workspace</a>.</p></details>
+<details><summary>Исходящая сеть разрешена по умолчанию?</summary><p>Да. Новые sandboxes используют профиль egress <code>allow-all</code>, как и Docker <code>sbx</code>. Явные deny-правила и организационные deny-правила по-прежнему имеют приоритет, а fail-closed контроли не меняются. Запускайте с <code>--policy-profile deny-all</code>, если задаче не нужен сетевой доступ. HTTP-условия политики для method, path glob и query есть в слое политики gateway; <code>rsbx</code> пока не может их задать, а live-применение этих условий gateway остаётся непроверенным. См. <a href="networking/">сеть и порты</a>.</p></details>
 <details><summary>Успешная команда подтверждает изоляцию?</summary><p>Нет. Ответ CLI подтверждает только результат указанной команды. Для VM-изоляции нужны отдельные live runtime и security evidence. См. <a href="security/">модель безопасности</a>.</p></details>
 <details><summary>Готов ли Docker Engine внутри guest к запуску workloads?</summary><p>Опциональный guest Docker daemon запускается, но вложенные <code>docker run</code>, <code>docker load</code>, <code>docker build</code> и Compose блокируются ограничениями guest <code>unshare</code> в текущем runtime. См. <a href="docker/">Docker и Rheic</a>.</p></details>
 </div>

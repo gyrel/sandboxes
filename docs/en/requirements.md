@@ -1,6 +1,8 @@
 # System requirements
 
-Rheic is pre-alpha and does not have a general-purpose installer. The validated native VM path currently targets macOS on Apple silicon. Build and configure the modules and runtime artifacts before trying the VM workflow.
+Rheic is alpha software with published release artifacts. The validated native VM path currently targets macOS on Apple silicon. Build and configure the runtime artifacts before trying the VM workflow.
+
+The published alpha is CLI `rsbx` v0.0.53, daemon `sandboxesd` v0.0.61, and local API contract 0.0.27. Install released binaries from the project releases; build from source only for development.
 
 ## Supported development host
 
@@ -8,7 +10,7 @@ Rheic is pre-alpha and does not have a general-purpose installer. The validated 
 |---|---|
 | macOS on Apple silicon | Native VM path has local validation; release qualification remains open |
 | Linux host with KVM | A Linux ARM64 guest task passed a managed-service detach/reattach test in Lima/QEMU with nested KVM on macOS; native Linux host and rootless qualification remain open |
-| Windows with WHP | Runtime integration and guest workflow are incomplete; not available for general use |
+| Windows with WHP | Not implemented; not available for general use |
 
 Use the project plan for current validation evidence and platform blockers.
 
