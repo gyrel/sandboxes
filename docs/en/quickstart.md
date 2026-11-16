@@ -2,7 +2,7 @@
 
 This guide installs the released Sandboxes alpha by Rheic and boots a real microVM on macOS ARM64. The microVM path is the primary path: the daemon drives containerd, the nerdbox shim, and libkrun, and `rsbx run shell .` creates or reuses the sandbox, starts it, and attaches the guest shell. State-only mode is a labelled fallback for hosts without the runtime assets and does not boot a VM.
 
-The published alpha is CLI `rsbx` v0.0.53, daemon `sandboxesd` v0.0.61, and local API contract 0.0.27. The binaries are published as release artifacts with `SHA256SUMS` and SLSA provenance attestations. Live acceptance on macOS ARM64 covered create, start, exec, stop, start, delete, cross-VM isolation, the IPv6 and QUIC opt-in matrices, and clone mode. It does not qualify Windows, native Linux or rootless hosts, or cloud commands. Windows WHP is not implemented, cloud commands are out of scope, and no independent external security review has been completed.
+The published alpha is CLI `rsbx` v0.0.54, daemon `sandboxesd` v0.0.62, and local API contract 0.0.27. The binaries are published as release artifacts with `SHA256SUMS` and SLSA provenance attestations. Live acceptance on macOS ARM64 covered create, start, exec, stop, start, delete, cross-VM isolation, the IPv6 and QUIC opt-in matrices, and clone mode. It does not qualify Windows, native Linux or rootless hosts, or cloud commands. Windows WHP is not implemented, cloud commands are out of scope, and no independent external security review has been completed.
 
 ## 1. Install the alpha binaries
 
@@ -10,10 +10,10 @@ The installer fetches the CLI, checks its checksum, verifies the SLSA provenance
 
 ```sh
 curl -fsSL https://raw.githubusercontent.com/rheic/sandboxes-cli/main/scripts/install.sh | sh
-rsbx version    # rsbx version v0.0.53 for the current alpha
+rsbx version    # rsbx version v0.0.54 for the current alpha
 ```
 
-Download `sandboxesd` v0.0.61 for your platform from the [daemon releases](https://github.com/rheic/sandboxes-daemon/releases), then verify it against the published checksums and its attestation:
+Download `sandboxesd` v0.0.62 for your platform from the [daemon releases](https://github.com/rheic/sandboxes-daemon/releases), then verify it against the published checksums and its attestation:
 
 ```sh
 shasum -a 256 -c SHA256SUMS
@@ -31,7 +31,7 @@ install -m 0755 sandboxesd-darwin-arm64 "$HOME/.local/bin/sandboxesd"
 command -v rsbx sandboxesd
 ```
 
-The daemon and CLI must come from compatible tagged releases. The published pair is CLI v0.0.53 with daemon v0.0.61 and API contract 0.0.27. Do not point the daemon at a socket or state directory owned by another installation.
+The daemon and CLI must come from compatible tagged releases. The published pair is CLI v0.0.54 with daemon v0.0.62 and API contract 0.0.27. Do not point the daemon at a socket or state directory owned by another installation.
 
 ## 3. Configure the runtime assets
 

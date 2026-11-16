@@ -2,7 +2,7 @@
 
 Rheic is alpha software with published release artifacts. The validated native VM path currently targets macOS on Apple silicon. Build and configure the runtime artifacts before trying the VM workflow.
 
-The published alpha is CLI `rsbx` v0.0.53, daemon `sandboxesd` v0.0.61, and local API contract 0.0.27. Install released binaries from the project releases; build from source only for development.
+The published alpha is CLI `rsbx` v0.0.54, daemon `sandboxesd` v0.0.62, and local API contract 0.0.27. Install released binaries from the project releases; build from source only for development.
 
 ## Supported development host
 
