@@ -2,7 +2,7 @@
 
 Это руководство устанавливает выпущенную альфу Sandboxes от Rheic и загружает настоящую microVM на macOS ARM64. Основной путь — microVM: daemon управляет containerd, nerdbox shim и libkrun, а `rsbx run shell .` создаёт или переиспользует sandbox, запускает его и подключает shell гостя. Режим state-only — явно обозначенный резервный вариант для host-систем без runtime-артефактов; VM он не запускает.
 
-Опубликованная альфа — это CLI `rsbx` v0.0.53, daemon `sandboxesd` v0.0.61 и локальный API-контракт 0.0.27. Бинарники публикуются как релизные артефакты с `SHA256SUMS` и SLSA-attestations. Live acceptance на macOS ARM64 покрыла create, start, exec, stop, start, delete, изоляцию между VM, opt-in матрицы IPv6 и QUIC и режим клона. Она не квалифицирует Windows, native Linux и rootless host-системы, а также облачные команды. Windows WHP не реализован, облачные команды вне области, независимый внешний security review не проводился.
+Опубликованная альфа — это CLI `rsbx` v0.0.54, daemon `sandboxesd` v0.0.62 и локальный API-контракт 0.0.27. Бинарники публикуются как релизные артефакты с `SHA256SUMS` и SLSA-attestations. Live acceptance на macOS ARM64 покрыла create, start, exec, stop, start, delete, изоляцию между VM, opt-in матрицы IPv6 и QUIC и режим клона. Она не квалифицирует Windows, native Linux и rootless host-системы, а также облачные команды. Windows WHP не реализован, облачные команды вне области, независимый внешний security review не проводился.
 
 ## 1. Установите альфа-бинарники
 
@@ -10,10 +10,10 @@
 
 ```sh
 curl -fsSL https://raw.githubusercontent.com/rheic/sandboxes-cli/main/scripts/install.sh | sh
-rsbx version    # rsbx version v0.0.53 для текущей альфы
+rsbx version    # rsbx version v0.0.54 для текущей альфы
 ```
 
-Скачайте `sandboxesd` v0.0.61 для своей платформы из [релизов daemon](https://github.com/rheic/sandboxes-daemon/releases) и проверьте его по опубликованным контрольным суммам и аттестации:
+Скачайте `sandboxesd` v0.0.62 для своей платформы из [релизов daemon](https://github.com/rheic/sandboxes-daemon/releases) и проверьте его по опубликованным контрольным суммам и аттестации:
 
 ```sh
 shasum -a 256 -c SHA256SUMS
@@ -31,7 +31,7 @@ install -m 0755 sandboxesd-darwin-arm64 "$HOME/.local/bin/sandboxesd"
 command -v rsbx sandboxesd
 ```
 
-Daemon и CLI должны быть из совместимых tagged-релизов. Опубликованная пара — CLI v0.0.53 с daemon v0.0.61 и API-контрактом 0.0.27. Не направляйте daemon на сокет или каталог состояния другой установки.
+Daemon и CLI должны быть из совместимых tagged-релизов. Опубликованная пара — CLI v0.0.54 с daemon v0.0.62 и API-контрактом 0.0.27. Не направляйте daemon на сокет или каталог состояния другой установки.
 
 ## 3. Настройте runtime-артефакты
 
