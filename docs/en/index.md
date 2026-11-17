@@ -1,30 +1,32 @@
 ---
 title: Rheic Sandboxes
-description: Local agent sandboxes, native ARM64 runtime bundles and an evidence-led Docker sbx comparison.
+description: Documentation for local agent sandboxes, the native runtime and Docker sbx compatibility.
 hide: [navigation, toc]
 ---
-<div class="landing" markdown>
-<section class="hero"><div class="hero-copy" markdown>
-<p class="eyebrow">RHEIC SANDBOXES · OPEN SOURCE ALPHA</p>
-<h1>Give your coding agent room to work.</h1>
-<p class="lede">Start a local VM with <code>rsbx</code>. Explore the runtime and the live evidence behind every Docker <code>sbx</code> compatibility claim.</p>
-<a class="primary-link" href="quickstart/">Get started ↗</a>
-</div><div class="hero-stage"><div class="terminal"><div class="terminal-top"><span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span><span>Terminal · local workspace</span></div><pre><code><span class="prompt">$</span> rsbx run shell .
-<span class="muted">Starting local sandbox…</span>
-<span class="muted"># requires a configured VM backend</span></code></pre></div><div class="stage-caption"><span>YOUR WORKSPACE</span><span aria-hidden="true">↗</span><span>LOCAL VM</span><span aria-hidden="true">↗</span><span>CODING AGENT</span></div></div>
-<p class="proof">Current release · CLI v0.0.54 · daemon v0.0.62 · runtime v0.0.36 <a href="limits/">See verified scope ↗</a></p></section>
-<section class="reveal-section"><p data-reveal><span>One</span> <span>command</span> <span>to</span> <span>start.</span><br><span>Evidence</span> <span>for</span> <span>every</span> <span>claim.</span></p></section>
-<section class="page-section"><p class="eyebrow">EXPLORE</p><h2>Choose your path</h2><div class="card-grid">
-<a class="feature-card" href="quickstart/"><span>01 / START</span><h3>Boot a local sandbox</h3><p>Install the CLI and connect a VM backend.</p><b>Quick start ↗</b></a>
-<a class="feature-card" href="comparison/"><span>02 / COMPARE</span><h3>Check Docker parity</h3><p>Version matched evidence, confirmed gaps and unknowns.</p><b>Comparison ↗</b></a>
-<a class="feature-card" href="runtime/"><span>03 / VERIFY</span><h3>Inspect native assets</h3><p>Download the shim, kernel and rootfs with SHA-256 inventory.</p><b>Runtime bundles ↗</b></a>
+<div class="landing docs-home">
+<section class="docs-hero">
+  <div class="docs-hero-copy">
+    <p class="section-label">Rheic Sandboxes</p>
+    <h1>Start building in a local sandbox</h1>
+    <p class="hero-intro">Run coding agents in a local VM. Find the setup guide, CLI reference, native runtime assets and verified Docker <code>sbx</code> comparison here.</p>
+    <button class="hero-search" type="button" data-open-search aria-label="Search documentation"><span class="search-glass" aria-hidden="true"></span><span>Search documentation</span><kbd data-shortcut-mod>Ctrl</kbd><kbd>K</kbd></button>
+    <div class="hero-actions"><a href="quickstart/">↗ &nbsp;Quickstart</a><a href="cli/">⌘ &nbsp;CLI reference</a><a href="comparison/">⇄ &nbsp;Docker comparison</a></div>
+  </div>
+  <div class="code-window" aria-label="Rheic command example"><div class="code-tabs"><span class="code-tab-active">Terminal</span></div><pre><code><span class="code-comment"># Check the released CLI</span>
+<span class="code-command">$</span> rsbx version
+
+<span class="code-comment"># Start after configuring a VM backend</span>
+<span class="code-command">$</span> rsbx run shell .
+
+<span class="code-comment"># Inspect your local sandboxes</span>
+<span class="code-command">$</span> rsbx ls</code></pre></div>
+</section>
+<section class="docs-section"><p class="section-label">Documentation</p><h2>Choose where to start</h2><p class="section-intro">Follow the setup path or jump directly to the part you need.</p><div class="docs-grid">
+<a class="docs-card" href="quickstart/"><span class="card-icon" aria-hidden="true">⌁</span><h3>Get started</h3><p>Install the CLI and daemon, then prepare a compatible VM backend.</p><span class="card-link">Read the quickstart ↗</span></a>
+<a class="docs-card" href="cli/"><span class="card-icon" aria-hidden="true">›_</span><h3>Use the CLI</h3><p>Find commands for running, inspecting and managing local sandboxes.</p><span class="card-link">Explore commands ↗</span></a>
+<a class="docs-card" href="runtime/"><span class="card-icon" aria-hidden="true">▣</span><h3>Inspect the runtime</h3><p>Check the published shim, kernel and rootfs with their SHA-256 inventory.</p><span class="card-link">View runtime assets ↗</span></a>
+<a class="docs-card" href="comparison/"><span class="card-icon" aria-hidden="true">⇄</span><h3>Compare with Docker sbx</h3><p>Read version matched evidence, confirmed differences and open controls.</p><span class="card-link">See the comparison ↗</span></a>
 </div></section>
-<section class="status-panel"><p class="eyebrow">CURRENT BOUNDARY</p><h2>VM boot is verified.<br>Full <code>sbx</code> parity remains open.</h2><p>Cloud operations, OCI kits, parts of management CLI, native Linux host qualification and complete Docker workload parity are open.</p><a href="limits/">Read the limits ↗</a></section>
-<section class="page-section faq"><p class="eyebrow">QUESTIONS</p><h2>Before you run an agent</h2>
-<details><summary>Is Rheic a drop in replacement for Docker sbx?</summary><p>No. See the <a href="comparison/">comparison</a> for supported commands and gaps.</p></details>
-<details><summary>Does rsbx alone start a VM?</summary><p>No. Configure a compatible daemon and native runtime first. See <a href="quickstart/">get started</a>.</p></details>
-<details><summary>Are shim, kernel and rootfs published?</summary><p>Yes, in both ARM64 archives of runtime v0.0.36.</p></details>
-<details><summary>Are cloud sandboxes supported?</summary><p>No. Rheic currently uses a local daemon.</p></details>
-<details><summary>Are native archives attested?</summary><p>They have SHA-256 checksums and exact inventories, not an independent provenance attestation.</p></details>
-<details><summary>Which hosts are qualified?</summary><p>macOS ARM64 has local VM acceptance. Linux ARM64 guest boot passed nested KVM; native Linux host and rootless qualification remain open.</p></details>
-</section><section class="final-cta"><h2>Start with the verified path.</h2><a class="primary-link" href="quickstart/">Get started ↗</a></section></div>
+<section class="docs-section journey"><p class="section-label">A practical path</p><h2>From install to evidence</h2><div class="journey-grid"><div><span>01</span><h3>Prepare</h3><p>Install the released components and configure your local backend.</p><a href="quickstart/">Setup guide ↗</a></div><div><span>02</span><h3>Run</h3><p>Start an owned sandbox in a private workspace with <code>rsbx</code>.</p><a href="cli/">CLI reference ↗</a></div><div><span>03</span><h3>Verify</h3><p>Check the platform scope and the live comparison before relying on parity.</p><a href="limits/">Security and limits ↗</a></div></div></section>
+<section class="docs-section boundary"><p class="section-label">Current scope</p><h2>Know what is verified</h2><p>Rheic is an alpha release. ARM64 guest boot is verified, while complete Docker <code>sbx</code> parity and an authenticated Codex run remain open. The documentation distinguishes live evidence from planned behavior.</p><div class="boundary-links"><a href="limits/">Security and limits ↗</a><a href="comparison/">Comparison evidence ↗</a></div></section>
+</div>
