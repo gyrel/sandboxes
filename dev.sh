@@ -7,7 +7,7 @@ action="${1:-serve}"
 
 usage() {
   cat <<'USAGE'
-Usage: ./docs/site/dev.sh [serve|check]
+Usage: ./dev.sh [serve|check]
 
   serve  Install the pinned docs dependencies if needed, then start live preview.
          Set DOCS_HOST or DOCS_PORT to change the bind address (default 127.0.0.1:8000).
@@ -38,7 +38,7 @@ while port < 65536:
     try:
         with urlopen(f"http://127.0.0.1:{port}/", timeout=1) as response:
             html = response.read().decode("utf-8", errors="replace")
-        if 'id="home-title"' in html and "rheic.css" in html:
+        if 'class="landing"' in html and "rheic.css" in html:
             print("reuse", port)
             raise SystemExit(0)
     except OSError:
