@@ -55,8 +55,6 @@ theme:
         icon: material/weather-night
         name: Light mode
   features:
-    - navigation.tabs
-    - navigation.tabs.sticky
     - navigation.sections
     - navigation.top
     - navigation.footer
@@ -64,9 +62,9 @@ theme:
     - search.highlight
     - content.code.copy
 extra_css:
-  - stylesheets/rheic.css?v=4
+  - stylesheets/rheic.css?v=5
 extra_javascript:
-  - assets/reveal.js
+  - assets/search.js
 markdown_extensions:
   - admonition
   - attr_list
