@@ -5,44 +5,57 @@
    text on dark, JetBrains blue links, and real Darcula syntax colors in code.
    Ratios in comments are WCAG 2.x on the surfaces each token lands on. */
 :root {
-  --r-ink:#1a1d21;        /* IntelliJ Light text, 16.9:1 on white */
-  --r-heading:#16181c;    /* display ink, 17.4:1 on white */
-  --r-muted:#676c78;      /* IntelliJ Light secondary, 5.3:1 on white, 4.9:1 on --r-soft */
-  --r-line:#dce5ef;
-  --r-accent:#2f62d8;     /* JetBrains blue link, 5.4:1 on white, 5.0:1 on --r-soft */
+  --r-ink:#1a1d21;        /* IntelliJ Light text, 16.9:1 on paper */
+  --r-heading:#1c1b19;    /* Anthropic warm display ink, 15.6:1 on paper */
+  --r-muted:#676c78;      /* IntelliJ Light secondary, 5.3:1 on paper */
+  --r-line:#e0dacc;       /* Anthropic hairline on cream */
+  --r-line-strong:#9b947f;/* non-text control boundary, 3.1:1 on paper */
+  --r-accent:#2f62d8;     /* JetBrains blue link, 5.4:1 on paper */
   --r-accent-hover:#234cb0;
-  --r-soft:#f2f6fb;
-  --r-dark:#121b31;
-  --r-white:#fff;
+  --r-soft:#ece7db;       /* section fills */
+  --r-dark:#181715;       /* Anthropic near-black panels */
+  --r-white:#faf9f5;      /* paper surfaces, header, cards */
   --r-serif:Georgia, "Iowan Old Style", "Times New Roman", serif;
 }
 [data-md-color-scheme="slate"] {
-  --r-ink:#a9b7c6;        /* Darcula default text, 7.7:1 on #17233a */
-  --r-heading:#e2e7ee;    /* 12.6:1 on #17233a */
-  --r-muted:#8b97a8;      /* 5.3:1 on #17233a */
-  --r-line:#394762;
-  --r-accent:#589df6;     /* JetBrains dark link blue, 5.7:1 on #17233a */
+  --r-ink:#a9b7c6;        /* Darcula default text, 8.6:1 on #262621 */
+  --r-heading:#e2e7ee;    /* 12.6:1 on #262621 */
+  --r-muted:#8b97a8;      /* 5.6:1 on #262621 */
+  --r-line:#3d3b35;
+  --r-line-strong:#6e6a5e;
+  --r-accent:#589df6;     /* JetBrains dark link blue, 6.5:1 on #262621 */
   --r-accent-hover:#7db1ff;
-  --r-soft:#1b2941;
-  --r-white:#17233a;
+  --r-soft:#2b2b26;
+  --r-dark:#1b1b17;
+  --r-white:#262621;      /* Anthropic dark canvas */
 }
 [data-md-color-scheme="default"] {
+  --md-default-bg-color:#f5f1e8;  /* Anthropic cream */
   --md-default-fg-color:var(--r-ink);
   --md-default-fg-color--light:var(--r-muted);
   --md-typeset-a-color:var(--r-accent);
   --md-accent-fg-color:var(--r-accent-hover);
   --md-code-bg-color:#2b2b2b;   /* Darcula editor */
   --md-code-fg-color:#a9b7c6;
+  --md-footer-bg-color:var(--r-white);
+  --md-footer-fg-color:var(--r-heading);
+  --md-footer-fg-color--light:var(--r-muted);
+  --md-footer-fg-color--lighter:var(--r-muted);
 }
 [data-md-color-scheme="slate"] {
+  --md-default-bg-color:#262621;  /* Anthropic dark */
   --md-default-fg-color:var(--r-ink);
   --md-default-fg-color--light:var(--r-muted);
   --md-typeset-a-color:var(--r-accent);
   --md-accent-fg-color:var(--r-accent-hover);
   --md-code-bg-color:#2b2b2b;
   --md-code-fg-color:#a9b7c6;
+  --md-footer-bg-color:var(--r-soft);
+  --md-footer-fg-color:#c5ccd8;
+  --md-footer-fg-color--light:var(--r-muted);
+  --md-footer-fg-color--lighter:var(--r-muted);
 }
-body { color:var(--r-ink); }
+body { color:var(--r-ink); background:var(--md-default-bg-color); }
 .md-header, .md-tabs { background:var(--r-white); color:var(--r-heading); box-shadow:none; border-bottom:1px solid var(--r-line); }
 .md-header__button.md-logo img { width:2rem; height:2rem; }
 .md-tabs__link, .md-header__button { color:var(--r-heading); }
@@ -50,11 +63,11 @@ body { color:var(--r-ink); }
 .md-main__inner { margin-top:0; }
 .md-content__inner { max-width:52rem; padding-top:2.5rem; padding-bottom:5rem; }
 .md-typeset { font-size:.84rem; line-height:1.75; }
-/* Claude pattern: serif display for h1/h2, sans for everything below. */
-.md-typeset h1,.md-typeset h2 { color:var(--r-heading); font-family:var(--r-serif); font-weight:600; letter-spacing:-.018em; line-height:1.14; }
+/* Anthropic pattern: oversized serif display, sans body. */
+.md-typeset h1,.md-typeset h2 { color:var(--r-heading); font-family:var(--r-serif); font-weight:600; letter-spacing:-.02em; line-height:1.12; }
 .md-typeset h3 { color:var(--r-heading); font-weight:650; letter-spacing:-.03em; line-height:1.2; }
-.md-typeset h1 { font-size:2.5rem; }
-.md-typeset h2 { font-size:1.5rem; margin-top:2.6rem; }
+.md-typeset h1 { font-size:2.7rem; }
+.md-typeset h2 { font-size:1.55rem; margin-top:2.6rem; }
 .md-typeset a { color:var(--r-accent); text-underline-offset:.16em; }
 .md-typeset a:hover { color:var(--r-accent-hover); }
 .md-typeset table:not([class]) { display:block; overflow-x:auto; border:1px solid var(--r-line); border-radius:10px; }
@@ -91,15 +104,18 @@ body:has(.landing) .md-sidebar { display:none; }
 body:has(.landing) .md-content__inner { max-width:none; padding-top:0; }
 body:has(.landing) .md-content__inner > h1:first-child { display:none; }
 .landing { max-width:1180px; padding:1.5rem 1.5rem 5rem; margin:auto; }
-.hero { display:grid; grid-template-columns:minmax(0,1.05fr) minmax(300px,.95fr); gap:4rem; align-items:center; padding:5rem 4rem; background:var(--r-soft); border:1px solid var(--r-line); border-radius:18px; }
-.eyebrow { color:var(--r-accent); font-size:.68rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; }
-.hero h1 { max-width:650px; font-family:var(--r-serif); font-size:clamp(2.6rem,5vw,4.3rem); font-weight:600; line-height:1.06; letter-spacing:-.02em; margin:.9rem 0 1.4rem; color:var(--r-heading); }
-.lede { max-width:38rem; font-size:1.08rem; line-height:1.6; color:var(--r-muted); }
-/* Claude pill button, JetBrains blue. */
-.primary-link { display:inline-flex; align-items:center; justify-content:center; gap:.6rem; padding:.8rem 1.5rem; border-radius:999px; background:var(--r-accent); color:white!important; font-weight:650; text-decoration:none!important; transition:transform .2s cubic-bezier(.2,.8,.2,1),background .2s cubic-bezier(.2,.8,.2,1); }
-.primary-link:hover { transform:translateY(-2px); background:var(--r-accent-hover); }
+/* Anthropic-style hero: no boxed panel, the page's cream is the background. */
+.hero { display:grid; grid-template-columns:minmax(0,1.05fr) minmax(300px,.95fr); gap:4rem; align-items:center; padding:5.5rem 1rem 4rem; border:0; border-radius:0; background:transparent; }
+.eyebrow { color:var(--r-muted); font-size:.68rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; }
+.hero h1 { max-width:680px; font-family:var(--r-serif); font-size:clamp(2.9rem,5.4vw,4.6rem); font-weight:600; line-height:1.04; letter-spacing:-.025em; margin:.9rem 0 1.4rem; color:var(--r-heading); }
+.lede { max-width:38rem; font-size:1.1rem; line-height:1.6; color:var(--r-muted); }
+/* Claude dark pill on cream; cream pill on the dark scheme. */
+.primary-link { display:inline-flex; align-items:center; justify-content:center; gap:.6rem; padding:.8rem 1.5rem; border-radius:999px; background:#1c1b19; color:#f5f1e8!important; font-weight:650; text-decoration:none!important; transition:transform .2s cubic-bezier(.2,.8,.2,1),background .2s cubic-bezier(.2,.8,.2,1); }
+.primary-link:hover { transform:translateY(-2px); background:#35332e; }
+[data-md-color-scheme="slate"] .primary-link { background:#eae5d8; color:#1c1b19!important; }
+[data-md-color-scheme="slate"] .primary-link:hover { background:#d8d2c2; }
 .proof { margin:1.2rem 0 0; color:var(--r-muted); font-size:.72rem; }
-.terminal { min-width:0; border-radius:14px; overflow:hidden; background:var(--r-dark); color:#a9b7c6; box-shadow:0 20px 50px #13213b26; }
+.terminal { min-width:0; border-radius:14px; overflow:hidden; background:var(--r-dark); color:#a9b7c6; box-shadow:0 24px 60px #1c1b1933; }
 .terminal-top { padding:.7rem 1rem; border-bottom:1px solid #ffffff20; color:#e99a9c; letter-spacing:.2em; font-size:.8rem; }
 .terminal-top span { float:right; color:#97a1ad; letter-spacing:0; }
 .terminal pre { margin:0; padding:1.7rem; overflow:auto; font-size:.8rem; line-height:2; }
@@ -123,7 +139,13 @@ body:has(.landing) .md-content__inner > h1:first-child { display:none; }
 .status-panel code { color:#ffc66d; background:#ffffff0f; padding:.06em .3em; border-radius:4px; }
 .status-panel p:not(.eyebrow) { max-width:48rem; color:#a9b7c6; }
 .status-panel a { color:#589df6; }
-.status-panel .eyebrow { color:#6f8199; }
+.status-panel .eyebrow { color:#8b97a8; }
+/* Warm surfaces for theme chrome that Material paints with default tokens. */
+.md-search__form { border:1px solid var(--r-line-strong); border-radius:8px; background:var(--r-white); }
+.md-search__input { color:var(--r-ink); }
+.md-search__input::placeholder, .md-search__icon { color:var(--r-muted); }
+.md-banner, .md-sidebar { background:var(--md-default-bg-color); }
+.md-footer__link .md-footer__direction { color:var(--r-muted); }
 .faq { max-width:780px; margin:4rem auto 0; }
 .faq details { border-bottom:1px solid var(--r-line); padding:1rem .2rem; }
 .faq summary { cursor:pointer; font-weight:620; color:var(--r-heading); }
