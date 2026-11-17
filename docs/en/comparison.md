@@ -19,6 +19,12 @@ This snapshot compares **Docker `sbx` v0.50.1** on macOS ARM64 (`/opt/homebrew/b
 
 **Do not infer parity from a shared command name.** Flags, prompts, exit codes, guest-visible state and cleanup need same-input live controls. The project [limits](limits.md) list runtime gates. `rsbx` is the Rheic binary; it does not occupy Docker's `sbx` name.
 
+## Live Codex check: signed-out controls
+
+On 17 November 2026, both binaries were run on macOS ARM64 with fresh private state, an empty workspace, a unique sandbox name and no user credentials. `sbx run --detach codex` and `sbx create codex` both exited 1 before sandbox creation with `not signed in to Docker`. Rheic `rsbx run --detach codex` exited 1 after OpenAI OAuth returned no credentials. Rheic `rsbx create codex` reached the pinned Codex template image, then Docker Hub returned `401 Unauthorized` to the anonymous manifest request. The exact owned names were absent afterward; temporary daemon and containerd processes were stopped.
+
+This is a **negative live comparison**, not a completed Codex session. The products have different prerequisite and error order. A successful same-input guest task remains unverified because Docker sign-in and access to the pinned image require authenticated credentials; the probe did not use real user credentials.
+
 ## Next controls
 
 1. Use uniquely named sandboxes and synthetic credentials in isolated temporary state.
