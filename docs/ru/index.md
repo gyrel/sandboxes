@@ -5,14 +5,13 @@ hide: [navigation, toc]
 ---
 <div class="landing" markdown>
 <section class="hero"><div class="hero-copy" markdown>
-<p class="eyebrow">RHEIC / SANDBOXES ALPHA / ARM64 BUNDLES</p><h1>Локальные VM для coding-агентов.</h1>
-<p class="lede">Запускайте агентов через <code>rsbx</code>. Проверьте native runtime и узнайте, где Rheic совпадает с Docker <code>sbx</code>.</p>
+<p class="eyebrow">RHEIC SANDBOXES · OPEN SOURCE ALPHA</p><h1>Дайте coding-агенту пространство для работы.</h1>
+<p class="lede">Запустите локальную VM через <code>rsbx</code>. Изучите runtime и результаты проверок совместимости с Docker <code>sbx</code>.</p>
 <a class="primary-link" href="quickstart/">Начать ↗</a>
-<p class="proof">CLI v0.0.54 · daemon v0.0.62 · runtime v0.0.36 · ARM64 guest boot проверен</p>
-</div><div class="terminal"><div class="terminal-top">● ● ● <span>Terminal</span></div><pre><code><span class="prompt">$</span> rsbx version
-<span class="muted">rsbx version v0.0.54</span>
-<span class="prompt">$</span> rsbx run shell .
-<span class="muted"># нужен настроенный VM backend</span></code></pre></div></section>
+</div><div class="hero-stage"><div class="terminal"><div class="terminal-top"><span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span><span>Терминал · локальный проект</span></div><pre><code><span class="prompt">$</span> rsbx run shell .
+<span class="muted">Запуск локального sandbox…</span>
+<span class="muted"># нужен настроенный VM backend</span></code></pre></div><div class="stage-caption"><span>ВАШ ПРОЕКТ</span><span aria-hidden="true">↗</span><span>ЛОКАЛЬНАЯ VM</span><span aria-hidden="true">↗</span><span>CODING-АГЕНТ</span></div></div>
+<p class="proof">Текущий релиз · CLI v0.0.54 · daemon v0.0.62 · runtime v0.0.36 <a href="limits/">Что проверено ↗</a></p></section>
 <section class="reveal-section"><p data-reveal><span>Одна</span> <span>команда</span> <span>для</span> <span>старта.</span><br><span>Доказательства</span> <span>для</span> <span>каждого</span> <span>утверждения.</span></p></section>
 <section class="page-section"><p class="eyebrow">РАЗДЕЛЫ</p><h2>С чего начать</h2><div class="card-grid">
 <a class="feature-card" href="quickstart/"><span>01 / СТАРТ</span><h3>Запустить sandbox</h3><p>Установить CLI и подключить VM backend.</p><b>Быстрый старт ↗</b></a>
