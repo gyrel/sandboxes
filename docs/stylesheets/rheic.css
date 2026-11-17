@@ -147,3 +147,9 @@ body:has(.docs-home) .md-content__inner > h1:first-child { display:none; }
   [data-md-toggle="search"]:checked ~ .md-header .md-search__output { position:static; display:block; flex:1; width:100%; overflow:auto; }
   [data-md-toggle="search"]:checked ~ .md-header .md-search__scrollwrap { height:auto; max-height:none; }
 }
+.search-shortcuts { flex:1; overflow:auto; padding:1rem; background:var(--r-surface); }
+.search-shortcuts[hidden], .md-search__output.search-empty { display:none!important; }
+.search-shortcuts p { margin:.3rem .55rem .65rem; color:var(--r-muted); font-size:.7rem; }
+.search-shortcuts a { display:block; padding:.65rem .75rem; border-radius:7px; color:var(--r-ink); font-size:.78rem; text-decoration:none; }
+.search-shortcuts a:hover, .search-shortcuts a:focus-visible { background:var(--r-soft); }
+.search-shortcuts a:before { content:'▤'; margin-right:.8rem; color:var(--r-muted); }
