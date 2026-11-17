@@ -19,6 +19,12 @@
 
 **Одинаковое имя команды не доказывает parity.** Нужны одинаковые входные данные, флаги, prompts, exit codes, guest-visible state и cleanup. Границы runtime приведены в [ограничениях](limits.md). Rheic использует имя `rsbx` и не занимает Docker `sbx`.
 
+## Живая проверка Codex: signed-out controls
+
+17 ноября 2026 года оба бинаря проверены на macOS ARM64 с новым приватным состоянием, пустым workspace, уникальным именем и без пользовательских credentials. `sbx run --detach codex` и `sbx create codex` завершились с exit 1 до создания sandbox: `not signed in to Docker`. Rheic `rsbx run --detach codex` завершился с exit 1 после OpenAI OAuth без полученных credentials. Rheic `rsbx create codex` дошёл до pinned Codex template image, но анонимный запрос manifest в Docker Hub получил `401 Unauthorized`. Собственные имена отсутствовали после пробы; временные daemon и containerd остановлены.
+
+Это **отрицательное живое сравнение**, а не завершённая сессия Codex. Порядок prerequisites и ошибок различается. Успешная guest task на одинаковых входных данных остаётся непроверенной: Docker sign-in и доступ к закреплённому образу требуют аутентификации, а реальные пользовательские credentials в пробе не использовались.
+
 ## Следующие проверки
 
 1. Изолированное временное состояние, уникальные sandbox-имена и synthetic credentials.
