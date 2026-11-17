@@ -62,7 +62,7 @@ theme:
     - search.highlight
     - content.code.copy
 extra_css:
-  - stylesheets/rheic.css?v=5
+  - stylesheets/rheic.css?v=6
 extra_javascript:
   - assets/search.js
 markdown_extensions:
