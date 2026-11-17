@@ -64,7 +64,7 @@ theme:
     - search.highlight
     - content.code.copy
 extra_css:
-  - stylesheets/rheic.css?v=3
+  - stylesheets/rheic.css?v=4
 extra_javascript:
   - assets/reveal.js
 markdown_extensions:
