@@ -27,3 +27,13 @@ rsbx rm NAME
 `--help` uses the same section layout as Docker `sbx` (`Description`, `Usage`, `Aliases`, `Examples`, `Flags`), and the documented aliases work: `list`, `remove`, `delete`, `secrets`. Docker `sbx` has no `start`, `get` or `wait`; we removed ours so the surface matches, and `run`/`exec` start a stopped sandbox themselves. `rsbx policy ls` reports the reference baseline rules for `allow-all` (`default-allow-all`, filesystem read/write) in the `POLICY / SOURCE / APPLIES TO / SUMMARY` table.
 
 `--policy-profile` defaults to `allow-all`; use an explicit profile for narrower egress. Host hooks and secrets require their own trust decisions. See [security and limits](limits.md) and the [Docker comparison](comparison.md).
+
+## Rheic extensions
+
+The following behavior is specific to Rheic in this comparison with Docker `sbx` v0.50.1:
+
+- `rsbx attach NAME` attaches to a local sandbox; Docker `sbx attach` is cloud-only. Rheic's `attach --shell` starts `/bin/sh` instead of the agent.
+- `rsbx ls --limit N` limits the number of returned sandboxes. `rsbx stop --grace DURATION` sets the stop grace period.
+- The local settings catalog includes `dns.upstream`, `policy.profile`, `defaults.cpus`, `defaults.memory_mib`, and `mcp.remote.allowedHosts`. These are Rheic settings; they are not Docker `sbx` settings.
+
+These extensions do not establish compatibility for the rest of each command. See the [comparison](comparison.md) for confirmed gaps and untested behavior.
