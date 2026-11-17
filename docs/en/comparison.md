@@ -30,3 +30,9 @@ This is a **negative live comparison**, not a completed Codex session. The produ
 1. Use uniquely named sandboxes and synthetic credentials in isolated temporary state.
 2. Run matching positive and negative scenarios on the same OS and architecture, recording flags, output, exit status, guest state and side effects.
 3. Close each gap with code and contract tests, then update this table. Do not describe a row as parity until the controls pass.
+
+## Authenticated Codex run: confirmed gap
+
+With the account owner's approval, the same empty workspace and the same prompt were tested on macOS ARM64 on 17 November 2026. Docker `sbx v0.50.1` started its Codex guest, reported `codex-cli 0.165.0`, and `codex exec --skip-git-repo-check` returned `RHEIC_CODEX_PARITY_OK` with exit 0. Rheic `rsbx v0.0.54`, using a locally built daemon from the `v0.0.62` source plus an unmerged Keychain size fix and the released native runtime `v0.0.36`, started the same image and reported the same Codex version. Its OpenAI browser login and token exchange completed, but Codex reported `Not logged in`; the same prompt received HTTP `401 Unauthorized` from the OpenAI Responses endpoint. An explicit OAuth proxy reference on `rsbx exec` produced the same 401. This is a **confirmed authentication gap**, not Codex parity.
+
+The initial Rheic test also returned DNS `REFUSED` because the isolated daemon had no DNS upstream while egress policy was enabled. Restarting that owned sandbox with `-dns-upstream 1.1.1.1:53` restored DNS and exposed the independent 401. The released daemon initially could not start a proxy route without a separately built guest proxy helper. The Keychain fix successfully stored the large OpenAI token record in the host vault, but it has not been merged or released. No token values were recorded. Both uniquely named test sandboxes were removed; unrelated Docker sandboxes were untouched. Completed authenticated Codex tasks in Rheic remain a release blocker.

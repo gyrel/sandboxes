@@ -30,3 +30,9 @@
 1. Изолированное временное состояние, уникальные sandbox-имена и synthetic credentials.
 2. Одинаковые положительные и отрицательные сценарии на одной ОС/архитектуре с фиксацией результата и side effects.
 3. Исправление каждого разрыва кодом и contract tests; parity отмечать только после прохождения controls.
+
+## Codex после входа: подтверждённый разрыв
+
+С согласия владельца аккаунта 17 ноября 2026 года на macOS ARM64 проверены одинаковые пустой workspace и запрос. Docker `sbx v0.50.1` запустил Codex, показал `codex-cli 0.165.0`; `codex exec --skip-git-repo-check` вернул `RHEIC_CODEX_PARITY_OK` с кодом 0. Rheic `rsbx v0.0.54` с локально собранным daemon из исходников `v0.0.62` и ещё не влитой поправкой Keychain, а также released native runtime `v0.0.36`, запустил тот же образ и ту же версию Codex. Вход OpenAI в браузере и обмен токенов прошли, но Codex сообщил `Not logged in`; одинаковый запрос получил HTTP `401 Unauthorized` от OpenAI Responses. Явная ссылка на OAuth proxy при `rsbx exec` дала тот же 401. Это **подтверждённое расхождение авторизации**, не parity.
+
+Первая попытка Rheic также получила DNS `REFUSED`: у изолированного daemon не был задан DNS upstream при включённой egress policy. После перезапуска собственного sandbox с `-dns-upstream 1.1.1.1:53` DNS заработал, и проявился независимый 401. Для запуска proxy route к released daemon пришлось отдельно собрать guest proxy helper. Поправка Keychain сохранила длинную запись OpenAI в host vault, но ещё не влита и не выпущена. Значения токенов не сохранялись в evidence. Оба собственных sandbox удалены; чужие Docker sandbox не затронуты. Успешная авторизованная задача Codex в Rheic остаётся блокером релиза.
