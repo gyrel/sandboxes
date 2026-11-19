@@ -1,6 +1,6 @@
 # CLI reference
 
-The released user-facing command is `rsbx` v0.0.63. It talks to the local `sandboxesd` daemon. Use `rsbx COMMAND --help` for exact flags in the installed binary.
+The released user-facing command is `rsbx` v0.0.64. It talks to the local `sandboxesd` daemon. Use `rsbx COMMAND --help` for exact flags in the installed binary.
 
 ## Everyday workflow
 
