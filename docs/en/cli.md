@@ -1,6 +1,6 @@
 # CLI reference
 
-The released user-facing command is `rsbx` v0.0.58. It talks to the local `sandboxesd` daemon. Use `rsbx COMMAND --help` for exact flags in the installed binary.
+The released user-facing command is `rsbx` v0.0.63. It talks to the local `sandboxesd` daemon. Use `rsbx COMMAND --help` for exact flags in the installed binary.
 
 ## Everyday workflow
 
@@ -21,7 +21,7 @@ rsbx rm NAME
 |---|---|---|
 | Sandbox | `run`, `attach`, `create`, `exec`, `cp`, `ls`, `stop`, `rm`, `prune`, `ports` | Local daemon only |
 | Management | `agents`, `daemon`, `diagnose`, `env`, `login`, `logout`, `mcp`, `policy`, `reset`, `secret`, `settings`, `tui` | See each `--help`; not every Docker subcommand exists |
-| Extensions | `kit`, `template`, `skills`, `setup` | Local kits; template inspect/list; `setup` is read-only |
+| Extensions | `kit`, `template`, `skills`, `setup` | Local kits; template inspect/list; `setup` is read-only; `skills` manages a host store and supports `--skills=readonly` on create/run (readwrite is rejected) |
 | Cloud | `move`, `ttl`, `volume` | Explicitly unsupported |
 
 `--help` uses the same section layout as Docker `sbx` (`Description`, `Usage`, `Aliases`, `Examples`, `Flags`), and the documented aliases work: `list`, `remove`, `delete`, `secrets`. Docker `sbx` has no `start`, `get` or `wait`; we removed ours so the surface matches, and `run`/`exec` start a stopped sandbox themselves. `rsbx policy ls` reports the reference baseline rules for `allow-all` (`default-allow-all`, filesystem read/write) in the `POLICY / SOURCE / APPLIES TO / SUMMARY` table.

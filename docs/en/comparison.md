@@ -3,6 +3,8 @@
 ## Scope and method
 
 This snapshot compares **Docker `sbx` v0.50.1** on macOS ARM64 (`/opt/homebrew/bin/sbx`, SHA-256 `a1e506d1b1f2e17bbc54a3b8e9850592860777689fe3f49098be6279b728c45e`) with **Rheic `rsbx` v0.0.58** (`rsbx-darwin-arm64`, SHA-256 `eb05f27aac36fa212a436689a7961390bba369ea61f03c928586194a1562f1ec`). Both were queried on 17 November 2026 with `--help` for the top level and 27 matching commands; version and release checksums were checked separately. This is **CLI surface evidence**, not a same-input live behavior test. No sandbox was created or removed during this comparison.
+> This comparison is a retained v0.0.58 CLI surface snapshot. Current releases are CLI v0.0.63 and daemon v0.0.72; re-run the same controls against them before treating any row as current behavior.
+
 
 | Scenario | Docker `sbx` v0.50.1 | Rheic `rsbx` v0.0.58 | Evidence status |
 |---|---|---|---|

@@ -1,6 +1,6 @@
 # Справочник CLI
 
-Выпущенная пользовательская команда — `rsbx` v0.0.58. Она работает с локальным `sandboxesd`. Точные флаги установленной версии показывает `rsbx COMMAND --help`.
+Выпущенная пользовательская команда — `rsbx` v0.0.63. Она работает с локальным `sandboxesd`. Точные флаги установленной версии показывает `rsbx COMMAND --help`.
 
 ## Основной сценарий
 
@@ -21,7 +21,7 @@ rsbx rm NAME
 |---|---|---|
 | Sandbox | `run`, `attach`, `create`, `exec`, `cp`, `ls`, `stop`, `rm`, `prune`, `ports` | Только локальный daemon |
 | Управление | `agents`, `daemon`, `diagnose`, `env`, `login`, `logout`, `mcp`, `policy`, `reset`, `secret`, `settings`, `tui` | Не все подкоманды Docker доступны |
-| Расширения | `kit`, `template`, `skills`, `setup` | Локальные kits; template inspect/list; `setup` только читает |
+| Расширения | `kit`, `template`, `skills`, `setup` | Локальные kits; template inspect/list; `setup` только читает; `skills` управляет host-store и поддерживает `--skills=readonly` при create/run (readwrite отвергается) |
 | Cloud | `move`, `ttl`, `volume` | Явно не поддерживаются |
 
 `--help` использует ту же структуру секций, что Docker `sbx` (`Description`, `Usage`, `Aliases`, `Examples`, `Flags`), и работают документированные алиасы: `list`, `remove`, `delete`, `secrets`. В Docker `sbx` нет `start`, `get` и `wait`; мы убрали свои, чтобы поверхность совпадала, а `run`/`exec` сами стартуют остановленную песочницу. `rsbx policy ls` показывает эталонные базовые правила для `allow-all` (`default-allow-all`, filesystem read/write) в таблице `POLICY / SOURCE / APPLIES TO / SUMMARY`.
