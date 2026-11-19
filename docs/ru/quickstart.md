@@ -4,7 +4,7 @@
 
 ## Установить CLI и daemon
 
-Установите `rsbx` v0.0.63 через [CLI installer](https://github.com/rheic/sandboxes-cli/blob/main/scripts/install.sh) или скачайте платформенный asset из [CLI release](https://github.com/rheic/sandboxes-cli/releases/tag/v0.0.63). Перед установкой проверьте `SHA256SUMS` и attestation CLI. Скачайте `sandboxesd` v0.0.72 из [daemon release](https://github.com/rheic/sandboxes-daemon/releases/tag/v0.0.72) и также проверьте checksum и attestation. Держите оба бинаря в своём `PATH`; не заменяйте Docker `sbx`.
+Установите `rsbx` v0.0.63 через [CLI installer](https://github.com/rheic/sandboxes-cli/blob/main/scripts/install.sh) или скачайте платформенный asset из [CLI release](https://github.com/rheic/sandboxes-cli/releases/tag/v0.0.63). Перед установкой проверьте `SHA256SUMS` и attestation CLI. Скачайте `sandboxesd` v0.0.73 из [daemon release](https://github.com/rheic/sandboxes-daemon/releases/tag/v0.0.73) и также проверьте checksum и attestation. Держите оба бинаря в своём `PATH`; не заменяйте Docker `sbx`.
 
 ```sh
 rsbx version
@@ -31,6 +31,6 @@ rsbx diagnose
 
 ## Запустить VM
 
-Для VM нужны совместимый containerd, patched nerdbox shim, libkrun, kernel, EROFS rootfs, `gvproxy` для сети и filesystem tools. [Runtime v0.0.36](runtime.md) публикует ARM64 assets с точным inventory; код runtime v0.0.39 использует те же native assets. Выпущенная пара CLI v0.0.63 / daemon v0.0.72 и эти assets квалифицированы для read-only shared skills на macOS ARM64 и Linux/KVM ARM64. **Другие workload и полная Docker parity не квалифицированы.** Для изолированной VM-проверки следуйте runtime build и настройке daemon; state-only проверка не доказывает VM boot.
+Для VM нужны совместимый containerd, patched nerdbox shim, libkrun, kernel, EROFS rootfs, `gvproxy` для сети и filesystem tools. [Runtime v0.0.36](runtime.md) публикует ARM64 assets с точным inventory; код runtime v0.0.40 использует те же native assets. Выпущенная пара CLI v0.0.63 / daemon v0.0.73 и эти assets квалифицированы для read-only shared skills на macOS ARM64 и Linux/KVM ARM64. **Другие workload и полная Docker parity не квалифицированы.** Для изолированной VM-проверки следуйте runtime build и настройке daemon; state-only проверка не доказывает VM boot.
 
 После настройки VM backend `rsbx run shell .` создаёт или повторно использует локальный sandbox, запускает его и подключается к гостю. Текущий каталог монтируется по умолчанию; выберите отдельный проект или `--clone` для гостевой копии. См. [CLI](cli.md) и [ограничения](limits.md).
