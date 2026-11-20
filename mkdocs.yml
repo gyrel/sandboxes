@@ -9,6 +9,7 @@ nav:
   - Get started: en/quickstart.md
   - Docker sbx comparison: en/comparison.md
   - CLI: en/cli.md
+  - OpenCode: en/opencode.md
   - Native runtime: en/runtime.md
   - Security and limits: en/limits.md
 plugins:
@@ -31,6 +32,7 @@ plugins:
             - Начало работы: ru/quickstart.md
             - Сравнение с Docker sbx: ru/comparison.md
             - CLI: ru/cli.md
+            - OpenCode: ru/opencode.md
             - Нативный runtime: ru/runtime.md
             - Безопасность и ограничения: ru/limits.md
 theme:
