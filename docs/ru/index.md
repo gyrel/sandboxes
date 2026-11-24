@@ -1,32 +1,103 @@
 ---
-title: Rheic Sandboxes
-description: Документация локальных sandbox для агентов, нативного runtime и совместимости с Docker sbx.
-hide: [navigation, toc]
+title: Обзор
+description: Установите выпущенную альфу Sandboxes от Rheic и запустите настоящие microVM на macOS ARM64. Быстрый старт, руководства, статус платформ, CLI и границы безопасности.
+hide:
+  - navigation
+  - toc
+  - path
+  - footer
 ---
-<div class="landing docs-home">
-<section class="docs-hero">
-  <div class="docs-hero-copy">
-    <p class="section-label">Rheic Sandboxes</p>
-    <h1>Начните работу с Rheic</h1>
-    <p class="hero-intro">Запускайте coding-агентов в локальной VM. Здесь собраны установка, справочник CLI, нативный runtime и проверенное сравнение с Docker <code>sbx</code>.</p>
-    <button class="hero-search" type="button" data-open-search aria-label="Поиск по документации"><span class="search-glass" aria-hidden="true"></span><span>Поиск по документации</span><kbd data-shortcut-mod>Ctrl</kbd><kbd>K</kbd></button>
-    <div class="hero-actions"><a href="quickstart/">↗ &nbsp;Быстрый старт</a><a href="cli/">⌘ &nbsp;Справочник CLI</a><a href="comparison/">⇄ &nbsp;Сравнение с Docker</a></div>
-  </div>
-  <div class="code-window" aria-label="Пример команд Rheic"><div class="code-tabs"><span class="code-tab-active">Терминал</span></div><pre><code><span class="code-comment"># Проверьте установленный CLI</span>
-<span class="code-command">$</span> rsbx version
 
-<span class="code-comment"># Запустите после настройки VM backend</span>
-<span class="code-command">$</span> rsbx run shell .
+<!-- Wrapper only: the theme already renders the page's main landmark, so keep this a div. -->
+<div class="rheic-home" markdown>
 
-<span class="code-comment"># Посмотрите локальные sandbox</span>
-<span class="code-command">$</span> rsbx ls</code></pre></div>
+<section class="home-hero" aria-labelledby="home-title">
+<div class="home-hero-copy" markdown>
+<p class="home-eyebrow">Документация Rheic · Альфа Sandboxes выпущена · microVM на macOS ARM64</p>
+
+<h1 id="home-title">Локальная граница для coding-агентов.</h1>
+
+<p class="home-lede">Запускайте coding-агентов в локальных microVM на macOS ARM64. Установите альфу, настройте daemon и создайте sandbox из терминала.</p>
+
+<div class="home-actions">
+<a class="home-button" href="quickstart/">Начать с быстрого старта <span aria-hidden="true">↗</span></a>
+<a class="home-button home-button-secondary" href="cli/">Открыть справочник CLI</a>
+</div>
+
+<label class="home-search-trigger" for="__search"><span>Поиск по документации</span><kbd>/</kbd></label>
+
+<p class="home-footnote">Альфа-ПО · VM-путь проверен live на macOS ARM64 · Windows WHP, облако и nested Docker вне области или заблокированы</p>
+</div>
+
+<div class="home-terminal" aria-label="Примеры локальных команд Rheic">
+<div class="home-terminal-head"><span class="home-terminal-brand"><img src="../assets/rheic-shark.png" alt=""><strong>Запуск microVM</strong></span><span class="home-terminal-lang">rsbx</span></div>
+<div class="home-terminal-code" markdown>
+```sh
+rsbx version
+rsbx run shell .
+rsbx ls
+```
+</div>
+<div class="home-terminal-foot">Сначала установите CLI и настройте VM backend. <a href="quickstart/">Перейти к быстрому старту →</a></div>
+</div>
 </section>
-<section class="docs-section"><p class="section-label">Документация</p><h2>С чего начать</h2><p class="section-intro">Пройдите путь настройки или сразу откройте нужный раздел.</p><div class="docs-grid">
-<a class="docs-card" href="quickstart/"><span class="card-icon" aria-hidden="true">⌁</span><h3>Начало работы</h3><p>Установите CLI и daemon, затем подготовьте совместимый VM backend.</p><span class="card-link">Открыть инструкцию ↗</span></a>
-<a class="docs-card" href="cli/"><span class="card-icon" aria-hidden="true">›_</span><h3>Команды CLI</h3><p>Запуск, проверка и управление локальными sandbox через <code>rsbx</code>.</p><span class="card-link">Смотреть команды ↗</span></a>
-<a class="docs-card" href="runtime/"><span class="card-icon" aria-hidden="true">▣</span><h3>Нативный runtime</h3><p>Проверьте опубликованные shim, kernel и rootfs по SHA-256 inventory.</p><span class="card-link">Смотреть компоненты ↗</span></a>
-<a class="docs-card" href="comparison/"><span class="card-icon" aria-hidden="true">⇄</span><h3>Сравнение с Docker sbx</h3><p>Версии, доказанные различия и сценарии, которые ещё нужно проверить.</p><span class="card-link">Читать сравнение ↗</span></a>
-</div></section>
-<section class="docs-section journey"><p class="section-label">Практический путь</p><h2>От установки к проверке</h2><div class="journey-grid"><div><span>01</span><h3>Подготовьте</h3><p>Установите опубликованные компоненты и настройте локальный backend.</p><a href="quickstart/">Инструкция ↗</a></div><div><span>02</span><h3>Запустите</h3><p>Создайте собственный sandbox в приватном проекте через <code>rsbx</code>.</p><a href="cli/">Команды CLI ↗</a></div><div><span>03</span><h3>Проверьте</h3><p>Узнайте границы поддержки и статус сравнения с Docker.</p><a href="limits/">Безопасность и ограничения ↗</a></div></div></section>
-<section class="docs-section boundary"><p class="section-label">Текущий статус</p><h2>Что уже проверено</h2><p>Rheic находится в alpha. Загрузка ARM64 guest и read-only shared skills проверены на macOS и Linux/KVM, но полная совместимость с Docker <code>sbx</code> и запуск Codex с авторизацией остаются открытыми. Документация отделяет живые проверки от планов.</p><div class="boundary-links"><a href="limits/">Безопасность и ограничения ↗</a><a href="comparison/">Результаты сравнения ↗</a></div></section>
+
+<section class="home-section" aria-labelledby="choose-title">
+<div class="home-section-heading"><div><p class="home-kicker">Выберите точку входа</p><h2 id="choose-title">Что вы хотите сделать?</h2></div><p>Используйте руководство для своей задачи, затем проверьте требования и ограничения перед запуском команд.</p></div>
+<div class="home-path-grid">
+<a class="home-card" href="quickstart/"><span class="home-card-mark" aria-hidden="true">01</span><h3>Установить альфу и запустить microVM</h3><p>Установите выпущенные бинарники, запустите daemon с VM-backend и подключите shell к гостю.</p><span class="home-card-link">Быстрый старт →</span></a>
+<a class="home-card" href="workspaces/"><span class="home-card-mark" aria-hidden="true">02</span><h3>Подготовить workspace агента</h3><p>Разберитесь с путями workspace, файловыми операциями и lifecycle sandbox.</p><span class="home-card-link">Руководство workspace →</span></a>
+<a class="home-card" href="networking/"><span class="home-card-mark" aria-hidden="true">03</span><h3>Изучить сетевые границы</h3><p>Посмотрите профиль allow-all по умолчанию, приоритет deny, HTTP-условия политики и опубликованные порты.</p><span class="home-card-link">Руководство по сети →</span></a>
+<a class="home-card" href="workspaces/#clone-mode"><span class="home-card-mark" aria-hidden="true">04</span><h3>Клонировать вместо монтирования</h3><p>Оставьте репозиторий на хосте read-only и забирайте коммиты агента из приватного клона в госте.</p><span class="home-card-link">Руководство по клону →</span></a>
+</div>
+</section>
+
+<section class="home-section" aria-labelledby="journey-title">
+<div class="home-section-heading"><div><p class="home-kicker">Путь разработчика</p><h2 id="journey-title">От checkout до ограниченного workflow</h2></div><p>Настраивайте новую машину по порядку. Каждый шаг ведёт к требованиям и ограничениям, необходимым для решения.</p></div>
+<div class="home-journey">
+<article class="journey-step"><span class="journey-index">01 · Подготовка</span><h3>Проверьте платформу</h3><p>Изучите поддержку host, toolchain и runtime-компоненты.</p><a href="requirements/">Системные требования →</a></article>
+<article class="journey-step"><span class="journey-index">02 · Запуск</span><h3>Установите и загрузите VM</h3><p>Установите альфа-бинарники и запустите daemon с VM-backend.</p><a href="quickstart/">Быстрый старт →</a></article>
+<article class="journey-step"><span class="journey-index">03 · Настройка</span><h3>Подключите workflow</h3><p>Изучите агентов, файлы, credentials и kits.</p><a href="agents/">Руководство по агентам →</a></article>
+<article class="journey-step"><span class="journey-index">04 · Проверка</span><h3>Оцените границу</h3><p>Отличайте успех команды от VM- и security-проверки.</p><a href="security/">Модель безопасности →</a></article>
+</div>
+</section>
+
+<section class="home-section" aria-labelledby="status-title">
+<div class="home-status">
+<div class="home-status-copy"><p class="home-kicker">Текущее состояние проекта</p><h2 id="status-title">Rheic загружает microVM на macOS ARM64.</h2><p>Альфа Sandboxes выпущена: <code>rsbx</code> v0.0.74 и <code>sandboxesd</code> v0.0.98 публикуются с <code>SHA256SUMS</code>, а alpha bundle проверяет каждый закреплённый runtime-артефакт по дайджесту перед каждым запуском VM (unsigned local alpha: provenance — опубликованный архив, не notarization). Daemon загружает настоящие microVM на macOS ARM64 через containerd, nerdbox shim и libkrun. CLI добавляет команды жизненного цикла daemon и совместимый с Docker <code>sbx</code> JSON для основных команд. Live acceptance покрыла полный жизненный цикл VM, workspace, <code>cp</code>, публикацию портов, roundtrip шаблонов save/load, хостовое хранилище секретов с flow согласований, регистрацию MCP, валидацию kit-политики, skills, панели событий TUI и opt-in матрицы IPv6 и QUIC. Windows WHP не реализован, облачные команды (<code>move</code>, <code>ttl</code>, <code>volume</code>) вне области, вложенные Docker workloads внутри гостя остаются заблокированными, а независимый внешний security review не проводился.</p></div>
+<ul class="home-status-list" aria-label="Статус возможностей">
+<li><span class="status-dot" aria-hidden="true"></span><span>Альфа-бинарники<strong>Выпущены и проверены</strong></span></li>
+<li><span class="status-dot" aria-hidden="true"></span><span>VM-путь macOS ARM64<strong>Проверен live</strong></span></li>
+<li><span class="status-dot" aria-hidden="true"></span><span>Режим клона<strong>Проверен live</strong></span></li>
+<li><span class="status-dot status-dot-off" aria-hidden="true"></span><span>Windows WHP, облачные команды и nested Docker<strong>Не реализованы или вне области</strong></span></li>
+</ul>
+</div>
+</section>
+
+<section class="home-section" aria-labelledby="topics-title">
+<div class="home-section-heading"><div><p class="home-kicker">Структура документации</p><h2 id="topics-title">Найдите нужную тему</h2></div><p>Английские и русские руководства повторяют одинаковую структуру. Переключите язык в шапке страницы.</p></div>
+<div class="home-directory">
+<div class="directory-group"><h3>Сборка и настройка</h3><div class="directory-links"><a href="agents/">Агенты</a><a href="workspaces/">Workspace и файлы</a><a href="workspaces/#clone-mode">Приватный клон</a><a href="networking/">Сеть и порты</a><a href="credentials/">Credentials и вход</a><a href="kits/">Kits</a></div></div>
+<div class="directory-group"><h3>Запуск и обслуживание</h3><div class="directory-links"><a href="docker/">Docker</a><a href="tui/">Терминальная панель</a><a href="troubleshooting/">Решение проблем</a><a href="settings/">Настройки</a></div></div>
+<div class="directory-group"><h3>Устройство системы</h3><div class="directory-links"><a href="architecture/">Архитектура</a><a href="security/">Модель безопасности</a><a href="requirements/">Системные требования</a></div></div>
+<div class="directory-group"><h3>Справочник команд</h3><div class="directory-links"><a href="cli/">CLI</a><a href="quickstart/">Быстрый старт</a></div></div>
+</div>
+</section>
+
+<section class="home-section" aria-labelledby="faq-title">
+<div class="home-section-heading"><div><p class="home-kicker">Перед началом</p><h2 id="faq-title">Частые вопросы</h2></div><a href="faq/">Все ответы →</a></div>
+<div class="home-faq">
+<details><summary>Быстрый старт запускает VM?</summary><p>Да. Основной путь — microVM: быстрый старт устанавливает альфа-бинарники, запускает daemon с VM-backend и выполняет <code>rsbx run shell .</code>, что загружает настоящую microVM на macOS ARM64. Режим state-only — резервный вариант для host-систем, где runtime-артефакты ещё не подготовлены: он проверяет локальную control plane и не запускает VM. См. <a href="quickstart/">Быстрый старт</a> и <a href="requirements/">Системные требования</a>.</p></details>
+<details><summary>Можно ли запустить coding-агента внутри sandbox?</summary><p>VM lifecycle прошёл live acceptance на macOS ARM64, включая exec в запущенный гость. Авторизация провайдера и полные интерактивные сценарии каждого агента acceptance не прошли. Смотрите <a href="agents/">руководство по агентам</a> и <a href="requirements/">статус платформ</a>.</p></details>
+<details><summary>Клонировать репозиторий или монтировать его?</summary><p>Монтируйте, если агент должен напрямую менять файлы на хосте. Используйте <code>rsbx run --clone</code>, когда репозиторий на хосте должен остаться read-only: агент коммитит в приватном клоне внутри гостя, а вы забираете эти коммиты через remote <code>sandbox-&lt;name&gt;</code>. Режиму клона нужен один настоящий Git-репозиторий, а образу — <code>git</code> вместе с <code>git daemon</code>. URL host-remote содержит случайный токен для каждой песочницы. См. <a href="workspaces/#clone-mode">workspace</a>.</p></details>
+<details><summary>Исходящая сеть разрешена по умолчанию?</summary><p>Да. Новые sandboxes используют профиль egress <code>allow-all</code>, как и Docker <code>sbx</code>. Явные deny-правила и организационные deny-правила по-прежнему имеют приоритет, а fail-closed контроли не меняются. Запускайте с <code>--policy-profile deny-all</code>, если задаче не нужен сетевой доступ. HTTP-условия политики для method, path glob и query есть в слое политики gateway; <code>rsbx</code> пока не может их задать, а live-применение этих условий gateway остаётся непроверенным. См. <a href="networking/">сеть и порты</a>.</p></details>
+<details><summary>Успешная команда подтверждает изоляцию?</summary><p>Нет. Ответ CLI подтверждает только результат указанной команды. Для VM-изоляции нужны отдельные live runtime и security evidence. См. <a href="security/">модель безопасности</a>.</p></details>
+<details><summary>Готов ли Docker Engine внутри guest к запуску workloads?</summary><p>Опциональный guest Docker daemon запускается, но вложенные <code>docker run</code>, <code>docker load</code>, <code>docker build</code> и Compose блокируются ограничениями guest <code>unshare</code> в текущем runtime. См. <a href="docker/">Docker и Rheic</a>.</p></details>
+</div>
+</section>
+
+<section class="home-section" aria-label="Продолжить чтение">
+<div class="home-endcap"><div><h2>Начните с вашей машины.</h2><p>Проверьте требования, установите альфу и загрузите microVM.</p></div><a class="home-button" href="requirements/">Системные требования ↗</a></div>
+</section>
+
 </div>

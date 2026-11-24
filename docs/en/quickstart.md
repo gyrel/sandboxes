@@ -1,36 +1,88 @@
-# Get started
+# Quick start
 
-This guide verifies the **released local control plane** on macOS ARM64. A VM also needs configured native runtime processes and assets; the CLI installer alone does not start one.
+This guide installs the released Sandboxes alpha by Rheic and boots a real microVM on macOS ARM64. The microVM path is the primary path: the launcher starts the pinned containerd, the daemon drives the nerdbox shim and libkrun, and `rsbx run shell .` creates or reuses the sandbox, starts it, and attaches the guest shell. State-only mode is a labelled fallback for hosts without the runtime assets and does not boot a VM.
 
-## Install the released CLI and daemon
+The published alpha is CLI `rsbx` v0.0.74, daemon `sandboxesd` v0.0.98, and local API contract 0.0.38, assembled as one verified alpha bundle with pinned runtime assets and artifact digests. Binaries ship with `SHA256SUMS`; the bundle launcher verifies every runtime artifact by SHA-256 before each VM launch and refuses unverified bytes. Live acceptance on macOS ARM64 covers the full VM lifecycle, workspaces, `cp`, port publishing, template save/load with live roundtrip, host vault credentials with custom secrets and the approval flow, `mcp` registration with approval challenges, kit validation with the daemon policy, skills, the TUI event panels, and the IPv6 and QUIC opt-in matrices. It does not qualify Windows, native Linux or rootless hosts, or cloud commands. Windows WHP is not implemented, cloud commands are out of scope, and no independent external security review has been completed.
 
-Install `rsbx` v0.0.64 with the [CLI installer](https://github.com/rheic/sandboxes-cli/blob/main/scripts/install.sh), or download its platform asset from the [CLI release](https://github.com/rheic/sandboxes-cli/releases/tag/v0.0.64). Check `SHA256SUMS` and the CLI attestation before installation. Download `sandboxesd` v0.0.74 from the [daemon release](https://github.com/rheic/sandboxes-daemon/releases/tag/v0.0.74) and verify its checksum and attestation as well. Keep both binaries in your own `PATH`; do not replace Docker's `sbx`.
+## 1. Download and verify the alpha bundle
+
+The bundle contains the CLI, the daemon, the pinned runtime (containerd with patches, the nerdbox shim, gvproxy, libkrun, kernel and guest rootfs), the digest file, and the managed launcher. Download `rheic-sandboxes-alpha-darwin-arm64-r4.tar.gz` and its `.sha256` from the [project releases](https://github.com/rheic/sandboxes/releases), then:
 
 ```sh
-rsbx version
-sandboxesd --version
+shasum -a 256 -c rheic-sandboxes-alpha-darwin-arm64-r4.tar.gz.sha256
+tar -xzf rheic-sandboxes-alpha-darwin-arm64-r4.tar.gz
+cd rheic-sandboxes-alpha-darwin-arm64
+shasum -a 256 -c SHA256SUMS
 ```
 
-## Inspect the local control plane
+The host needs Homebrew `e2fsprogs` (`brew install e2fsprogs`) for `mkfs.ext4`; the launcher locates it and fails fast with that hint when it is missing.
 
-Use a new private state directory and socket. Starting without `--containerd` is **state-only**: the daemon can answer CLI requests but cannot boot a guest.
+## 2. Install the CLI and start the managed daemon
 
 ```sh
-mkdir -p "$HOME/.sandboxes"
-sandboxesd --state "$HOME/.sandboxes" --socket "$HOME/.sandboxes/sandboxesd.sock"
+mkdir -p ~/.local/bin
+install -m 0755 bin/rsbx ~/.local/bin/rsbx
+bin/rheicd-launch.sh &
+~/.local/bin/rsbx daemon status   # running, with version and API contract
 ```
 
-In another terminal:
+The launcher starts containerd on its own, points the daemon at the bundled runtime, and enables per-launch artifact digest verification (`--artifact-digests` plus the pinned `--runtime-artifact` set). Never mix binaries from different releases: the published set is CLI v0.0.74 with daemon v0.0.98 and API contract 0.0.38. Do not point the daemon at a socket or state directory owned by another installation.
+
+For development against an existing local runtime you may instead run `bin/sandboxesd` with explicit flags (`--ctr`, `--gvproxy`, `--proxy-helper`); state-only mode is documented below. The escape hatch `--allow-unmanaged-runtime` exists but is not the supported alpha path: prefer the launcher so digests are enforced.
+
+## 3. Run a microVM
 
 ```sh
+cd /path/to/project
+rsbx run shell .
+```
+
+`run` creates or reuses the sandbox, starts it, and attaches the guest shell. The current directory is the default workspace, mounted in the guest at the same absolute path. `--detach` returns after startup, and agent arguments follow `--`.
+
+```sh
+rsbx ls
 rsbx ls --json
-rsbx diagnose
 ```
 
-Stop the process you started when finished. The commands above should not create a sandbox. `rsbx daemon stop` only signals a daemon whose identity it can prove; an externally started process may need to be stopped from its original terminal.
+Both commands use the default socket `$HOME/.sandboxes/sandboxesd.sock` (the launcher honours `RHEIC_STATE_DIR`). If you started the daemon elsewhere, pass `--socket PATH` or set `SANDBOXES_SOCKET`. Use `rsbx stop`, `rsbx rm`, and `rsbx prune` for the rest of the lifecycle; a stopped sandbox restarts automatically on `exec`.
 
-## Boot a VM
+## 4. Try the core surfaces
 
-The VM path requires a compatible containerd instance, patched nerdbox shim, libkrun, kernel, EROFS rootfs, `gvproxy` for networking, and filesystem tools. [Runtime v0.0.36](runtime.md) publishes these native assets for ARM64, with exact inventories; runtime code v0.0.41 uses the same native assets. The released CLI v0.0.64 / daemon v0.0.74 pair and those assets were qualified for read-only shared skills on macOS ARM64 and Linux/KVM ARM64. **Other workloads and full Docker parity are not qualified.** Follow the runtime build and daemon configuration for an isolated VM test; do not treat the state-only check as VM evidence.
+```sh
+rsbx ports NAME                          # published ports
+rsbx cp ./file.txt NAME:/tmp/file.txt    # files both ways
+rsbx template save NAME mytpl && rsbx template ls
+rsbx secret ls && rsbx secret set-custom --host api.example.com --env API_KEY
+rsbx policy check network api.openai.com --method GET   # evaluate one request against stored rules
+rsbx kit validate ./my-kit --offline
+rsbx mcp add docs --url https://mcp.example.com/mcp   # registration approval challenge
+rsbx policy approval ls                  # pending consent requests
+rsbx tui                                 # dashboard with live events
+```
 
-Once the VM backend is configured, `rsbx run shell .` creates or reuses, starts, and attaches to a local guest. The current directory is mounted by default; choose a private project or use `--clone` when you want a guest copy. See [CLI](cli.md) and [limits](limits.md).
+More end-to-end scenarios with exact expected output are in [user cases](user-cases.md).
+
+## State-only fallback (no VM)
+
+State-only mode is a fallback for a machine that does not have the runtime assets yet, or for inspecting the local control plane without a guest. It never boots a VM:
+
+```sh
+sandboxesd --state "$HOME/.sandboxes-rheic-check" --socket "$HOME/.sandboxes-rheic-check/sandboxesd.sock"
+
+rsbx --socket "$HOME/.sandboxes-rheic-check/sandboxesd.sock" ls
+rsbx --socket "$HOME/.sandboxes-rheic-check/sandboxesd.sock" diagnose
+```
+
+These commands confirm that the CLI can reach the local daemon and inspect control-plane state. They do not boot a guest, prove VM isolation, or validate an agent session.
+
+## Limits to keep in mind
+
+- The validated native VM path targets macOS on Apple silicon only.
+- Windows WHP is not implemented. Cloud commands (`move`, `ttl`, `volume`) are out of scope for the local alpha. Nested Docker workloads inside the guest remain blocked.
+- MCP server registration requires host consent; trusted OS-backed approval and interactive OAuth for remote MCP servers are not shipped yet, so approve paths fail closed. Custom-secret `--ref`/`--command` sources and L7 HTTPS interception are pending the same seams.
+- No independent external security review has been completed; see the [security model](security.md).
+- Docker built-in agents remain preview: image launch probes passed, but provider authentication and complete agent sessions did not. See [agents](agents.md).
+
+## Where to go next
+
+Read the [requirements](requirements.md) before building runtime components. See [user cases](user-cases.md) for tested scenarios, the [CLI reference](cli.md) for command syntax, [workspaces](workspaces.md), [networking](networking.md), and [credentials](credentials.md). The [Docker guide](docker.md) explains why account sign-in and guest Docker are separate. Read the [security model](security.md) before connecting a project or storing credentials.
