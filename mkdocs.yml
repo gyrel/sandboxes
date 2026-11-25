@@ -23,11 +23,8 @@ nav:
       - Docker: en/docker.md
       - Terminal dashboard: en/tui.md
       - Troubleshooting: en/troubleshooting.md
-      - OpenCode: en/opencode.md
-      - Native runtime: en/runtime.md
-      - Docker sbx comparison: en/comparison.md
+      - Alpha testing guide: en/alpha-testing.md
   - Reference:
-      - Security and limits: en/limits.md
       - CLI: en/cli.md
       - Settings: en/settings.md
       - Architecture: en/architecture.md
@@ -69,15 +66,12 @@ plugins:
                 - Docker: ru/docker.md
                 - Терминальная панель: ru/tui.md
                 - Решение проблем: ru/troubleshooting.md
-                - OpenCode: ru/opencode.md
-                - Нативный runtime: ru/runtime.md
-                - Сравнение с Docker sbx: ru/comparison.md
+                - Гайд альфа-тестировщика: ru/alpha-testing.md
             - Справочник:
                 - CLI: ru/cli.md
                 - Настройки: ru/settings.md
                 - Архитектура: ru/architecture.md
                 - Безопасность: ru/security.md
-                - Безопасность и ограничения: ru/limits.md
                 - Частые вопросы: ru/faq.md
 
 theme:

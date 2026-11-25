@@ -1,0 +1,73 @@
+name: Alpha bug report
+description: Report an issue found while testing the local alpha bundle
+title: "[alpha] "
+labels: ["bug", "needs-bundle"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for testing the alpha. A diagnostic bundle makes bugs fixable:
+        run `rsbx diagnose --bundle --out rheic-diagnose.tar.gz` and attach it.
+        The bundle never contains secrets; if the command refuses (exit 1),
+        paste its output instead and file this issue anyway.
+  - type: textarea
+    id: platform
+    attributes:
+      label: Platform
+      description: OS, architecture, and how you started the daemon
+      placeholder: macOS 15 arm64 / Ubuntu 24.04 x86_64 / Windows 11 x64, launcher command line
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: versions
+    attributes:
+      label: Versions
+      description: rsbx --version, daemon version, bundle digest
+      placeholder: |
+        rsbx v0.0.75 …
+        sandboxesd v0.0.98 …
+        archive sha256: …
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Reproduction
+      description: Exact commands from a clean state where possible; include a uniquely named sandbox
+      placeholder: |
+        1. rsbx run --detach --name t1 shell .
+        2. rsbx exec t1 -- …
+      render: sh
+    validations:
+      required: true
+  - type: textarea
+    id: expected-actual
+    attributes:
+      label: Expected vs actual
+      description: What you expected and what happened (exit codes, messages)
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options: [run/exec, lifecycle, templates, networking/egress, secrets, approvals, kits, MCP, TUI, install/launcher, other]
+    validations:
+      required: true
+  - type: textarea
+    id: bundle
+    attributes:
+      label: Diagnostic bundle
+      description: Attach rheic-diagnose.tar.gz (or paste refusal output); do NOT paste raw daemon logs — they may contain paths you did not intend to share
+      placeholder: drag the .tar.gz here, and paste the output of: shasum -a 256 rheic-diagnose.tar.gz
+  - type: checkboxes
+    id: consent
+    attributes:
+      label: Confirmations
+      options:
+        - label: I used only my own sandboxes and synthetic credentials in this repro
+          required: true
+        - label: I understand the alpha has no developer signature/notarization and verify digests myself
+          required: true
