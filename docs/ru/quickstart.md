@@ -2,16 +2,16 @@
 
 Это руководство устанавливает опубликованную альфу Sandboxes от Gyrel и запускает настоящую microVM на macOS ARM64. Основной путь — microVM: launcher поднимает закреплённый containerd, daemon управляет nerdbox shim и libkrun, а `rsbx run shell .` создаёт или переиспользует песочницу, запускает её и подключает гостевой шелл. State-only режим — помеченный fallback для хостов без runtime-ассетов; он не запускает VM.
 
-Опубликованная альфа — это CLI `rsbx` v0.0.74, daemon `sandboxesd` v0.0.98 и локальный API-контракт 0.0.38, собранные в один проверенный alpha bundle с закрепленными runtime-ассетами и дайджестами. Бинарники поставляются с `SHA256SUMS`; launcher бандла проверяет каждый runtime-артефакт по SHA-256 перед каждым запуском VM и отказывается запускать непроверенные байты. Live acceptance на macOS ARM64 покрывает полный жизненный цикл VM, workspace, `cp`, публикацию портов, сохранение/загрузку шаблонов живым roundtrip-прогоном, хостовое хранилище секретов с custom-секретами и flow согласований, регистрацию MCP с challenge согласования, валидацию kit с daemon-политикой, skills, панели событий TUI и opt-in матрицы IPv6 и QUIC. Она не квалифицирует Windows, native Linux и rootless host-системы, а также облачные команды. Windows WHP не реализован, облачные команды вне области, независимый внешний security review не проводился.
+Опубликованная альфа — это CLI `rsbx` v0.0.79, daemon `sandboxesd` v0.0.103 и локальный API-контракт 0.0.39, собранные в один проверенный alpha bundle с закрепленными runtime-ассетами и дайджестами. Бинарники поставляются с `SHA256SUMS`; launcher бандла проверяет каждый runtime-артефакт по SHA-256 перед каждым запуском VM и отказывается запускать непроверенные байты. Live acceptance на macOS ARM64 покрывает полный жизненный цикл VM, workspace, `cp`, публикацию портов, сохранение/загрузку шаблонов живым roundtrip-прогоном, хостовое хранилище секретов с custom-секретами и flow согласований, регистрацию MCP с challenge согласования, валидацию kit с daemon-политикой, skills, панели событий TUI, opt-in матрицы IPv6 и QUIC, аудит egress с корреляционными штампами (allow пишется до соединения, deny-by-rule исполняется) и fail-closed diagnose-бандл (отказ доказан planted PEM-ключом: архив не создан, в stderr только имена правил). Гостевой DNS через bundled gvproxy пока не резолвится (открытый срез); переключение deny при переполнении audit-стока доказано юнит-тестами, живая проверка запланирована на Linux. Она не квалифицирует Windows, native Linux и rootless host-системы, а также облачные команды. Windows WHP не реализован, облачные команды вне области, независимый внешний security review не проводился.
 
 ## 1. Скачайте и проверьте alpha bundle
 
-Бандл содержит CLI, daemon, закрепленный runtime (containerd с патчами, nerdbox shim, gvproxy, libkrun, ядро и гостевая rootfs), файл дайджестов и managed-лаунчер. Скачайте `rheic-sandboxes-alpha-darwin-arm64-r4.tar.gz` и его `.sha256` из [релизов проекта](https://github.com/gyrel/sandboxes/releases) — бандл r4 опубликован под прежним брендом, поэтому имена файлов в архиве сохраняют префикс `rheic-`, — затем:
+Бандл содержит CLI, daemon, закрепленный runtime (containerd с патчами, nerdbox shim, gvproxy, libkrun, ядро и гостевая rootfs), файл дайджестов и managed-лаунчер. Скачайте `gyrel-sandboxes-alpha-darwin-arm64-r5final.tar.gz` и его `.sha256` из [релизов проекта](https://github.com/gyrel/sandboxes/releases) — релиз опубликован как `alpha-2026-11-26`, — затем:
 
 ```sh
-shasum -a 256 -c rheic-sandboxes-alpha-darwin-arm64-r4.tar.gz.sha256
-tar -xzf rheic-sandboxes-alpha-darwin-arm64-r4.tar.gz
-cd rheic-sandboxes-alpha-darwin-arm64
+shasum -a 256 -c gyrel-sandboxes-alpha-darwin-arm64-r5final.tar.gz.sha256
+tar -xzf gyrel-sandboxes-alpha-darwin-arm64-r5final.tar.gz
+cd gyrel-sandboxes-alpha-darwin-arm64
 shasum -a 256 -c SHA256SUMS
 ```
 
@@ -26,7 +26,7 @@ bin/gyreld-launch.sh &
 ~/.local/bin/rsbx daemon status   # running, с версиями и API-контрактом
 ```
 
-Лаунчер сам запускает containerd, указывает daemon на bundled runtime и включает проверку артефактов по дайджестам перед каждым запуском VM (`--artifact-digests` плюс закрепленный набор `--runtime-artifact`). Никогда не смешивайте бинарники из разных релизов: опубликованный набор — CLI v0.0.74, daemon v0.0.98, API-контракт 0.0.38. Не направляйте daemon на сокет или каталог состояния другой установки. В бандле r4, опубликованном под прежним брендом, лаунчер называется `bin/rheicd-launch.sh`; в Gyrel-бандлах начиная с r5 — `bin/gyreld-launch.sh`, поэтому запускайте то имя лаунчера, которое лежит в распакованном каталоге `bin/`.
+Лаунчер сам запускает containerd, указывает daemon на bundled runtime и включает проверку артефактов по дайджестам перед каждым запуском VM (`--artifact-digests` плюс закрепленный набор `--runtime-artifact`). Никогда не смешивайте бинарники из разных релизов: опубликованный набор — CLI v0.0.79, daemon v0.0.103, API-контракт 0.0.39. Не направляйте daemon на сокет или каталог состояния другой установки. В бандле лаунчер называется `bin/gyreld-launch.sh`. В старых архивах (r4 и раньше, опубликованных под прежним брендом) — `bin/rheicd-launch.sh`; запускайте то имя, которое лежит в распакованном каталоге `bin/`.
 
 Для разработки против уже существующего локального runtime можно запустить `bin/sandboxesd` с явными флагами (`--ctr`, `--gvproxy`, `--proxy-helper`); state-only режим описан ниже. Escape hatch `--allow-unmanaged-runtime` существует, но не является поддерживаемым путем альфы: используйте лаунчер, чтобы дайджесты оставались включеными.
 
