@@ -156,3 +156,6 @@ body:has(.docs-home) .md-content__inner > h1:first-child { display:none; }
 /* Shortcut links belong to the open search dialog only. */
 .search-shortcuts { display:none; }
 [data-md-toggle="search"]:checked ~ .md-header .search-shortcuts:not([hidden]) { display:block; }
+/* Gyrel Black Sun logo: keep the vector sign undistorted and visible on the slate scheme. */
+.md-header__button.md-logo img,.footer-brand img { object-fit:contain; }
+[data-md-color-scheme="slate"] .md-header__button.md-logo img,[data-md-color-scheme="slate"] .footer-brand img { filter:invert(1); }

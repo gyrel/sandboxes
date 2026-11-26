@@ -80,7 +80,7 @@ plugins:
 theme:
   name: material
   custom_dir: overrides
-  logo: assets/gyrel-shark.png
+  logo: assets/gyrel-black-sun.svg
   favicon: assets/gyrel-mark.svg
   language: en
   font: false
@@ -108,7 +108,7 @@ theme:
     - content.code.copy
 
 extra_css:
-  - stylesheets/gyrel.css?v=9
+  - stylesheets/gyrel.css?v=10
 
 extra_javascript:
   - assets/search.js

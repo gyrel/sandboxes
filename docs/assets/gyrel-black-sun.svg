@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="270 280 400 400" role="img" aria-labelledby="title">
+  <title id="title">Gyrel — Black Sun</title>
+  <g fill="#000000">
+    <path d="M296 490 L356 452 Q380 436 380 408 L382 370 L454 337 V434 Q366 480 366 550 V620 H296 Z"/>
+    <path d="M488 337 L560 370 L561 407 Q561 433 586 452 L641 490 V620 H575 V550 Q575 480 488 422 Z"/>
+    <path d="M393 523 C432 453 493 459 532 501 C563 535 565 576 540 608 C556 575 546 537 518 511 C480 475 430 478 393 523 Z"/>
+  </g>
+</svg>
