@@ -1,19 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
-  <title id="title">Rheic</title>
-  <desc id="desc">An original orbit and flame mark in blue.</desc>
-  <defs>
-    <linearGradient id="ember" x1="38" y1="216" x2="220" y2="35" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#294172"/>
-      <stop offset=".48" stop-color="#3c6eb4"/>
-      <stop offset="1" stop-color="#83addd"/>
-    </linearGradient>
-    <linearGradient id="core" x1="91" y1="177" x2="162" y2="76" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#83addd"/>
-      <stop offset="1" stop-color="#294172"/>
-    </linearGradient>
-  </defs>
-  <path d="M128 18c48 0 88 29 104 68 12 30 8 66-13 96-24 35-59 56-101 56-41 0-77-19-99-51-18-26-24-59-15-89C16 53 65 18 128 18Zm0 19C77 37 36 68 23 108c-9 27-2 55 13 77 19 27 49 43 82 43 35 0 65-17 85-47 17-25 21-53 11-78-14-34-49-66-86-66Z" fill="url(#ember)" fill-rule="evenodd"/>
-  <path d="M77 166c29-7 42-28 43-62 1-20 10-39 34-55-7 25-2 40 15 54 18 15 25 31 21 49-5 25-26 43-57 43-22 0-42-10-56-29Z" fill="url(#ember)"/>
-  <path d="M113 164c16-9 21-21 21-39 0-13 6-24 17-34-3 17 2 26 12 35 9 8 12 17 9 27-4 14-17 23-33 23-11 0-20-4-26-12Z" fill="url(#core)"/>
-  <circle cx="128" cy="131" r="8" fill="#f4f7fb"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="270 280 400 400" role="img" aria-labelledby="title">
+  <title id="title">Gyrel — Black Sun</title>
+  <style>
+    @media (prefers-color-scheme: dark) { g { fill: #ffffff; } }
+  </style>
+  <g fill="#000000">
+    <path d="M296 490 L356 452 Q380 436 380 408 L382 370 L454 337 V434 Q366 480 366 550 V620 H296 Z"/>
+    <path d="M488 337 L560 370 L561 407 Q561 433 586 452 L641 490 V620 H575 V550 Q575 480 488 422 Z"/>
+    <path d="M393 523 C432 453 493 459 532 501 C563 535 565 576 540 608 C556 575 546 537 518 511 C480 475 430 478 393 523 Z"/>
+  </g>
 </svg>

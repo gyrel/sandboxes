@@ -8,7 +8,7 @@
   {% set russian = page and page.file and page.file.src_path.startswith("ru/") %}
   {% set root = "ru/" if russian else "" %}
   <div class="site-footer"><div class="md-grid footer-inner">
-    <a class="footer-brand" href="{{ (root ~ 'index.html') | url }}"><img src="{{ 'assets/gyrel-shark.png' | url }}" alt=""> Gyrel Sandboxes</a>
+    <a class="footer-brand" href="{{ (root ~ 'index.html') | url }}"><img src="{{ 'assets/gyrel-black-sun.svg' | url }}" alt=""> Gyrel Sandboxes</a>
     <nav aria-label="{% if russian %}Разделы документации{% else %}Documentation sections{% endif %}">
       <a href="{{ (root ~ 'quickstart/') | url }}">{% if russian %}Начало{% else %}Start{% endif %}</a>
       <a href="{{ (root ~ 'comparison/') | url }}">{% if russian %}Сравнение{% else %}Comparison{% endif %}</a>
