@@ -10,7 +10,7 @@
     var output = document.querySelector('.md-search__output');
     if (input && output && !document.querySelector('.search-shortcuts')) {
       var russian = document.documentElement.lang === 'ru';
-      var root = document.querySelector('.rheic-wordmark').href;
+      var root = document.querySelector('.gyrel-wordmark').href;
       var panel = document.createElement('div');
       panel.className = 'search-shortcuts';
       var heading = document.createElement('p');
