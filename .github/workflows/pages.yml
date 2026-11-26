@@ -29,6 +29,10 @@ jobs:
         run: python -m pip install --disable-pip-version-check -r requirements.txt
       - name: Build documentation
         run: mkdocs build --strict --config-file mkdocs.yml
+      - name: Stage per-locale search indexes
+        run: |
+          mkdir -p site/ru/search
+          cp site/search/search_index.json site/ru/search/search_index.json
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4
         with:
