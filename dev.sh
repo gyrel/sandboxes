@@ -59,7 +59,7 @@ raise SystemExit("no available documentation preview port found")
 PY
   )
   if [[ "$serve_mode" == "reuse" ]]; then
-    printf 'Rheic docs preview is already responding at http://127.0.0.1:%s/\n' "$serve_port"
+    printf 'Gyrel docs preview is already responding at http://127.0.0.1:%s/\n' "$serve_port"
     exit 0
   fi
   exec "$venv_dir/bin/mkdocs" serve \
@@ -67,7 +67,7 @@ PY
     --dev-addr "${DOCS_HOST:-127.0.0.1}:${serve_port}"
 fi
 
-tmp_dir="$(mktemp -d "${TMPDIR:-/tmp}/rheic-docs-check.XXXXXX")"
+tmp_dir="$(mktemp -d "${TMPDIR:-/tmp}/gyrel-docs-check.XXXXXX")"
 trap 'rm -rf "$tmp_dir"' EXIT
 "$venv_dir/bin/mkdocs" build \
   --strict \

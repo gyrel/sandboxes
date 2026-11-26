@@ -1,6 +1,6 @@
 # User cases
 
-These scenarios run against the alpha bundle on macOS ARM64 and show the exact commands plus the expected behavior — including the places where the alpha deliberately refuses. Commands assume `rsbx` and the daemon socket on their defaults; the state directory is `$HOME/.sandboxes` (override with `RHEIC_STATE_DIR`).
+These scenarios run against the alpha bundle on macOS ARM64 and show the exact commands plus the expected behavior — including the places where the alpha deliberately refuses. Commands assume `rsbx` and the daemon socket on their defaults; the state directory is `$HOME/.sandboxes` (override with `GYREL_STATE_DIR`).
 
 ## Project review sandbox
 
@@ -104,7 +104,7 @@ The MCP registration answers with a challenge ID and stores nothing until consen
 
 ```sh
 mkdir my-kit && cat > my-kit/spec.yaml <<'YAML'
-apiVersion: rheic.dev/v1alpha1
+apiVersion: gyrel.dev/v1alpha1
 kind: Kit
 metadata:
   name: my-kit
@@ -139,7 +139,7 @@ Press `2` for the event stream (operation progress and lifecycle changes) and `3
 
 ```sh
 kill -9 <daemon-pid>          # abrupt loss, like a crash
-bin/rheicd-launch.sh          # next start reconciles automatically
+bin/gyreld-launch.sh          # next start reconciles automatically
 ```
 
 On startup the daemon reconciles create journals: resources it can prove it owns (marker token match) are cleaned up; anything it cannot prove is left untouched and reported in the log. Nothing is deleted speculatively.

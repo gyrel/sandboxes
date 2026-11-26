@@ -1,6 +1,6 @@
 # Credentials and sign-in
 
-Rheic has separate flows for Docker account authorization, registry credentials, and agent service secrets. They do not imply that credentials are available inside every guest.
+Gyrel has separate flows for Docker account authorization, registry credentials, and agent service secrets. They do not imply that credentials are available inside every guest.
 
 ## Docker account
 
@@ -29,7 +29,7 @@ When setting a service secret, the CLI uses an atomic create-only RPC and refuse
 
 For compatibility with Docker `sbx`, `secret set` accepts `-t` as a shorthand for `--token`.
 
-`secret rm` also accepts `remove`, `delete`, and `unset`. Without a name, it opens a terminal selector for inventoried service secrets, registry credentials, and Docker/OpenAI account tokens; use the arrow keys and Enter to remove the selected entry, or `q`, Escape, or Ctrl-C to cancel. It requires `--force` for named removals in scripts. `secret rm --all` removes currently inventoried Rheic credentials across scopes after inventory succeeds. The operation can be partially applied if a deletion fails midway. Custom-secret storage is not implemented and is excluded; custom/placeholder secret removal remains an open parity gap.
+`secret rm` also accepts `remove`, `delete`, and `unset`. Without a name, it opens a terminal selector for inventoried service secrets, registry credentials, and Docker/OpenAI account tokens; use the arrow keys and Enter to remove the selected entry, or `q`, Escape, or Ctrl-C to cancel. It requires `--force` for named removals in scripts. `secret rm --all` removes currently inventoried Gyrel credentials across scopes after inventory succeeds. The operation can be partially applied if a deletion fails midway. Custom-secret storage is not implemented and is excluded; custom/placeholder secret removal remains an open parity gap.
 
 `secret ls` also accepts the `list` alias and Docker's `--global`/`-g`, `--sandbox`, `--service`, and `--quiet`/`-q` filters. Its JSON output uses the Docker `sbx` secret inventory envelope and never includes a secret value.
 

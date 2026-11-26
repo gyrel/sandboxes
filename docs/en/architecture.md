@@ -1,6 +1,6 @@
 # Architecture
 
-Rheic is a local control plane for sandboxed agent sessions. Its components have separate responsibilities and must be built from compatible module versions.
+Gyrel is a local control plane for sandboxed agent sessions. Its components have separate responsibilities and must be built from compatible module versions.
 
 ```text
 rsbx CLI / terminal dashboard
@@ -30,4 +30,4 @@ Secrets are stored in the host OS credential vault. The daemon resolves only sup
 
 ## State of validation
 
-Rheic is alpha software. Do not treat a successful CLI response or a state-only daemon as evidence of VM isolation. Windows WHP is not implemented, cloud commands are out of scope, and independent security review, signing, and upgrade/rollback validation remain open gates. See [Security](security.md) for the current limits.
+Gyrel is alpha software. Do not treat a successful CLI response or a state-only daemon as evidence of VM isolation. Windows WHP is not implemented, cloud commands are out of scope, and independent security review, signing, and upgrade/rollback validation remain open gates. See [Security](security.md) for the current limits.

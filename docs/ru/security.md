@@ -1,6 +1,6 @@
 # Модель безопасности
 
-Rheic создаётся для запуска задач агента в изолированных microVM-песочницах и хранения host credentials под контролем host-системы. Это направление реализации, а не общее заключение о безопасности. Rheic — альфа-ПО.
+Gyrel создаётся для запуска задач агента в изолированных microVM-песочницах и хранения host credentials под контролем host-системы. Это направление реализации, а не общее заключение о безопасности. Gyrel — альфа-ПО.
 
 ## Границы доверия
 
@@ -20,7 +20,7 @@ Rheic создаётся для запуска задач агента в изо
 
 ## Текущие ограничения
 
-Rheic пока не заявляет полную совместимость с Docker Sandboxes или завершённую production-границу безопасности. Ограниченный VM-backed lifecycle прошёл acceptance на macOS ARM64. Linux ARM64 guest-task также пережила detach/reattach managed containerd в Ubuntu Lima/QEMU с nested KVM на macOS; native Linux host и rootless-режим не квалифицированы. Windows WHP не реализован. Облачные команды (`move`, `ttl`, `volume`) вне области локальной альфы.
+Gyrel пока не заявляет полную совместимость с Docker Sandboxes или завершённую production-границу безопасности. Ограниченный VM-backed lifecycle прошёл acceptance на macOS ARM64. Linux ARM64 guest-task также пережила detach/reattach managed containerd в Ubuntu Lima/QEMU с nested KVM на macOS; native Linux host и rootless-режим не квалифицированы. Windows WHP не реализован. Облачные команды (`move`, `ttl`, `volume`) вне области локальной альфы.
 
 Опциональный профиль `--docker` запускает Docker daemon внутри guest, но вложенные операции `docker run`, `docker load`, `docker build` и Compose пока блокируются ограничениями `unshare` в текущем runtime. Это ограничение не означает, что сама VM не запускается. Host Docker socket не монтируется.
 

@@ -1,6 +1,6 @@
-# Docker and Rheic
+# Docker and Gyrel
 
-Rheic currently has two separate Docker-related features: Docker account sign-in on the host, and an experimental option for running Docker Engine inside a sandbox. They are different features. Signing in does not make a guest Docker daemon available.
+Gyrel currently has two separate Docker-related features: Docker account sign-in on the host, and an experimental option for running Docker Engine inside a sandbox. They are different features. Signing in does not make a guest Docker daemon available.
 
 ## Current status
 
@@ -39,7 +39,7 @@ A supported workflow requires a guest-only cgroup design, a minimal capability s
 
 ## How this differs from Docker Sandboxes
 
-Docker Sandboxes provides its own agent-oriented sandbox workflow and Docker Engine integration. Rheic is a separate project with a local microVM runtime. It does not claim feature parity with Docker Sandboxes. In particular, nested guest workloads, registry credential forwarding, and production security qualification remain incomplete in the current alpha. Read the [security model](security.md) before relying on a feature.
+Docker Sandboxes provides its own agent-oriented sandbox workflow and Docker Engine integration. Gyrel is a separate project with a local microVM runtime. It does not claim feature parity with Docker Sandboxes. In particular, nested guest workloads, registry credential forwarding, and production security qualification remain incomplete in the current alpha. Read the [security model](security.md) before relying on a feature.
 
 ## Related guides
 

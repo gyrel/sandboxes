@@ -7,7 +7,7 @@ body:
     attributes:
       value: |
         Thanks for testing the alpha. A diagnostic bundle makes bugs fixable:
-        run `rsbx diagnose --bundle --out rheic-diagnose.tar.gz` and attach it.
+        run `rsbx diagnose --bundle --out gyrel-diagnose.tar.gz` and attach it.
         The bundle never contains secrets; if the command refuses (exit 1),
         paste its output instead and file this issue anyway.
   - type: textarea
@@ -25,8 +25,8 @@ body:
       label: Versions
       description: rsbx --version, daemon version, bundle digest
       placeholder: |
-        rsbx v0.0.75 …
-        sandboxesd v0.0.98 …
+        rsbx v0.0.76 …
+        sandboxesd v0.0.101 …
         archive sha256: …
       render: text
     validations:
@@ -60,8 +60,8 @@ body:
     id: bundle
     attributes:
       label: Diagnostic bundle
-      description: Attach rheic-diagnose.tar.gz (or paste refusal output); do NOT paste raw daemon logs — they may contain paths you did not intend to share
-      placeholder: drag the .tar.gz here, and paste the output of: shasum -a 256 rheic-diagnose.tar.gz
+      description: Attach gyrel-diagnose.tar.gz (or paste refusal output); do NOT paste raw daemon logs — they may contain paths you did not intend to share
+      placeholder: drag the .tar.gz here, and paste the output of: shasum -a 256 gyrel-diagnose.tar.gz
   - type: checkboxes
     id: consent
     attributes:

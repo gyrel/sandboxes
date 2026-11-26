@@ -4,7 +4,7 @@ You are running the local alpha. When something goes wrong, one command gives th
 maintainers everything they need **without exposing your secrets**:
 
 ```sh
-rsbx diagnose --bundle --out rheic-diagnose.tar.gz
+rsbx diagnose --bundle --out gyrel-diagnose.tar.gz
 ```
 
 ## What the bundle contains
@@ -39,9 +39,9 @@ existing archive before sharing it).
 
 ## Filing a bug
 
-1. Open a [new issue](https://github.com/rheic/sandboxes/issues/new?choose=the+template)
+1. Open a [new issue](https://github.com/gyrel/sandboxes/issues/new?choose=the+template)
    using the **alpha bug report** template.
-2. Attach `rheic-diagnose.tar.gz` (drag into the form) and paste its SHA-256
+2. Attach `gyrel-diagnose.tar.gz` (drag into the form) and paste its SHA-256
    (`shasum -a 256 …`).
 3. Include: OS/arch, `rsbx --version`, exact command, expected vs actual.
 

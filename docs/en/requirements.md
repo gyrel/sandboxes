@@ -1,8 +1,8 @@
 # System requirements
 
-Rheic is alpha software with published release artifacts. The validated native VM path currently targets macOS on Apple silicon. Build and configure the runtime artifacts before trying the VM workflow.
+Gyrel is alpha software with published release artifacts. The validated native VM path currently targets macOS on Apple silicon. Build and configure the runtime artifacts before trying the VM workflow.
 
-The published alpha is CLI `rsbx` v0.0.74, daemon `sandboxesd` v0.0.98, and local API contract 0.0.38. Install released binaries from the project releases; build from source only for development.
+The current release line is CLI `rsbx` v0.0.76, daemon `sandboxesd` v0.0.101, and local API contract 0.0.39, with SDK 0.0.36 and runtime v0.1.0 — the first Gyrel tags. The earlier alpha bundle, published under the previous brand, ships CLI v0.0.74, daemon v0.0.98, and API contract 0.0.38. Install released binaries from the project releases; build from source only for development.
 
 ## Supported development host
 
@@ -16,7 +16,7 @@ Use the project plan for current validation evidence and platform blockers.
 
 ## Build tools
 
-A source build uses Go 1.27 and the tagged Rheic module repositories. The modules are separate Go modules; `modules/go.work` is for local development. Release builds must use tagged versions without workspace substitutions.
+A source build uses Go 1.27 and the tagged Gyrel module repositories. The modules are separate Go modules; `modules/go.work` is for local development. Release builds must use tagged versions without workspace substitutions.
 
 Build the CLI and daemon from their module directories:
 
