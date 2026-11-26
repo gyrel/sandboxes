@@ -42,6 +42,6 @@ Use a new sandbox name for a different workspace, or inspect the existing sandbo
 
 ## Removing a sandbox did not remove host files
 
-Sandbox removal does not delete the host workspace. Review and remove project files yourself after confirming their location; Rheic does not own arbitrary host directories.
+Sandbox removal does not delete the host workspace. Review and remove project files yourself after confirming their location; Gyrel does not own arbitrary host directories.
 
 For an unresolved issue, capture `rsbx diagnose` output after checking it for local paths or sensitive metadata, and include the exact module versions and platform. Never attach credentials or unredacted secrets.

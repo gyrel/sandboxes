@@ -1,18 +1,18 @@
 # Частые вопросы
 
-Rheic — альфа-ПО. Здесь отдельно описано, что заявляет документация Docker Sandboxes и что реализовано и проверено в Rheic.
+Gyrel — альфа-ПО. Здесь отдельно описано, что заявляет документация Docker Sandboxes и что реализовано и проверено в Gyrel.
 
 ## В Docker Sandboxes действительно используются полноценные microVM?
 
 В документации Docker указано, что для каждого агента запускается отдельная лёгкая microVM со своим Linux kernel и Docker Engine внутри VM. Основная граница изоляции — гипервизор; доступ к workspace и другим ресурсам хоста появляется только при явной передаче. Подробнее — в разделах Docker про [слои изоляции](https://docs.docker.com/ai/sandboxes/security/isolation/) и [архитектуру](https://docs.docker.com/ai/sandboxes/architecture/). Термин «microVM» описывает границу виртуализации, но не означает, что любая конфигурация и интеграция полностью лишена рисков.
 
-Rheic тоже рассчитан на границу microVM, но пока не заявляет паритет с Docker или полную квалификацию безопасности. Ограниченная проверка VM lifecycle прошла на macOS ARM64. Отдельная проверка Linux ARM64 guest-task прошла под Lima/QEMU с nested KVM на macOS: задача пережила detach и повторное подключение managed containerd. Это не квалифицирует native Linux host или rootless-режим. Windows WHP не реализован, облачные команды вне области локальной альфы, а независимый security review остаётся открытым. См. [архитектуру Rheic](architecture.md), [требования платформ](requirements.md) и [модель безопасности](security.md).
+Gyrel тоже рассчитан на границу microVM, но пока не заявляет паритет с Docker или полную квалификацию безопасности. Ограниченная проверка VM lifecycle прошла на macOS ARM64. Отдельная проверка Linux ARM64 guest-task прошла под Lima/QEMU с nested KVM на macOS: задача пережила detach и повторное подключение managed containerd. Это не квалифицирует native Linux host или rootless-режим. Windows WHP не реализован, облачные команды вне области локальной альфы, а независимый security review остаётся открытым. См. [архитектуру Gyrel](architecture.md), [требования платформ](requirements.md) и [модель безопасности](security.md).
 
 ## Быстрый старт запускает VM?
 
 Да. Основной путь устанавливает альфа-бинарники, запускает daemon с VM-backend и выполняет `rsbx run shell .`, что загружает настоящую microVM на macOS ARM64. Режим state-only остаётся явно обозначенным резервным вариантом для host-систем без runtime-артефактов и VM не запускает. См. [системные требования](requirements.md) и [быстрый старт](quickstart.md).
 
-## Можно ли запустить coding-агента внутри Rheic sandbox?
+## Можно ли запустить coding-агента внутри Gyrel sandbox?
 
 CLI и runtime содержат agent и exec-пути; ограниченная проверка VM lifecycle прошла на macOS ARM64. Полная интерактивная работа каждого агента на каждой платформе ещё не прошла acceptance. См. [руководство по агентам](agents.md) и [статус платформ](requirements.md).
 
@@ -30,7 +30,7 @@ CLI и runtime содержат agent и exec-пути; ограниченная
 
 ## Готов ли Docker Engine внутри guest к запуску workloads?
 
-Опциональный Docker daemon внутри guest запускается, но вложенные `docker run`, `docker load`, `docker build` и Compose блокируются ограничениями guest `unshare` в текущем runtime. Это не тот Docker Engine workflow, который описан для Docker Sandboxes. См. [Docker и Rheic](docker.md).
+Опциональный Docker daemon внутри guest запускается, но вложенные `docker run`, `docker load`, `docker build` и Compose блокируются ограничениями guest `unshare` в текущем runtime. Это не тот Docker Engine workflow, который описан для Docker Sandboxes. См. [Docker и Gyrel](docker.md).
 
 ## Есть ли у guest доступ к файлам хоста или его Docker daemon?
 

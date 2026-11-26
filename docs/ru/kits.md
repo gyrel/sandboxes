@@ -15,7 +15,7 @@ rsbx run --kit ./kit.yaml .
 ## Минимальный пример
 
 ```yaml
-apiVersion: rheic.dev/v1alpha1
+apiVersion: gyrel.dev/v1alpha1
 kind: Kit
 metadata:
   name: review
@@ -30,6 +30,8 @@ spec:
 ```
 
 Нужно указать `agent` или `image`. Парсер принимает значения `policy_profile`: `deny-all`, `balanced` и `sbx-compat` (alias для `allow-all`). Если поле не указано, используется значение daemon по умолчанию — `allow-all`, если не настроено иначе. Seed workspace клонируется в локальный cache один раз; lifecycle hooks для этого пути отключены. Используйте URL репозитория только после проверки источника и получившейся workspace.
+
+Kits объявляют `apiVersion: gyrel.dev/v1alpha1`. Kit со старым `rheic.dev/v1alpha1` загружается с предупреждением deprecation; обновите поле до удаления старой группы.
 
 ## Текущие ограничения
 

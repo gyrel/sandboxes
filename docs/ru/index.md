@@ -1,6 +1,6 @@
 ---
 title: Обзор
-description: Установите выпущенную альфу Sandboxes от Rheic и запустите настоящие microVM на macOS ARM64. Быстрый старт, руководства, статус платформ, CLI и границы безопасности.
+description: Установите выпущенную альфу Sandboxes от Gyrel и запустите настоящие microVM на macOS ARM64. Быстрый старт, руководства, статус платформ, CLI и границы безопасности.
 hide:
   - navigation
   - toc
@@ -13,7 +13,7 @@ hide:
 
 <section class="home-hero" aria-labelledby="home-title">
 <div class="home-hero-copy" markdown>
-<p class="home-eyebrow">Документация Rheic · Альфа Sandboxes выпущена · microVM на macOS ARM64</p>
+<p class="home-eyebrow">Документация Gyrel · Альфа Sandboxes выпущена · microVM на macOS ARM64</p>
 
 <h1 id="home-title">Локальная граница для coding-агентов.</h1>
 
@@ -29,7 +29,7 @@ hide:
 <p class="home-footnote">Альфа-ПО · VM-путь проверен live на macOS ARM64 · Windows WHP, облако и nested Docker вне области или заблокированы</p>
 </div>
 
-<div class="home-terminal" aria-label="Примеры локальных команд Rheic">
+<div class="home-terminal" aria-label="Примеры локальных команд Gyrel">
 <div class="home-terminal-head"><span class="home-terminal-brand"><img src="../assets/rheic-shark.png" alt=""><strong>Запуск microVM</strong></span><span class="home-terminal-lang">rsbx</span></div>
 <div class="home-terminal-code" markdown>
 ```sh
@@ -64,7 +64,7 @@ rsbx ls
 
 <section class="home-section" aria-labelledby="status-title">
 <div class="home-status">
-<div class="home-status-copy"><p class="home-kicker">Текущее состояние проекта</p><h2 id="status-title">Rheic загружает microVM на macOS ARM64.</h2><p>Альфа Sandboxes выпущена: <code>rsbx</code> v0.0.74 и <code>sandboxesd</code> v0.0.98 публикуются с <code>SHA256SUMS</code>, а alpha bundle проверяет каждый закреплённый runtime-артефакт по дайджесту перед каждым запуском VM (unsigned local alpha: provenance — опубликованный архив, не notarization). Daemon загружает настоящие microVM на macOS ARM64 через containerd, nerdbox shim и libkrun. CLI добавляет команды жизненного цикла daemon и совместимый с Docker <code>sbx</code> JSON для основных команд. Live acceptance покрыла полный жизненный цикл VM, workspace, <code>cp</code>, публикацию портов, roundtrip шаблонов save/load, хостовое хранилище секретов с flow согласований, регистрацию MCP, валидацию kit-политики, skills, панели событий TUI и opt-in матрицы IPv6 и QUIC. Windows WHP не реализован, облачные команды (<code>move</code>, <code>ttl</code>, <code>volume</code>) вне области, вложенные Docker workloads внутри гостя остаются заблокированными, а независимый внешний security review не проводился.</p></div>
+<div class="home-status-copy"><p class="home-kicker">Текущее состояние проекта</p><h2 id="status-title">Gyrel загружает microVM на macOS ARM64.</h2><p>Альфа Sandboxes выпущена: <code>rsbx</code> v0.0.74 и <code>sandboxesd</code> v0.0.98 публикуются с <code>SHA256SUMS</code>, а alpha bundle проверяет каждый закреплённый runtime-артефакт по дайджесту перед каждым запуском VM (unsigned local alpha: provenance — опубликованный архив, не notarization). Daemon загружает настоящие microVM на macOS ARM64 через containerd, nerdbox shim и libkrun. CLI добавляет команды жизненного цикла daemon и совместимый с Docker <code>sbx</code> JSON для основных команд. Live acceptance покрыла полный жизненный цикл VM, workspace, <code>cp</code>, публикацию портов, roundtrip шаблонов save/load, хостовое хранилище секретов с flow согласований, регистрацию MCP, валидацию kit-политики, skills, панели событий TUI и opt-in матрицы IPv6 и QUIC. Windows WHP не реализован, облачные команды (<code>move</code>, <code>ttl</code>, <code>volume</code>) вне области, вложенные Docker workloads внутри гостя остаются заблокированными, а независимый внешний security review не проводился.</p></div>
 <ul class="home-status-list" aria-label="Статус возможностей">
 <li><span class="status-dot" aria-hidden="true"></span><span>Альфа-бинарники<strong>Выпущены и проверены</strong></span></li>
 <li><span class="status-dot" aria-hidden="true"></span><span>VM-путь macOS ARM64<strong>Проверен live</strong></span></li>
@@ -92,7 +92,7 @@ rsbx ls
 <details><summary>Клонировать репозиторий или монтировать его?</summary><p>Монтируйте, если агент должен напрямую менять файлы на хосте. Используйте <code>rsbx run --clone</code>, когда репозиторий на хосте должен остаться read-only: агент коммитит в приватном клоне внутри гостя, а вы забираете эти коммиты через remote <code>sandbox-&lt;name&gt;</code>. Режиму клона нужен один настоящий Git-репозиторий, а образу — <code>git</code> вместе с <code>git daemon</code>. URL host-remote содержит случайный токен для каждой песочницы. См. <a href="workspaces/#clone-mode">workspace</a>.</p></details>
 <details><summary>Исходящая сеть разрешена по умолчанию?</summary><p>Да. Новые sandboxes используют профиль egress <code>allow-all</code>, как и Docker <code>sbx</code>. Явные deny-правила и организационные deny-правила по-прежнему имеют приоритет, а fail-closed контроли не меняются. Запускайте с <code>--policy-profile deny-all</code>, если задаче не нужен сетевой доступ. HTTP-условия политики для method, path glob и query есть в слое политики gateway; <code>rsbx</code> пока не может их задать, а live-применение этих условий gateway остаётся непроверенным. См. <a href="networking/">сеть и порты</a>.</p></details>
 <details><summary>Успешная команда подтверждает изоляцию?</summary><p>Нет. Ответ CLI подтверждает только результат указанной команды. Для VM-изоляции нужны отдельные live runtime и security evidence. См. <a href="security/">модель безопасности</a>.</p></details>
-<details><summary>Готов ли Docker Engine внутри guest к запуску workloads?</summary><p>Опциональный guest Docker daemon запускается, но вложенные <code>docker run</code>, <code>docker load</code>, <code>docker build</code> и Compose блокируются ограничениями guest <code>unshare</code> в текущем runtime. См. <a href="docker/">Docker и Rheic</a>.</p></details>
+<details><summary>Готов ли Docker Engine внутри guest к запуску workloads?</summary><p>Опциональный guest Docker daemon запускается, но вложенные <code>docker run</code>, <code>docker load</code>, <code>docker build</code> и Compose блокируются ограничениями guest <code>unshare</code> в текущем runtime. См. <a href="docker/">Docker и Gyrel</a>.</p></details>
 </div>
 </section>
 

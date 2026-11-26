@@ -14,9 +14,9 @@
 
 | Агент | Статус | Примечание |
 |---|---|---|
-| `kimi` | Available | Расширение Rheic с предыдущим evidence на выпущенном теге |
+| `kimi` | Available | Расширение Gyrel с предыдущим evidence на выпущенном теге |
 | `claude`, `codex`, `copilot`, `cursor`, `devin`, `docker-agent`, `droid`, `gemini`, `kiro`, `opencode`, `shell` | Preview | Запускаются с закреплёнными Docker-образами; авторизация провайдера, nested Docker workload и полный VM lifecycle ещё не проверены |
-| `dsh` | Preview extension | Веб-агент Rheic, отсутствующий во встроенном списке Docker |
+| `dsh` | Preview extension | Веб-агент Gyrel, отсутствующий во встроенном списке Docker |
 | `cline` | Unsupported | Не входит во встроенный список Docker |
 
 Встроенный список для зафиксированной базы `sbx v0.50.1`: Claude, Codex,
@@ -56,7 +56,7 @@ rsbx run cursor . -- -p "review this change"
 rsbx run kiro . -- login --use-device-flow
 ```
 
-Если первый аргумент после `--` начинается с флага, Rheic сохраняет стандартные
+Если первый аргумент после `--` начинается с флага, Gyrel сохраняет стандартные
 флаги агента и добавляет переданный аргумент. Обычная команда или подкоманда
 заменяет значения по умолчанию, как в Docker.
 
@@ -77,7 +77,7 @@ Claude использует сохранённый `anthropic` secret через
 `rsbx secret set github`, `rsbx secret set cursor` и `rsbx secret set droid`.
 Claude/Codex/Gemini и multi-provider ключи тоже ещё не проверялись в live VM.
 Для Devin нужен host credential relay. Kiro по документации сохраняет device-flow
-credentials внутри VM; правило Rheic требует хранить их только на host, поэтому
+credentials внутри VM; правило Gyrel требует хранить их только на host, поэтому
 это остаётся parity blocker. Не
 считайте, что `rsbx login` авторизует AI-агента: команда выполняет вход в Docker.
 Текущие credential-сценарии описаны в разделе [Credentials и вход](credentials.md).

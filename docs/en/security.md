@@ -1,6 +1,6 @@
 # Security model
 
-Rheic is designed to keep agent workloads inside isolated microVM sandboxes and to keep host credentials under host control. This is an implementation direction, not a blanket security certification. Rheic is alpha software.
+Gyrel is designed to keep agent workloads inside isolated microVM sandboxes and to keep host credentials under host control. This is an implementation direction, not a blanket security certification. Gyrel is alpha software.
 
 ## Trust boundaries
 
@@ -20,7 +20,7 @@ Rheic is designed to keep agent workloads inside isolated microVM sandboxes and 
 
 ## Current limitations
 
-Rheic does not yet claim complete Docker Sandboxes parity or a production security boundary. A VM-backed lifecycle has passed limited acceptance on macOS ARM64. A Linux ARM64 guest task also survived managed-containerd detach/reattach in an Ubuntu Lima/QEMU VM with nested KVM on macOS; native Linux host and rootless operation remain unqualified. Windows WHP is not implemented. Cloud commands (`move`, `ttl`, `volume`) are out of scope for the local alpha.
+Gyrel does not yet claim complete Docker Sandboxes parity or a production security boundary. A VM-backed lifecycle has passed limited acceptance on macOS ARM64. A Linux ARM64 guest task also survived managed-containerd detach/reattach in an Ubuntu Lima/QEMU VM with nested KVM on macOS; native Linux host and rootless operation remain unqualified. Windows WHP is not implemented. Cloud commands (`move`, `ttl`, `volume`) are out of scope for the local alpha.
 
 The opt-in `--docker` profile can start a Docker daemon inside the guest, but nested workload operations such as `docker run`, `docker load`, `docker build`, and Compose remain blocked in the current runtime by guest `unshare` restrictions. This limitation does not mean the VM itself fails to start. The host Docker socket is not mounted.
 

@@ -1,11 +1,11 @@
-site_name: Sandboxes by Rheic
-site_url: https://rheic.github.io/sandboxes/
-site_description: Sandboxes, the Rheic alpha. Install the released CLI and daemon, boot real microVMs on macOS ARM64, and review guides, runtime boundaries, and command reference.
+site_name: Sandboxes by Gyrel
+site_url: https://gyrel.github.io/sandboxes/
+site_description: Sandboxes, the Gyrel alpha. Install the released CLI and daemon, boot real microVMs on macOS ARM64, and review guides, runtime boundaries, and command reference.
 site_dir: site
 
 docs_dir: docs
 
-copyright: Copyright © 2026 Rheic contributors
+copyright: Copyright © 2026 Gyrel contributors
 
 nav:
   - Start here:
@@ -43,13 +43,13 @@ plugins:
           name: English
           default: true
           build: true
-          site_name: Sandboxes by Rheic
-          site_description: Sandboxes, the Rheic alpha. Install the released CLI and daemon, boot real microVMs on macOS ARM64, and review guides, runtime boundaries, and command reference.
+          site_name: Sandboxes by Gyrel
+          site_description: Sandboxes, the Gyrel alpha. Install the released CLI and daemon, boot real microVMs on macOS ARM64, and review guides, runtime boundaries, and command reference.
         - locale: ru
           name: Русский
           build: true
-          site_name: Sandboxes by Rheic
-          site_description: "Sandboxes, альфа-версия Rheic: установите выпущенные CLI и daemon, запустите microVM на macOS ARM64, изучите руководства, границы runtime и справочник команд."
+          site_name: Sandboxes by Gyrel
+          site_description: "Sandboxes, альфа-версия Gyrel: установите выпущенные CLI и daemon, запустите microVM на macOS ARM64, изучите руководства, границы runtime и справочник команд."
           nav:
             - Начать:
                 - Обзор: ru/index.md

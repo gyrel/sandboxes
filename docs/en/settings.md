@@ -1,8 +1,8 @@
 # Settings
 
-The CLI reads settings from `~/.config/rheic/settings.toml` by default. Set `RHEIC_SETTINGS_FILE` to use another file. Prefer `rsbx settings set` so the CLI validates and writes supported keys. The daemon accepts an explicit path with `--settings`; restart it after changing daemon-owned DNS or gateway settings.
+The CLI reads settings from `~/.config/rheic/settings.toml` by default (the directory name is kept from before the Gyrel rename). Set `GYREL_SETTINGS_FILE` to use another file (the legacy `RHEIC_SETTINGS_FILE` still works with a warning). Prefer `rsbx settings set` so the CLI validates and writes supported keys. The daemon accepts an explicit path with `--settings`; restart it after changing daemon-owned DNS or gateway settings. The state directory defaults to `$HOME/.sandboxes` and can be overridden with `GYREL_STATE_DIR`; the legacy `RHEIC_STATE_DIR` is still honored with a deprecation warning.
 
-`rsbx settings ls` lists the full pinned Docker Sandboxes settings matrix (49 Docker keys plus 5 Rheic extension keys). Every key reports its evaluated value, source (`default` or `override`), built-in default, type, restart requirement, and description. Unknown keys are rejected; values are validated against the key's type (`bool`, `int`, `string`, or `json`).
+`rsbx settings ls` lists the full pinned Docker Sandboxes settings matrix (49 Docker keys plus 5 Gyrel extension keys). Every key reports its evaluated value, source (`default` or `override`), built-in default, type, restart requirement, and description. Unknown keys are rejected; values are validated against the key's type (`bool`, `int`, `string`, or `json`).
 
 Keys the local runtime consumes today:
 

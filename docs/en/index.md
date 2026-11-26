@@ -1,6 +1,6 @@
 ---
 title: Overview
-description: Install the released Sandboxes alpha by Rheic and boot real microVMs on macOS ARM64. Quick start, task guides, platform status, CLI, and security boundaries.
+description: Install the released Sandboxes alpha by Gyrel and boot real microVMs on macOS ARM64. Quick start, task guides, platform status, CLI, and security boundaries.
 hide:
   - navigation
   - toc
@@ -13,7 +13,7 @@ hide:
 
 <section class="home-hero" aria-labelledby="home-title">
 <div class="home-hero-copy" markdown>
-<p class="home-eyebrow">Rheic docs · Sandboxes alpha released · macOS ARM64 microVMs</p>
+<p class="home-eyebrow">Gyrel docs · Sandboxes alpha released · macOS ARM64 microVMs</p>
 
 <h1 id="home-title">A local boundary for coding agents.</h1>
 
@@ -29,7 +29,7 @@ hide:
 <p class="home-footnote">Alpha software · microVM path validated live on macOS ARM64 · Windows WHP, cloud, and nested Docker remain out of scope or blocked</p>
 </div>
 
-<div class="home-terminal" aria-label="Rheic local command examples">
+<div class="home-terminal" aria-label="Gyrel local command examples">
 <div class="home-terminal-head"><span class="home-terminal-brand"><img src="assets/rheic-shark.png" alt=""><strong>Boot a microVM</strong></span><span class="home-terminal-lang">rsbx</span></div>
 <div class="home-terminal-code" markdown>
 ```sh
@@ -64,7 +64,7 @@ rsbx ls
 
 <section class="home-section" aria-labelledby="status-title">
 <div class="home-status">
-<div class="home-status-copy"><p class="home-kicker">Current project status</p><h2 id="status-title">Rheic boots microVMs on macOS ARM64.</h2><p>The Sandboxes alpha is released: <code>rsbx</code> v0.0.74 and <code>sandboxesd</code> v0.0.98 ship with <code>SHA256SUMS</code>, and the alpha bundle verifies every pinned runtime artifact by digest before each VM launch (unsigned local alpha: provenance is the released archive, not notarization). The daemon boots real microVMs on macOS ARM64 through containerd, the nerdbox shim, and libkrun. The CLI adds daemon lifecycle commands and Docker <code>sbx</code>-compatible JSON for core commands. Live acceptance covered the full VM lifecycle, workspaces, <code>cp</code>, port publishing, template save/load roundtrips, host-vault credentials with the approval flow, MCP registration, kit policy validation, skills, the TUI event panels, and the IPv6 and QUIC opt-in matrices. Windows WHP is not implemented, cloud commands (<code>move</code>, <code>ttl</code>, <code>volume</code>) are out of scope, nested Docker workloads inside the guest remain blocked, and no independent external security review has been completed.</p></div>
+<div class="home-status-copy"><p class="home-kicker">Current project status</p><h2 id="status-title">Gyrel boots microVMs on macOS ARM64.</h2><p>The Sandboxes alpha is released: <code>rsbx</code> v0.0.74 and <code>sandboxesd</code> v0.0.98 ship with <code>SHA256SUMS</code>, and the alpha bundle verifies every pinned runtime artifact by digest before each VM launch (unsigned local alpha: provenance is the released archive, not notarization). The daemon boots real microVMs on macOS ARM64 through containerd, the nerdbox shim, and libkrun. The CLI adds daemon lifecycle commands and Docker <code>sbx</code>-compatible JSON for core commands. Live acceptance covered the full VM lifecycle, workspaces, <code>cp</code>, port publishing, template save/load roundtrips, host-vault credentials with the approval flow, MCP registration, kit policy validation, skills, the TUI event panels, and the IPv6 and QUIC opt-in matrices. Windows WHP is not implemented, cloud commands (<code>move</code>, <code>ttl</code>, <code>volume</code>) are out of scope, nested Docker workloads inside the guest remain blocked, and no independent external security review has been completed.</p></div>
 <ul class="home-status-list" aria-label="Capability status">
 <li><span class="status-dot" aria-hidden="true"></span><span>Alpha binaries<strong>Released and verified</strong></span></li>
 <li><span class="status-dot" aria-hidden="true"></span><span>macOS ARM64 microVM path<strong>Validated live</strong></span></li>
@@ -92,7 +92,7 @@ rsbx ls
 <details><summary>Should I clone a repository or mount it?</summary><p>Mount it when the agent should edit host files directly. Use <code>rsbx run --clone</code> when the host repository must stay read-only: the agent commits in a private in-guest clone and you fetch those commits through the <code>sandbox-&lt;name&gt;</code> remote. Clone mode requires one real Git repository, and the image needs <code>git</code> with <code>git daemon</code>. The host remote URL carries a random per-sandbox token. See <a href="workspaces/#clone-mode">workspaces</a>.</p></details>
 <details><summary>Is outbound network access allowed by default?</summary><p>Yes. New sandboxes use the <code>allow-all</code> egress profile, matching Docker <code>sbx</code>. Explicit deny rules and organization deny rules still take precedence, and fail-closed controls are unchanged. Start with <code>--policy-profile deny-all</code> when a task should not reach the network. HTTP policy conditions for method, path glob, and query exist in the gateway policy layer; <code>rsbx</code> cannot author them yet, and live gateway enforcement of those conditions remains unverified. See <a href="networking/">network and ports</a>.</p></details>
 <details><summary>Does a successful command prove isolation?</summary><p>No. A CLI response confirms only the operation reported by that command. VM isolation needs its own live runtime and security evidence. See the <a href="security/">security model</a>.</p></details>
-<details><summary>Is Docker Engine inside the guest ready for workloads?</summary><p>The opt-in guest Docker daemon can start, but nested <code>docker run</code>, <code>docker load</code>, <code>docker build</code>, and Compose are blocked by guest <code>unshare</code> restrictions in the current runtime. See <a href="docker/">Docker and Rheic</a>.</p></details>
+<details><summary>Is Docker Engine inside the guest ready for workloads?</summary><p>The opt-in guest Docker daemon can start, but nested <code>docker run</code>, <code>docker load</code>, <code>docker build</code>, and Compose are blocked by guest <code>unshare</code> restrictions in the current runtime. See <a href="docker/">Docker and Gyrel</a>.</p></details>
 </div>
 </section>
 

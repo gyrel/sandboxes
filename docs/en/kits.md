@@ -15,7 +15,7 @@ The available commands and fields depend on the CLI version. The CLI registry an
 ## Minimal example
 
 ```yaml
-apiVersion: rheic.dev/v1alpha1
+apiVersion: gyrel.dev/v1alpha1
 kind: Kit
 metadata:
   name: review
@@ -30,6 +30,8 @@ spec:
 ```
 
 The kit needs an `agent` or an `image`. The parser accepts `policy_profile` values `deny-all`, `balanced`, and `sbx-compat` (the alias for `allow-all`). Omit the field to inherit the daemon default, which is `allow-all` unless configured otherwise. A workspace seed is cloned into a local cache once; lifecycle hooks are disabled for this path. Use a real repository URL only after reviewing the source and the resulting workspace.
+
+Kits declare `apiVersion: gyrel.dev/v1alpha1`. A kit that still declares the old `rheic.dev/v1alpha1` loads with a deprecation warning; update the field before the old group is removed.
 
 ## Current limits
 

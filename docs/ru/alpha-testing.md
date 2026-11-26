@@ -4,7 +4,7 @@
 мейнтейнерам всю нужную информацию — **без утечки ваших секретов**:
 
 ```sh
-rsbx diagnose --bundle --out rheic-diagnose.tar.gz
+rsbx diagnose --bundle --out gyrel-diagnose.tar.gz
 ```
 
 ## Что внутри бандла
@@ -38,9 +38,9 @@ HTTP-заголовков, содержимого workspace, дампов окр
 
 ## Как завести баг
 
-1. Создайте [issue](https://github.com/rheic/sandboxes/issues/new?choose=the+template)
+1. Создайте [issue](https://github.com/gyrel/sandboxes/issues/new?choose=the+template)
    по шаблону **alpha bug report**.
-2. Приложите `rheic-diagnose.tar.gz` и впишите его SHA-256 (`shasum -a 256 …`).
+2. Приложите `gyrel-diagnose.tar.gz` и впишите его SHA-256 (`shasum -a 256 …`).
 3. Добавьте: ОС/архитектуру, `rsbx --version`, точную команду, ожидание/факт.
 
 Если `--bundle` отказал — приложите вывод отказа (значений там нет) и заводите
