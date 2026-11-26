@@ -1,6 +1,6 @@
 # Gyrel documentation site
 
-<img src="docs/assets/gyrel-shark.png" alt="Gyrel shark logo" width="180">
+<img src="docs/assets/gyrel-mark.svg" alt="Gyrel Black Sun logo" width="180">
 
 This directory contains reader-facing documentation in English and Russian. Internal implementation notes remain in the parent `docs/` directory.
 
@@ -16,6 +16,6 @@ The i18n plugin emits English at the site root and Russian under `/ru/`; keep th
 
 ## Visual direction
 
-The documentation uses a compact persistent header with sticky topic navigation, prominent search, a guided landing page, and task-oriented topic cards. Gyrel keeps its own copy and supplied shark logo. The reading canvas uses neutral white, graphite text, blue-gray surfaces, and a DeepSeek-inspired blue accent with a restrained serif display face, sans-serif body text, fine borders, and softly rounded cards. The command preview uses macOS window controls with Dracula-colored code. Fonts are local system fallbacks; the site does not fetch fonts or images from third parties.
+The documentation uses a compact persistent header with sticky topic navigation, prominent search, a guided landing page, and task-oriented topic cards. Gyrel keeps its own copy and supplied Black Sun logo. The reading canvas uses neutral white, graphite text, blue-gray surfaces, and a DeepSeek-inspired blue accent with a restrained serif display face, sans-serif body text, fine borders, and softly rounded cards. The command preview uses macOS window controls with Dracula-colored code. Fonts are local system fallbacks; the site does not fetch fonts or images from third parties.
 
 English and Russian pages keep matching paths and navigation. The home page exposes the quick start, search, developer journey, project status, topic directory, and common questions. Guide pages retain the documentation tree and table of contents. Test contextual language switching, search, mobile layout, keyboard focus, dark mode, and reduced-motion behavior. Keep project status factual and distinguish tested behavior from planned or blocked paths.
