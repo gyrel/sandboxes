@@ -38,7 +38,7 @@ while port < 65536:
     try:
         with urlopen(f"http://127.0.0.1:{port}/", timeout=1) as response:
             html = response.read().decode("utf-8", errors="replace")
-        if 'id="home-title"' in html and "rheic.css" in html:
+        if 'id="home-title"' in html and "gyrel.css" in html:
             print("reuse", port)
             raise SystemExit(0)
     except OSError:

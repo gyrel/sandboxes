@@ -2,11 +2,11 @@
 
 ## Scope and method
 
-This snapshot compares **Docker `sbx` v0.50.1** on macOS ARM64 (`/opt/homebrew/bin/sbx`, SHA-256 `a1e506d1b1f2e17bbc54a3b8e9850592860777689fe3f49098be6279b728c45e`) with **Rheic `rsbx` v0.0.58** (`rsbx-darwin-arm64`, SHA-256 `eb05f27aac36fa212a436689a7961390bba369ea61f03c928586194a1562f1ec`). Both were queried on 17 November 2026 with `--help` for the top level and 27 matching commands; version and release checksums were checked separately. This is **CLI surface evidence**, not a same-input live behavior test. No sandbox was created or removed during this comparison.
+This snapshot compares **Docker `sbx` v0.50.1** on macOS ARM64 (`/opt/homebrew/bin/sbx`, SHA-256 `a1e506d1b1f2e17bbc54a3b8e9850592860777689fe3f49098be6279b728c45e`) with **Gyrel `rsbx` v0.0.58** (`rsbx-darwin-arm64`, SHA-256 `eb05f27aac36fa212a436689a7961390bba369ea61f03c928586194a1562f1ec`). Both were queried on 17 November 2026 with `--help` for the top level and 27 matching commands; version and release checksums were checked separately. This is **CLI surface evidence**, not a same-input live behavior test. No sandbox was created or removed during this comparison.
 > This comparison is a retained v0.0.58 CLI surface snapshot. Current releases are CLI v0.0.64 and daemon v0.0.72; re-run the same controls against them before treating any row as current behavior.
 
 
-| Scenario | Docker `sbx` v0.50.1 | Rheic `rsbx` v0.0.58 | Evidence status |
+| Scenario | Docker `sbx` v0.50.1 | Gyrel `rsbx` v0.0.58 | Evidence status |
 |---|---|---|---|
 | Local `run [agent] [path]` | Creates or reuses and attaches; `--detach`, workspaces and `--` agent arguments | Same basic grammar and intent; local daemon required | Help compared; same-input runtime control pending |
 | `create`, `exec`, `cp`, `ls`, `stop`, `rm`, `prune`, `ports` | Exposed | Exposed | Help compared; full side effects pending |
@@ -23,7 +23,7 @@ This snapshot compares **Docker `sbx` v0.50.1** on macOS ARM64 (`/opt/homebrew/b
 | `--help` layout | Cobra sections with a full flag table | Same section layout for every command, listing only implemented flags | Rendered and compared |
 | `policy ls` | Reports default allow rules in a `POLICY / SOURCE / APPLIES TO / SUMMARY` table | Same baseline rules for `allow-all` and the same table; the per-sandbox kit policy row is absent | JSON compared field by field for the baseline rules |
 
-**Do not infer parity from a shared command name.** Flags, prompts, exit codes, guest-visible state and cleanup need same-input live controls. The project [limits](limits.md) list runtime gates. `rsbx` is the Rheic binary; it does not occupy Docker's `sbx` name.
+**Do not infer parity from a shared command name.** Flags, prompts, exit codes, guest-visible state and cleanup need same-input live controls. The project [limits](limits.md) list runtime gates. `rsbx` is the Gyrel binary; it does not occupy Docker's `sbx` name.
 
 ## Live Codex check: signed-out controls
 
@@ -41,4 +41,4 @@ This is a **negative live comparison**, not a completed Codex session. The produ
 
 With the account owner's approval, the same empty workspace and the same prompt were tested on macOS ARM64 on 17 November 2026. Docker `sbx v0.50.1` started its Codex guest, reported `codex-cli 0.165.0`, and `codex exec --skip-git-repo-check` returned `RHEIC_CODEX_PARITY_OK` with exit 0. Rheic `rsbx v0.0.54`, using a locally built daemon from the `v0.0.62` source plus an unmerged Keychain size fix and the released native runtime `v0.0.36`, started the same image and reported the same Codex version. Its OpenAI browser login and token exchange completed, but Codex reported `Not logged in`; the same prompt received HTTP `401 Unauthorized` from the OpenAI Responses endpoint. An explicit OAuth proxy reference on `rsbx exec` produced the same 401. This is a **confirmed authentication gap**, not Codex parity. The Keychain size fix that run depended on shipped in CLI v0.0.56 and daemon v0.0.64, but the Codex guest authentication path has not been re-tested on the v0.0.58 pair, so the gap stays open.
 
-The initial Rheic test also returned DNS `REFUSED` because the isolated daemon had no DNS upstream while egress policy was enabled. Restarting that owned sandbox with `-dns-upstream 1.1.1.1:53` restored DNS and exposed the independent 401. The released daemon initially could not start a proxy route without a separately built guest proxy helper. The Keychain fix successfully stored the large OpenAI token record in the host vault, but it has not been merged or released. No token values were recorded. Both uniquely named test sandboxes were removed; unrelated Docker sandboxes were untouched. Completed authenticated Codex tasks in Rheic remain a release blocker.
+The initial Rheic test also returned DNS `REFUSED` because the isolated daemon had no DNS upstream while egress policy was enabled. Restarting that owned sandbox with `-dns-upstream 1.1.1.1:53` restored DNS and exposed the independent 401. The released daemon initially could not start a proxy route without a separately built guest proxy helper. The Keychain fix successfully stored the large OpenAI token record in the host vault, but it has not been merged or released. No token values were recorded. Both uniquely named test sandboxes were removed; unrelated Docker sandboxes were untouched. Completed authenticated Codex tasks in Gyrel remain a release blocker.
