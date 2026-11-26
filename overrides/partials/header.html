@@ -14,7 +14,7 @@
       {% set icon = config.theme.icon.menu or "material/menu" %}
       {% include ".icons/" ~ icon ~ ".svg" %}
     </label>
-    <a class="rheic-wordmark" href="{{ config.extra.homepage | d(nav.homepage.url, true) | url }}"><span class="wordmark-wide">Rheic Sandboxes</span><span class="wordmark-compact">Rheic Docs</span></a>
+    <a class="rheic-wordmark" href="{{ config.extra.homepage | d(nav.homepage.url, true) | url }}"><span class="wordmark-wide">Gyrel Sandboxes</span><span class="wordmark-compact">Gyrel Docs</span></a>
     {% set russian = page and page.file and page.file.src_path.startswith("ru/") %}
     {% set root = "ru/" if russian else "" %}
     <div class="rheic-header-links" role="navigation" aria-label="{% if russian %}Разделы{% else %}Documentation sections{% endif %}">
