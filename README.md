@@ -1,6 +1,6 @@
 # Gyrel documentation site
 
-<img src="docs/assets/rheic-shark.png" alt="Gyrel shark logo" width="180">
+<img src="docs/assets/gyrel-shark.png" alt="Gyrel shark logo" width="180">
 
 This directory contains reader-facing documentation in English and Russian. Internal implementation notes remain in the parent `docs/` directory.
 

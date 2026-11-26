@@ -1,6 +1,6 @@
 # Native runtime bundles
 
-Runtime code v0.0.41 uses the unchanged native assets published by [runtime v0.0.36](https://github.com/rheic/sandboxes-runtime/releases/tag/v0.0.36). That release publishes `rheic-runtime-v0.0.36-linux-arm64.tar.gz` and `rheic-runtime-v0.0.36-darwin-arm64.tar.gz`. Both contain containerd, ctr, patched nerdbox shim and gvproxy, libkrun, libkrunfw, patched ARM64 kernel Image, and EROFS guest rootfs. Every regular file is listed in `bundle.json` with size and SHA-256.
+Runtime code v0.0.41 uses the unchanged native assets published by [runtime v0.0.36](https://github.com/gyrel/sandboxes-runtime/releases/tag/v0.0.36). That release publishes `rheic-runtime-v0.0.36-linux-arm64.tar.gz` and `rheic-runtime-v0.0.36-darwin-arm64.tar.gz`. Both contain containerd, ctr, patched nerdbox shim and gvproxy, libkrun, libkrunfw, patched ARM64 kernel Image, and EROFS guest rootfs. Every regular file is listed in `bundle.json` with size and SHA-256.
 
 | Asset | SHA-256 |
 |---|---|

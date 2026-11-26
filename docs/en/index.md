@@ -9,7 +9,7 @@ hide:
 ---
 
 <!-- Wrapper only: the theme already renders the page's main landmark, so keep this a div. -->
-<div class="rheic-home" markdown>
+<div class="gyrel-home" markdown>
 
 <section class="home-hero" aria-labelledby="home-title">
 <div class="home-hero-copy" markdown>
@@ -30,7 +30,7 @@ hide:
 </div>
 
 <div class="home-terminal" aria-label="Gyrel local command examples">
-<div class="home-terminal-head"><span class="home-terminal-brand"><img src="assets/rheic-shark.png" alt=""><strong>Boot a microVM</strong></span><span class="home-terminal-lang">rsbx</span></div>
+<div class="home-terminal-head"><span class="home-terminal-brand"><img src="assets/gyrel-shark.png" alt=""><strong>Boot a microVM</strong></span><span class="home-terminal-lang">rsbx</span></div>
 <div class="home-terminal-code" markdown>
 ```sh
 rsbx version

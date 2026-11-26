@@ -80,8 +80,8 @@ plugins:
 theme:
   name: material
   custom_dir: overrides
-  logo: assets/rheic-shark.png
-  favicon: assets/rheic-mark.svg
+  logo: assets/gyrel-shark.png
+  favicon: assets/gyrel-mark.svg
   language: en
   font: false
   palette:
@@ -118,7 +118,7 @@ theme:
     - content.tabs.link
 
 extra_css:
-  - stylesheets/rheic.css
+  - stylesheets/gyrel.css
 
 markdown_extensions:
   - admonition

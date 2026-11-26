@@ -14,10 +14,10 @@
       {% set icon = config.theme.icon.menu or "material/menu" %}
       {% include ".icons/" ~ icon ~ ".svg" %}
     </label>
-    <a class="rheic-wordmark" href="{{ config.extra.homepage | d(nav.homepage.url, true) | url }}"><span class="wordmark-wide">Gyrel Sandboxes</span><span class="wordmark-compact">Gyrel Docs</span></a>
+    <a class="gyrel-wordmark" href="{{ config.extra.homepage | d(nav.homepage.url, true) | url }}"><span class="wordmark-wide">Gyrel Sandboxes</span><span class="wordmark-compact">Gyrel Docs</span></a>
     {% set russian = page and page.file and page.file.src_path.startswith("ru/") %}
     {% set root = "ru/" if russian else "" %}
-    <div class="rheic-header-links" role="navigation" aria-label="{% if russian %}Разделы{% else %}Documentation sections{% endif %}">
+    <div class="gyrel-header-links" role="navigation" aria-label="{% if russian %}Разделы{% else %}Documentation sections{% endif %}">
       <a href="{{ (root ~ 'quickstart/') | url }}">{% if russian %}Начало{% else %}Get started{% endif %}</a>
       <a href="{{ (root ~ 'cli/') | url }}">CLI</a>
       <a href="{{ (root ~ 'comparison/') | url }}">{% if russian %}Сравнение{% else %}Comparison{% endif %}</a>
