@@ -8,7 +8,7 @@ Gyrel currently has two separate Docker-related features: Docker account sign-in
 
 ## Docker account sign-in
 
-The CLI stores Docker account authorization through the local daemon. The alpha also contains an experimental host broker for Docker Hub guest pulls and pushes. It has synthetic contract coverage, but it has not passed live VM acceptance or a same-version `sbx` comparison. Do not treat it as production-ready or as Docker Sandboxes parity. Other registries are not supported by this path. Registry traffic remains subject to the sandbox network policy: new sandboxes default to allow-all, so explicit deny rules or a `deny-all` profile can still block the broker.
+The CLI stores Docker account authorization through the local daemon. The alpha also contains an experimental host broker for Docker Hub guest pulls and pushes. It has synthetic contract coverage, but it has not passed live VM acceptance or a same-version `sbx` comparison. Do not treat it as suitable for production or as Docker Sandboxes parity. Other registries are not supported by this path. Registry traffic remains subject to the sandbox network policy: new sandboxes default to allow-all, so explicit deny rules or a `deny-all` profile can still block the broker.
 
 For browser-based device authorization:
 

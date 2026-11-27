@@ -69,6 +69,8 @@ fi
 
 tmp_dir="$(mktemp -d "${TMPDIR:-/tmp}/gyrel-docs-check.XXXXXX")"
 trap 'rm -rf "$tmp_dir"' EXIT
+"$venv_dir/bin/python" "$site_dir/scripts/docs-lint.py" --self-test
+"$venv_dir/bin/python" "$site_dir/scripts/docs-lint.py"
 "$venv_dir/bin/mkdocs" build \
   --strict \
   --config-file "$site_dir/mkdocs.yml" \

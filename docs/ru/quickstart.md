@@ -23,12 +23,12 @@ shasum -a 256 -c SHA256SUMS
 mkdir -p ~/.local/bin
 install -m 0755 bin/rsbx ~/.local/bin/rsbx
 bin/gyreld-launch.sh &
-~/.local/bin/rsbx daemon status   # running, с версиями и API-контрактом
+~/.local/bin/rsbx daemon status   # running, with version and API contract
 ```
 
 Лаунчер сам запускает containerd, указывает daemon на bundled runtime и включает проверку артефактов по дайджестам перед каждым запуском VM (`--artifact-digests` плюс закрепленный набор `--runtime-artifact`). Никогда не смешивайте бинарники из разных релизов. Опубликованный набор — CLI v0.0.80, daemon v0.0.104, API-контракт 0.0.38. Не направляйте daemon на сокет или каталог состояния другой установки. В бандле лаунчер называется `bin/gyreld-launch.sh`. В старых архивах (r4 и раньше, опубликованных под прежним брендом) находится `bin/rheicd-launch.sh`; запускайте то имя, которое лежит в распакованном каталоге `bin/`.
 
-Для разработки против уже существующего локального runtime можно запустить `bin/sandboxesd` с явными флагами (`--ctr`, `--gvproxy`, `--proxy-helper`); state-only режим описан ниже. Escape hatch `--allow-unmanaged-runtime` существует, но не является поддерживаемым путем альфы: используйте лаунчер, чтобы дайджесты оставались включёнными.
+Для разработки против уже существующего локального runtime можно запустить `bin/sandboxesd` с явными флагами (`--ctr`, `--gvproxy`, `--proxy-helper`); state-only режим описан ниже. Escape hatch `--allow-unmanaged-runtime` существует, но не поддерживается в альфе: используйте лаунчер, чтобы дайджесты оставались включёнными.
 
 ## 3. Запустите microVM
 
@@ -49,15 +49,15 @@ rsbx ls --json
 ## 4. Попробуйте основные поверхности
 
 ```sh
-rsbx ports NAME                          # опубликованные порты
-rsbx cp ./file.txt NAME:/tmp/file.txt    # файлы в обе стороны
+rsbx ports NAME                          # published ports
+rsbx cp ./file.txt NAME:/tmp/file.txt    # files both ways
 rsbx template save NAME mytpl && rsbx template ls
 rsbx secret ls && rsbx secret set-custom --host api.example.com --env API_KEY
-rsbx policy check network api.openai.com --method GET   # проверка одного запроса по сохранённым правилам
+rsbx policy check network api.openai.com --method GET   # evaluate one request against stored rules
 rsbx kit validate ./my-kit --offline
-rsbx mcp add docs --url https://mcp.example.com/mcp   # challenge согласования регистрации
-rsbx policy approval ls                  # ожидающие consent-запросы
-rsbx tui                                 # панель с живыми событиями
+rsbx mcp add docs --url https://mcp.example.com/mcp   # registration approval challenge
+rsbx policy approval ls                  # pending consent requests
+rsbx tui                                 # dashboard with live events
 ```
 
 Больше сквозных сценариев с точным ожидаемым выводом — в [пользовательских кейсах](user-cases.md).

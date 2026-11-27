@@ -3,13 +3,13 @@
 Gyrel — локальная control plane для агентских sandbox-сессий. У компонентов разные обязанности; собирать их нужно из совместимых версий модулей.
 
 ```text
-rsbx CLI / терминальная панель
-          │ локальный API через sandboxes-go-sdk
+rsbx CLI / terminal dashboard
+          │ local API through sandboxes-go-sdk
           ▼
-      sandboxesd ───── хранилище credentials хоста
+      sandboxesd ───── host credential vault
           │
-          ├── runtime adapter ── microVM ── guest-агент
-          └── network gateway ── политика сети guest
+          ├── runtime adapter ── microVM ── guest agent
+          └── network gateway ─── guest network policy
 ```
 
 ## Control plane

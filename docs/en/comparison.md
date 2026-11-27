@@ -61,28 +61,28 @@ All controls were recorded on 2026-11-27. Raw captures are in `/tmp/rheic-gyrel-
 
 | Control | Scope | Artifact |
 |---|---|---|
-| Control 1 | `version` and `--version` on both binaries, with SHA-256 | `00-control1-version-sha.txt` |
-| Control 2 | Top-level `--help` section inventory | `01-sbx-help.txt`, `02-rsbx-help.txt` |
-| Control 3 | Per-flag comparison for 8 verbs | `sbx-*-help.txt`, `rsbx-*-help.txt` |
-| Control 4 | Management verbs: template, mcp, policy, secret, settings, agents | `sbx-{template,mcp,policy,secret,settings}-help.txt`, `rsbx-{template,mcp,policy,secret,settings,agents}-help.txt` |
-| Control 5 | `prune --help` grammar | `sbx-prune-help.txt`, `rsbx-prune-help.txt` |
-| Control 6 | `ports` grammar | `sbx-ports-help.txt`, `rsbx-ports-help.txt` |
-| Control 7 | `run --detach` and detach keys | `sbx-run-detach-help.txt`, `rsbx-run-detach-help.txt` |
+| Control 1 [control: E1-01] | `version` and `--version` on both binaries, with SHA-256 | `00-control1-version-sha.txt` |
+| Control 2 [control: E1-02] | Top-level `--help` section inventory | `01-sbx-help.txt`, `02-rsbx-help.txt` |
+| Control 3 [control: E1-03] | Per-flag comparison for 8 verbs | `sbx-*-help.txt`, `rsbx-*-help.txt` |
+| Control 4 [control: E1-04] | Management verbs: template, mcp, policy, secret, settings, agents | `sbx-{template,mcp,policy,secret,settings}-help.txt`, `rsbx-{template,mcp,policy,secret,settings,agents}-help.txt` |
+| Control 5 [control: E1-05] | `prune --help` grammar | `sbx-prune-help.txt`, `rsbx-prune-help.txt` |
+| Control 6 [control: E1-06] | `ports` grammar | `sbx-ports-help.txt`, `rsbx-ports-help.txt` |
+| Control 7 [control: E1-07] | `run --detach` and detach keys | `sbx-run-detach-help.txt`, `rsbx-run-detach-help.txt` |
 
 ### E3 — negative controls
 
 | Control | Scope | Artifact |
 |---|---|---|
-| Control 8 | Unknown commands, documented aliases, unsupported commands | `09-exit-codes.txt` |
-| Control 9 | Exit-code matrix for missing arguments, unknown flags and unknown commands | `09-exit-codes.txt` |
+| Control 8 [control: E3-08] | Unknown commands, documented aliases, unsupported commands | `09-exit-codes.txt` |
+| Control 9 [control: E3-09] | Exit-code matrix for missing arguments, unknown flags and unknown commands | `09-exit-codes.txt` |
 
 ### E2 — state assertions
 
-None recorded. The probe made no filesystem or guest-state changes.
+The probe recorded none: it made no filesystem or guest-state changes. The ledger also carries historical E2 entries from B0/V1, P1.5, r5 and r6; they do not close current-pair rows.
 
 ### E4 — ledger entries
 
-None recorded yet. This section is the manifest the ledger will be seeded from. Each entry needs a control id, date, runner identity, both component versions and SHAs, the command pair, and the artifact path.
+The ledger is `docs/controls/ledger.jsonl`. It is seeded from this manifest and the recorded probe artifacts, plus the historical B0/V1, B1/V3, P1.5 and r5/r6 entries. Entries for the current `sbx`/`rsbx` pair that are still missing stay `pending` and are not cited as evidence. Each entry records a control id, date, runner identity, component versions and SHAs, the command pair, and the artifact path.
 
 ### Pending controls
 

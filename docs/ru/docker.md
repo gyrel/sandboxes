@@ -31,7 +31,7 @@ unset DOCKER_PAT
 CLI принимает `--docker` для create/run и включает этим параметром профиль Docker-нагрузки. Профиль привилегированный и может запустить `dockerd`, но вложенные контейнерные операции пока не работают и не прошли security-квалификацию. Наличие параметра в справке не подтверждает, что `docker run` или другие workload-команды выполняются.
 
 ```sh
-# Экспериментально: команды вложенного Docker сейчас заблокированы.
+# Experimental: guest Docker workload commands are currently blocked.
 rsbx run --docker shell .
 ```
 

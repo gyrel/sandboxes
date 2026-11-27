@@ -37,14 +37,14 @@ proxy-ссылку для этого запуска.
 ## Запустить OpenCode
 
 ```sh
-# Текущий каталог как workspace, с подключением к агенту
+# Current directory as the workspace, attach to the agent
 rsbx run opencode .
 
-# Именованный detached sandbox, подключиться позже
+# Named detached sandbox, then attach later
 rsbx run --detach --name oc opencode .
 rsbx run --name oc opencode .
 
-# Передать аргумент агенту после --
+# Pass an argument to the agent after --
 rsbx run opencode . -- --help
 ```
 

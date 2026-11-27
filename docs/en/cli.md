@@ -115,6 +115,23 @@ rsbx completion zsh
 
 Cloud commands (`move`, `ttl`, `volume`) are out of scope for the local alpha and remain unsupported. Windows WHP is not implemented.
 
+## Exit codes
+
+Refusals carry a machine code and a nonzero exit status. The same code appears on stderr and in `--format json` records when the command emits them.
+
+| Code | Exit status | Meaning |
+|---|---|---|
+| `0` | 0 | Command completed; no refusal. |
+| `1` | 1 | Partial failure: an action ran and at least one item failed, was skipped, or was stale. |
+| `2` | 2 | Pre-flight refusal: validation failed and no action was taken. |
+| `125`–`127` | 125–127 | Reserved for `exec` command-status parity. |
+| `NOT_OWNED` | 1 or 2 | The resource does not belong to this daemon installation. |
+| `PATH_ESCAPE` | 1 or 2 | A path resolves outside the permitted state root. |
+| `FILTER_REQUIRED` | 2 | `prune` needs a filter or `--all` before deletion. |
+| `STALE` | 1 | A planned item changed before execution and was skipped. |
+
+The registry is the source for machine codes; a code that is not registered does not document a refusal.
+
 ## Get exact options
 
 Use the binary's built-in help for the version you installed:
