@@ -1,12 +1,12 @@
 # Quick start
 
-This guide installs the released Sandboxes alpha by Gyrel and boots a real microVM on macOS ARM64. The microVM path is the primary path: the launcher starts the pinned containerd, the daemon drives the nerdbox shim and libkrun, and `rsbx run shell .` creates or reuses the sandbox, starts it, and attaches the guest shell. State-only mode is a labelled fallback for hosts without the runtime assets and does not boot a VM.
+This guide installs the released Sandboxes alpha by Gyrel and boots a microVM on macOS ARM64. The microVM path is the primary path. The launcher starts the pinned containerd, and the daemon drives the nerdbox shim and libkrun. `rsbx run shell .` creates or reuses the sandbox, starts it, and attaches the guest shell. State-only mode is a labelled fallback for hosts without runtime assets and does not boot a VM.
 
 The published alpha is CLI `rsbx` v0.0.80, daemon `sandboxesd` v0.0.104, and local API contract 0.0.38, assembled as one verified alpha bundle with pinned runtime assets and artifact digests. Binaries ship with `SHA256SUMS`; the bundle launcher verifies every runtime artifact by SHA-256 before each VM launch and refuses unverified bytes. Live acceptance on macOS ARM64 covers the full VM lifecycle, workspaces, `cp`, port publishing, template save/load with live roundtrip, host vault credentials with custom secrets and the approval flow, `mcp` registration with approval challenges, kit validation with the daemon policy, skills, the TUI event panels, the IPv6 and QUIC opt-in matrices, correlation-stamped egress audit (allow recorded before the connection, deny-by-rule enforced) and the fail-closed diagnose bundle (refusal proven with a planted PEM key: no archive, rule ids only). Guest DNS through the bundled gvproxy still does not resolve (open slice), and sink-full audit flip is proven by unit tests with live confirmation scheduled on Linux. It does not qualify Windows, native Linux or rootless hosts, or cloud commands. Windows WHP is not implemented, cloud commands are out of scope, and no independent external security review has been completed.
 
 ## 1. Download and verify the alpha bundle
 
-The bundle contains the CLI, the daemon, the pinned runtime (containerd with patches, the nerdbox shim, gvproxy, libkrun, kernel and guest rootfs), the digest file, and the managed launcher. Download `gyrel-sandboxes-alpha-darwin-arm64-r6.tar.gz` and its `.sha256` from the [project releases](https://github.com/gyrel/sandboxes/releases) — published as the `alpha-2026-11-26-r6` release — then:
+The bundle contains the CLI, the daemon, the pinned runtime, the digest file, and the managed launcher. The runtime contains containerd with patches, the nerdbox shim, gvproxy, libkrun, kernel and guest rootfs. Download `gyrel-sandboxes-alpha-darwin-arm64-r6.tar.gz` and its `.sha256` from the [project releases](https://github.com/gyrel/sandboxes/releases). The release is published as `alpha-2026-11-26-r6`. Then run:
 
 ```sh
 shasum -a 256 -c gyrel-sandboxes-alpha-darwin-arm64-r6.tar.gz.sha256
@@ -26,9 +26,9 @@ bin/gyreld-launch.sh &
 ~/.local/bin/rsbx daemon status   # running, with version and API contract
 ```
 
-The launcher starts containerd on its own, points the daemon at the bundled runtime, and enables per-launch artifact digest verification (`--artifact-digests` plus the pinned `--runtime-artifact` set). Never mix binaries from different releases: the published set is CLI v0.0.80 with daemon v0.0.104 and API contract 0.0.38. Do not point the daemon at a socket or state directory owned by another installation. The bundle ships the launcher as `bin/gyreld-launch.sh`. Older archives (r4 and earlier, published under the previous brand) ship `bin/rheicd-launch.sh` — run the launcher name present in the extracted `bin/` directory.
+The launcher starts containerd on its own and points the daemon at the bundled runtime. It enables per-launch artifact digest verification (`--artifact-digests` plus the pinned `--runtime-artifact` set). Never mix binaries from different releases. The published set is CLI v0.0.80 with daemon v0.0.104 and API contract 0.0.38. Do not point the daemon at a socket or state directory owned by another installation. The bundle ships the launcher as `bin/gyreld-launch.sh`. Older archives (r4 and earlier, published under the previous brand) ship `bin/rheicd-launch.sh`; run the launcher name present in the extracted `bin/` directory.
 
-For development against an existing local runtime you may instead run `bin/sandboxesd` with explicit flags (`--ctr`, `--gvproxy`, `--proxy-helper`); state-only mode is documented below. The escape hatch `--allow-unmanaged-runtime` exists but is not the supported alpha path: prefer the launcher so digests are enforced.
+For development against an existing local runtime, you can instead run `bin/sandboxesd` with explicit flags (`--ctr`, `--gvproxy`, `--proxy-helper`). State-only mode is documented below. The escape hatch `--allow-unmanaged-runtime` exists but is not the supported alpha path; prefer the launcher so digests are enforced.
 
 ## 3. Run a microVM
 
@@ -44,7 +44,7 @@ rsbx ls
 rsbx ls --json
 ```
 
-Both commands use the default socket `$HOME/.sandboxes/sandboxesd.sock` (the launcher honours `GYREL_STATE_DIR`; the legacy `RHEIC_STATE_DIR` is still honored but logs a deprecation warning — rename it to `GYREL_STATE_DIR`). If you started the daemon elsewhere, pass `--socket PATH` or set `SANDBOXES_SOCKET`. Use `rsbx stop`, `rsbx rm`, and `rsbx prune` for the rest of the lifecycle; a stopped sandbox restarts automatically on `exec`.
+Both commands use the default socket `$HOME/.sandboxes/sandboxesd.sock`. The launcher honors `GYREL_STATE_DIR`. The legacy `RHEIC_STATE_DIR` is still honored but logs a deprecation warning; rename it to `GYREL_STATE_DIR`. If you started the daemon elsewhere, pass `--socket PATH` or set `SANDBOXES_SOCKET`. Use `rsbx stop`, `rsbx rm`, and `rsbx prune` for the rest of the lifecycle; a stopped sandbox restarts automatically on `exec`.
 
 ## 4. Try the core surfaces
 
@@ -79,7 +79,7 @@ These commands confirm that the CLI can reach the local daemon and inspect contr
 
 - The validated native VM path targets macOS on Apple silicon only.
 - Windows WHP is not implemented. Cloud commands (`move`, `ttl`, `volume`) are out of scope for the local alpha. Nested Docker workloads inside the guest remain blocked.
-- MCP server registration requires host consent; trusted OS-backed approval and interactive OAuth for remote MCP servers are not shipped yet, so approve paths fail closed. Custom-secret `--ref`/`--command` sources and L7 HTTPS interception are pending the same seams.
+- MCP server registration requires host consent. Trusted OS-backed approval and interactive OAuth for remote MCP servers are not shipped yet, so approve paths fail closed. Custom-secret `--ref`/`--command` sources and L7 HTTPS interception are pending the same gaps.
 - No independent external security review has been completed; see the [security model](security.md).
 - Docker built-in agents remain preview: image launch probes passed, but provider authentication and complete agent sessions did not. See [agents](agents.md).
 
