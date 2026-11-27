@@ -41,6 +41,7 @@ The native VM backend also needs the pinned components in `modules/sandboxes-run
 - the matching guest kernel and EROFS root filesystem
 - the policy-enabled `gvproxy` build when network access is required
 - `mkfs.erofs` and `mkfs.ext4` for runtime image and storage tasks
+- `python3` on `PATH` for the managed bundle launcher, which verifies artifact digests before booting containerd
 
 The containerd process must find the patched nerdbox shim before the stock shim on `PATH`. Use the runtime build instructions to build the exact pinned inputs. Do not substitute an arbitrary system QEMU, shim, or gateway binary.
 

@@ -41,6 +41,7 @@ go build -o ./bin/sandboxesd ./cmd/sandboxesd
 - соответствующие guest kernel и EROFS root filesystem
 - policy-enabled сборка `gvproxy`, если нужен сетевой доступ
 - `mkfs.erofs` и `mkfs.ext4` для образов и хранилища runtime
+- `python3` в `PATH` для managed-лаунчера бандла: он проверяет дайджесты артефактов до запуска containerd
 
 Процесс containerd должен находить patched nerdbox shim раньше штатного shim через `PATH`. Собирайте точные версии по инструкции runtime. Не подменяйте их произвольными системными бинарниками QEMU, shim или gateway.
 
