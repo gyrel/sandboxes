@@ -2,7 +2,7 @@
 
 Gyrel is alpha software with published release artifacts. The validated native VM path currently targets macOS on Apple silicon. Build and configure the runtime artifacts before trying the VM workflow.
 
-The current release line is CLI `rsbx` v0.0.80, daemon `sandboxesd` v0.0.104, and local API contract 0.0.38, with SDK 0.0.36 and runtime v0.1.2. The current alpha bundle is `alpha-2026-11-26-r6` (`gyrel-sandboxes-alpha-darwin-arm64-r6.tar.gz`). The earlier bundle, published under the previous brand, ships CLI v0.0.74, daemon v0.0.98, and API contract 0.0.38. Install released binaries from the project releases; build from source only for development.
+The current release line is CLI `rsbx` v0.0.82, daemon `sandboxesd` v0.0.105, and local API contract 0.0.38, with SDK 0.0.36 and runtime v0.1.2. The current alpha bundle is `alpha-2026-11-26-r7` (`gyrel-sandboxes-alpha-darwin-arm64-r7.tar.gz`). The earlier bundle, published under the previous brand, ships CLI v0.0.74, daemon v0.0.98, and API contract 0.0.38. Install released binaries from the project releases; build from source only for development.
 
 ## Supported development host
 
@@ -41,6 +41,7 @@ The native VM backend also needs the pinned components in `modules/sandboxes-run
 - the matching guest kernel and EROFS root filesystem
 - the policy-enabled `gvproxy` build when network access is required
 - `mkfs.erofs` and `mkfs.ext4` for runtime image and storage tasks
+- `python3` on `PATH` for the managed bundle launcher, which verifies artifact digests before booting containerd
 
 The containerd process must find the patched nerdbox shim before the stock shim on `PATH`. Use the runtime build instructions to build the exact pinned inputs. Do not substitute an arbitrary system QEMU, shim, or gateway binary.
 
