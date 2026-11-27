@@ -58,7 +58,7 @@ rsbx cp review:/tmp/report.html ./report.html
 
 ```sh
 rsbx run --detach --name web shell .
-rsbx run -p 8080 --name web2 shell .    # или `-p 8080:3000` для фиксированной пары
+rsbx run -p 8080 --name web2 shell .    # or `-p 8080:3000` for a fixed pair
 rsbx ports web
 ```
 
@@ -80,7 +80,7 @@ rsbx template export pandas-lab ./pandas-lab.tar
 ## Credentials в хостовом хранилище
 
 ```sh
-rsbx secret set openai                       # интерактивный ввод, значение остается на хосте
+rsbx secret set openai                       # interactive paste, value stays on host
 rsbx secret ls
 rsbx secret set-custom --host api.example.com --env API_KEY
 ```
@@ -138,8 +138,8 @@ rsbx tui
 ## Восстановление после жесткого убийства процесса
 
 ```sh
-kill -9 <pid-daemon>          # аварийная потеря, как crash
-bin/gyreld-launch.sh          # следующий старт всё примирит сам
+kill -9 <daemon-pid>          # abrupt loss, like a crash
+bin/gyreld-launch.sh          # next start reconciles automatically
 ```
 
 При старте daemon примиряет create-журналы: ресурсы, владение которыми доказуемо (совпадение token-маркера), дочиста убираются; всё недоказуемое остается нетронутым и репортится в лог. Ничего не удаляется наугад.
@@ -147,7 +147,7 @@ bin/gyreld-launch.sh          # следующий старт всё прими�
 ## Проверка, что runtime не подменили
 
 ```sh
-printf 'x' | dd of=…/runtime/bin/ctr bs=1 seek=5000 conv=notrunc   # любой подменённый бинарь бандла
+printf 'x' | dd of=~/.sandboxes/…/runtime/bin/ctr bs=1 seek=5000 conv=notrunc   # any tampered bundle binary
 rsbx run shell .
 ```
 

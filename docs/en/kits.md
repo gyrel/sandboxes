@@ -39,5 +39,5 @@ Kits declare `apiVersion: gyrel.dev/v1alpha1`. A kit that still declares the old
 - The built-in `rsbx run codex` path checks a stored API key first and otherwise uses host-side OpenAI OAuth. Docker kit schema acceptance does not imply Docker runtime parity; remote kits, mixins and signature verification are not implemented.
 - Kits are local YAML; OCI distribution and signature verification are not implemented.
 - A non-empty MCP allowlist is rejected rather than silently ignored.
-- Kit configuration does not make preview agents or blocked runtime features production-ready.
+- Kit configuration does not make preview agents or blocked runtime features suitable for production.
 - Inspect the rendered configuration and verify mount paths and network policy before running it.

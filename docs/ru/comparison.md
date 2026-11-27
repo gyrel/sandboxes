@@ -61,28 +61,28 @@
 
 | Контроль | Область | Артефакт |
 |---|---|---|
-| Control 1 | `version` и `--version` на обоих бинарях, с SHA-256 | `00-control1-version-sha.txt` |
-| Control 2 | Инвентаризация секций `--help` верхнего уровня | `01-sbx-help.txt`, `02-rsbx-help.txt` |
-| Control 3 | Пофлаговая сверка для 8 команд | `sbx-*-help.txt`, `rsbx-*-help.txt` |
-| Control 4 | Management-команды: template, mcp, policy, secret, settings, agents | `sbx-{template,mcp,policy,secret,settings}-help.txt`, `rsbx-{template,mcp,policy,secret,settings,agents}-help.txt` |
-| Control 5 | Грамматика `prune --help` | `sbx-prune-help.txt`, `rsbx-prune-help.txt` |
-| Control 6 | Грамматика `ports` | `sbx-ports-help.txt`, `rsbx-ports-help.txt` |
-| Control 7 | `run --detach` и detach keys | `sbx-run-detach-help.txt`, `rsbx-run-detach-help.txt` |
+| Control 1 [control: E1-01] | `version` и `--version` на обоих бинарях, с SHA-256 | `00-control1-version-sha.txt` |
+| Control 2 [control: E1-02] | Инвентаризация секций `--help` верхнего уровня | `01-sbx-help.txt`, `02-rsbx-help.txt` |
+| Control 3 [control: E1-03] | Пофлаговая сверка для 8 команд | `sbx-*-help.txt`, `rsbx-*-help.txt` |
+| Control 4 [control: E1-04] | Management-команды: template, mcp, policy, secret, settings, agents | `sbx-{template,mcp,policy,secret,settings}-help.txt`, `rsbx-{template,mcp,policy,secret,settings,agents}-help.txt` |
+| Control 5 [control: E1-05] | Грамматика `prune --help` | `sbx-prune-help.txt`, `rsbx-prune-help.txt` |
+| Control 6 [control: E1-06] | Грамматика `ports` | `sbx-ports-help.txt`, `rsbx-ports-help.txt` |
+| Control 7 [control: E1-07] | `run --detach` и detach keys | `sbx-run-detach-help.txt`, `rsbx-run-detach-help.txt` |
 
 ### E3 — отрицательные контроли
 
 | Контроль | Область | Артефакт |
 |---|---|---|
-| Control 8 | Неизвестные команды, документированные алиасы, неподдержанные команды | `09-exit-codes.txt` |
-| Control 9 | Матрица кодов выхода для пропущенных аргументов, неизвестных флагов и команд | `09-exit-codes.txt` |
+| Control 8 [control: E3-08] | Неизвестные команды, документированные алиасы, неподдержанные команды | `09-exit-codes.txt` |
+| Control 9 [control: E3-09] | Матрица кодов выхода для пропущенных аргументов, неизвестных флагов и команд | `09-exit-codes.txt` |
 
 ### E2 — проверки состояния
 
-Нет записей. Проба не меняла файловую систему и состояние гостевой среды.
+Проба не записала ни одной: она не меняла файловую систему и состояние гостевой среды. В ledger также есть исторические E2-записи из B0/V1, P1.5, r5 и r6; они не закрывают строки текущей пары.
 
 ### E4 — записи ledger
 
-Записей пока нет. Этот раздел — манифест для заполнения ledger. Каждая запись требует id контроля, дату, runner identity, версии и SHA обоих компонентов, пару команд и путь к артефакту.
+Ledger находится в `docs/controls/ledger.jsonl`. Он заполнен из этого манифеста и записанных артефактов пробы, а также исторических записей B0/V1, B1/V3, P1.5 и r5/r6. Записи для текущей пары `sbx`/`rsbx`, которых пока нет, остаются `pending` и не цитируются как evidence. Каждая запись содержит id контроля, дату, runner identity, версии и SHA компонентов, пару команд и путь к артефакту.
 
 ### Ожидаемые контроли
 
