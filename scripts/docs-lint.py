@@ -11,7 +11,9 @@ CI and in ``./dev.sh check``:
   * R-21..R-24  EN/RU heading tree, code-block bytes and table shapes match,
                 and a RU ``parity: <en-path>@<sha>`` front-matter value is
                 enforced when present;
-  * R-19        a reference page carries an exit-code/status table.
+  * R-19        a reference page carries an exit-code/status table;
+  * R-25        private capture paths and internal executor report names are
+                banned from pages, including inline code.
 
 Run ``python3 scripts/docs-lint.py --self-test`` to exercise the checks against
 good and deliberately bad fixtures.  Run without arguments to lint the repo.
@@ -92,6 +94,10 @@ RU_BANNED = [
 
 EN_BANNED = [(rule, re.compile(pattern, re.IGNORECASE), label) for rule, pattern, label in EN_BANNED]
 RU_BANNED = [(rule, re.compile(pattern, re.IGNORECASE), label) for rule, pattern, label in RU_BANNED]
+
+# (token, label).  Matched literally against raw page lines, so inline code
+# spans do not exempt a hit.
+PRIVATE_PATTERNS = [("/tmp/rheic-", "private capture path"), ("EXECUTOR-REPORT", "internal report reference")]
 
 CONTROL_REF = re.compile(r"\[control:\s*([A-Za-z0-9._:-]+)\s*\]")
 HEADING = re.compile(r"^(#{1,6})\s+\S", re.MULTILINE)
@@ -386,6 +392,18 @@ def check_banned_words(root: Path) -> list[str]:
     return errors
 
 
+def check_private_paths(root: Path) -> list[str]:
+    errors: list[str] = []
+    for lang in ("en", "ru"):
+        for path in sorted((root / "docs" / lang).rglob("*.md")):
+            rel = path.relative_to(root)
+            for lineno, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+                for token, label in PRIVATE_PATTERNS:
+                    if token in line:
+                        errors.append(f"{rel}:{lineno}: {label} {token!r}")
+    return errors
+
+
 def check_control_refs(root: Path, entries: dict[str, dict]) -> tuple[list[str], int]:
     errors: list[str] = []
     count = 0
@@ -606,6 +624,7 @@ def lint(root: Path, check_git: bool = True) -> tuple[list[str], dict[str, int]]
     ref_errors, ref_count = check_control_refs(root, entries)
     errors.extend(ref_errors)
     errors.extend(check_banned_words(root))
+    errors.extend(check_private_paths(root))
     errors.extend(check_parity(root, check_git=check_git))
     errors.extend(check_reference_tables(root))
     stats = {
@@ -729,6 +748,13 @@ def run_self_tests() -> int:
             + "\nA `seamless` path.\n",
         )
 
+    def add_private_path(tmp: Path) -> None:
+        _write(
+            tmp / "docs" / "en" / "page.md",
+            (tmp / "docs" / "en" / "page.md").read_text(encoding="utf-8")
+            + "\nRaw captures are in `/tmp/rheic-example/probe-logs/`.\n",
+        )
+
     def add_bad_ref(tmp: Path) -> None:
         path = tmp / "docs" / "en" / "page.md"
         _write(path, path.read_text(encoding="utf-8").replace("E1-TEST", "E9-MISSING"))
@@ -840,6 +866,7 @@ def run_self_tests() -> int:
         _case("pending control reference", make_pending, "still pending"),
         _case("banned prose token", add_banned, "banned token 'seamless'"),
         _case("code-font exemption", add_code_font, None),
+        _case("private capture path", add_private_path, "private capture path"),
         _case("heading tree mismatch", add_heading, "heading tree differs"),
         _case("code-block mismatch", change_code, "code blocks differ"),
         _case("table shape mismatch", change_table, "table shapes differ"),

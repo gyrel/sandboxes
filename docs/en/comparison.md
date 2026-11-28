@@ -1,97 +1,130 @@
 # Docker `sbx` comparison
 
-This page records which parts of the Docker `sbx` and Gyrel `rsbx` CLI surface have a recorded control, and which remain `unverified`.
+The page pairs Docker `sbx` v0.50.1 with Gyrel `rsbx` 0.0.81 command by command. Each row
+states what a recorded control shows, and the page names the controls still required
+before a row can move to a stronger status.
 
-## Scope and method
+## Scope
 
-The comparison covers Docker `sbx` v0.50.1 and Gyrel `rsbx` CLI 0.0.81 on macOS ARM64. The pinned binaries carry SHA-256 `a1e506d1b1f2e17bbc54a3b8e9850592860777689fe3f49098be6279b728c45e` for sbx and `085ec502869ff6c86efacca84af8078a20bd1367f929af496ce007578a1b8669` for rsbx. The release record pairs this CLI with daemon 0.0.104 and API contract 0.0.38. The probe exercised the CLI binary only.
+| Item | Value |
+|---|---|
+| Baseline binary | Docker `sbx` v0.50.1, SHA-256 `a1e506d1b1f2e17bbc54a3b8e9850592860777689fe3f49098be6279b728c45e` |
+| Product binary | Gyrel `rsbx` CLI 0.0.81, SHA-256 `085ec502869ff6c86efacca84af8078a20bd1367f929af496ce007578a1b8669` |
+| Release record pairing | daemon 0.0.104, API contract 0.0.38 |
+| Platform | macOS ARM64 |
+| Capture date | 2026-11-27 |
+| Method | top-level `--help`, per-command `--help`, `version`, `--version` and argument-validation error paths |
+| Not exercised | sandbox creation, daemon start, authenticated flows, guest state, port leases and policy enforcement |
 
-Controls were captured on 2026-11-27 on macOS ARM64. Both binaries were run with `--help` at the top level and per command. The probe also ran `version`, `--version` and argument-validation error paths. No sandbox was created, no daemon was started, and no authenticated flow was run. Surface evidence does not establish runtime parity.
+The probe ran both binaries with `--help` at the top level and per command, plus `version`,
+`--version` and argument-validation error paths. It created no sandbox, started no daemon
+and ran no authenticated flow. Surface evidence does not establish runtime parity.
 
 ## Status vocabulary
 
 | Status | Meaning |
 |---|---|
-| `parity` | Same input on both binaries produced the same recorded result. No row uses this status in this probe. |
-| `partial` | Some surface behaviours are recorded; the row lists the gaps. |
-| `differs` | Recorded, intentional divergence; the row states the rationale. |
-| `gap` | Not implemented; accepted alpha limitation. |
-| `unverified` | Implemented or present, but no recorded control. |
+| `parity` | Same input produced the same recorded result on both binaries under a live control. |
+| `partial` | Some surface behaviours are recorded; the missing ones are named per row. |
+| `differs` | Recorded intentional divergence; the rationale is stated on this page. |
+| `gap` | Not implemented; accepted alpha limitation, tracked in [limits](limits.md). |
+| `unverified` | Implemented or present, with no recorded same-input control yet. |
 
-## Comparison
+No row carries `parity` yet.
 
-| Slug | Area | sbx v0.50.1 | rsbx (CLI 0.0.81 / daemon 0.0.104) | Status | Evidence still required | Closed by |
-|---|---|---|---|---|---|---|
-| `run` | run | Top-level and `run` help compared. Cloud flags include `--detach-keys` on `run`, `--ttl` and `--volume`. | Local grammar. `--detach-keys` is absent from `run`; `--template` aliases `--image`; `--kit` takes one string. | unverified | E1 same-input run control over create, attach and exec; E3 for malformed inputs | — |
-| `create` | create | Full flag set, including cloud `--image-ref`, `--profile`, `--mount`, `--ttl` and `--volume`. | `--image` replaces `--image-ref`; `--policy-profile` replaces `--profile`; `--kit` is single; `--skills readwrite` is unsupported; `--deny-write`, `--docker` and `--idempotency-key` are added. | partial | E2 atomicity under kill; E3 for `NAME_INVALID` and `AUDIT_CAP_EXCEEDED`; E1 grammar corpus | CR-1…CR-5 |
-| `exec` | exec | Full flag set, including `--privileged` and `--detach-keys`. | Flag set is identical. `--privileged` is rejected by the local runtime; `--detach-keys` is cloud-only. | partial | E3 for 125, 126 and 127, and for `APPROVAL_PROVIDER_UNAVAILABLE`; E1 exit-code fixture; live PTY stays `gap` | EX-1…EX-6 |
-| `cp` | cp | `-L/--follow-link` follows symlinks and refuses out-of-workspace escapes. | `-L/--follow-link` follows a top-level source symlink; nested links are rejected. | partial | E3 for `MEMBER_TYPE_REFUSED`, `LINK_ESCAPE` and `HOST_PATH_NOT_ALLOWED`; E2 tree-hash rollback | CP-1…CP-6 |
-| `ls` | ls | `--format`, `--json` and `-q/--quiet`. | Same flags; adds `--limit` (1–1000). | partial | E2 JSON schema fixture; E3 for daemon-down `unknown`; masking byte-grep | LS-1…LS-4 |
-| `stop` | stop | `--format` and `--json`. | Same flags; adds `--grace`. | unverified | E1 stop/start cycle; E3 for `NOT_OWNED` and `SESSION_UNREAPED`; E2 port release | SR-1…SR-6 |
-| `rm` | rm | `--all`, `-f/--force`, `--format` and `--json`. | Same flags. Without `--force`, every named sandbox must be stopped or nothing is removed. | unverified | E3 per-item refusal; E2 tree diff proving one deletion; E1 idempotent re-rm | SR-1, SR-2, SR-5 |
-| `prune` | prune | `--filter stringArray` (repeatable), `--dry-run`, `-f/--force`, `--format` and `--json`; secrets scoped to pruned sandboxes are deleted. | `--filter string` (single); `until=TIMESTAMP` or `until=DURATION`; same remaining flags; secret cleanup is not documented. | unverified | E3 for the four `UNCLASSIFIED` classes; E2 whole-tree hash on abort; E1 dry-run and real plan diff | PR-1…PR-8 |
-| `ports` | ports | `[[HOST_IP:]HOST_PORT:]SANDBOX_PORT[/PROTOCOL]`; documented tcp4 default, dual-stack loopback and cloud binding rules. | `[[HOST_IP:]HOST_PORT:]GUEST` with protocol suffix `/tcp`, `/udp`, `/tcp4`, `/udp4`, `/tcp6` or `/udp6`; default-protocol and loopback-family rules are not documented; no cloud section. | partial | E1 over 6 canonical and 10 malformed specs; E2 lease table fixture; E3 for `PORT_IN_USE`, `PORT_RESERVED`, `BIND_FORBIDDEN` and `POLICY_DENY` | PT-1…PT-6 |
-| `kits` | kits | `--kit strings` (repeatable); local directory, ZIP, Git and OCI; mixins and kit arguments. | `--kit string` (single local kit); no remote OCI or mixins. | unverified | E1 kit lifecycle corpus | — |
-| `cloud` | cloud backend | `--cloud`, `move`, `ttl` and `volume`. | No `--cloud`. `move`, `ttl` and `volume` are registered but return `unsupported` with exit 1. | gap | None. Accepted alpha limitation, listed in [limits](limits.md). | non-goal |
-| `template` | templates | `inspect`, `load`, `ls`, `rm` and `save`. | Same subcommands plus `export`. | partial | E4 entry for the P1.5 roundtrip; E1 whiteout edge cases | — |
-| `mcp` | MCP | `add`, `auth`, `inspect`, `load`, `ls`, `rm` and `unload`. | Same subcommands plus `call`. | partial | E1 add, list, call and remove; E3 for the literal-header gap | non-goal for the header gap |
-| `policy-approval` | policy approval | `policy approval` is listed with `inspect`, `ls` and `respond`. | `policy approval` is retained but hidden; `policy org` is the documented surface. The `inspect`, `ls` and `respond` shapes match. | differs | E3 fail-closed refusal code; E1 challenge path | EX-2 |
-| `secret` | secrets | `import`, `ls`, `rm`, `set` and `set-custom`; alias `secrets`. | Same subcommands and alias. | partial | E3 command-source rejection; X-3 redaction over vault paths and `ls` output | LS-3, X-3 |
-| `settings` | settings | `get`, `ls`, `set` and `unset`. | Same subcommands; documents `~/.config/rheic/settings.toml` and the sbx settings record shape. | partial | E1 over the full sbx settings name list; E3 for `SETTINGS_INVALID` | X-5 |
-| `tui` | TUI | `tui` command. | `tui` command present in top-level help. | unverified | Scripted-terminal E1 equivalent (keystroke log and frame dump); LS-4 | LS-4 |
-| `login-logout` | login/logout | `login` and `logout` under Other. | `login` and `logout` under Management. | unverified | E4 entry for a same-input login/logout control; E3 for the account-name gap | — |
-| `help-layout` | help layout | Cobra sections: Sandbox, Management, Experimental, Other. Unknown command with `--help` prints the nearest ancestor help and exits 0. | Sections add Unsupported Docker Sandboxes Commands. `template` moves to Experimental; `env`, `login` and `logout` move to Management; `agents` is rsbx-only. Unknown command with `--help` exits 1. | differs | E4 entry with both SHAs and a diff artifact for any parity claim | — |
-| `policy-ls` | policy ls | `policy ls` reports default allow rules in a `POLICY / SOURCE / APPLIES TO / SUMMARY` table. | `policy ls` is present; baseline rules output was not captured. | unverified | E4 entry with a committed baseline fixture | — |
+## Command surface
 
-Two rows are `differs` on recorded surface evidence. `policy-approval` keeps `policy approval` as a hidden retained command and documents `policy org` instead. `help-layout` uses strict unknown-command handling, so an unknown command with `--help` exits 1 instead of printing ancestor help.
+| Command | Docker `sbx` v0.50.1 | Gyrel `rsbx` 0.0.81 | Status |
+|---|---|---|---|
+| `run` | Top-level and `run` help compared. Cloud flags include `--detach-keys` on `run`, `--ttl` and `--volume`. | Local grammar. `--detach-keys` is absent from `run`; `--template` aliases `--image`; `--kit` takes one string. | `unverified` |
+| `create` | Full flag set, including cloud `--image-ref`, `--profile`, `--mount`, `--ttl` and `--volume`. | `--image` replaces `--image-ref`; `--policy-profile` replaces `--profile`; `--kit` is single; `--skills readwrite` is unsupported; `--deny-write`, `--docker` and `--idempotency-key` are added. | `partial` |
+| `exec` | Full flag set, including `--privileged` and `--detach-keys`. | Flag set is identical. `--privileged` is rejected by the local runtime; `--detach-keys` is cloud-only. | `partial` |
+| `cp` | `-L/--follow-link` follows symlinks and refuses out-of-workspace escapes. | `-L/--follow-link` follows a top-level source symlink; nested links are rejected. | `partial` |
+| `ls` | `--format`, `--json` and `-q/--quiet`. | Same flags; adds `--limit` (1–1000). | `partial` |
+| `stop` | `--format` and `--json`. | Same flags; adds `--grace`. | `unverified` |
+| `rm` | `--all`, `-f/--force`, `--format` and `--json`. | Same flags. Without `--force`, every named sandbox must be stopped or nothing is removed. | `unverified` |
+| `prune` | `--filter stringArray` (repeatable), `--dry-run`, `-f/--force`, `--format` and `--json`; secrets scoped to pruned sandboxes are deleted. | `--filter string` (single); `until=TIMESTAMP` or `until=DURATION`; same remaining flags; secret cleanup is not documented. | `unverified` |
+| `ports` | `[[HOST_IP:]HOST_PORT:]SANDBOX_PORT[/PROTOCOL]`; documented tcp4 default, dual-stack loopback and cloud binding rules. | `[[HOST_IP:]HOST_PORT:]GUEST` with protocol suffix `/tcp`, `/udp`, `/tcp4`, `/udp4`, `/tcp6` or `/udp6`; default-protocol and loopback-family rules are not documented; no cloud section. | `partial` |
+| `kits` | `--kit strings` (repeatable); local directory, ZIP, Git and OCI; mixins and kit arguments. | `--kit string` (single local kit); no remote OCI or mixins. | `unverified` |
+| `--cloud` | `--cloud`, `move`, `ttl` and `volume`. | No `--cloud`. `move`, `ttl` and `volume` are registered but return `unsupported` with exit 1. | `gap` |
+| `template` | `inspect`, `load`, `ls`, `rm` and `save`. | Same subcommands plus `export`. | `partial` |
+| `mcp` | `add`, `auth`, `inspect`, `load`, `ls`, `rm` and `unload`. | Same subcommands plus `call`. | `partial` |
+| `policy approval` | `policy approval` is listed with `inspect`, `ls` and `respond`. | `policy approval` is retained but hidden; `policy org` is the documented surface. The `inspect`, `ls` and `respond` shapes match. | `differs` |
+| `secret` | `import`, `ls`, `rm`, `set` and `set-custom`; alias `secrets`. | Same subcommands and alias. | `partial` |
+| `settings` | `get`, `ls`, `set` and `unset`. | Same subcommands; documents `~/.config/rheic/settings.toml` and the sbx settings record shape. | `partial` |
+| `tui` | `tui` command. | `tui` command present in top-level help. | `unverified` |
+| `login` and `logout` | `login` and `logout` under Other. | `login` and `logout` under Management. | `unverified` |
+| help layout | Cobra sections: Sandbox, Management, Experimental, Other. Unknown command with `--help` prints the nearest ancestor help and exits 0. | Sections add Unsupported Docker Sandboxes Commands. `template` moves to Experimental; `env`, `login` and `logout` move to Management; `agents` is rsbx-only. Unknown command with `--help` exits 1. | `differs` |
+| `policy ls` | `policy ls` reports default allow rules in a `POLICY / SOURCE / APPLIES TO / SUMMARY` table. | `policy ls` is present; baseline rules output was not captured. | `unverified` |
 
-## Side-effect protection
+!!! info "Command names are not evidence"
 
-The former combined `create`–`ports` row is split by slug. The probe compared flag and subcommand grammar, version output and argument-validation error paths. It did not exercise sandbox creation, guest state, cleanup, port leases or policy enforcement.
+    A matching command or flag name is not evidence of matching behaviour. Flags, prompts,
+    exit codes, guest-visible state and cleanup need same-input live controls. `rsbx` is
+    the Gyrel binary; it does not occupy Docker's `sbx` name. Runtime boundaries are
+    listed in [limits](limits.md).
 
-Side-effect protection is in progress: the B0/B1 guards are landing. No control in this probe exercises them. Controls will be recorded per E4 before a row moves beyond `partial`.
+## Controls still required
 
-**Do not infer parity from a shared command name.** A matching command or flag name is not evidence of matching behaviour. Flags, prompts, exit codes, guest-visible state and cleanup need same-input live controls. Runtime gates are listed in [limits](limits.md). `rsbx` is the Gyrel binary; it does not occupy Docker's `sbx` name.
+The probe exercised the CLI surface only. Side-effect guards for `create`, `cp` and `ports`
+are in implementation; no recorded control on this page exercises them yet. A row moves to
+a stronger status only after its controls are recorded in the ledger
+`docs/controls/ledger.jsonl`.
+
+| Command | Controls required |
+|---|---|
+| `run` | Same-input control over the create, attach and exec cycle; negative controls for malformed inputs. |
+| `create` | State assertion for atomicity under kill; negative controls for `NAME_INVALID` and `AUDIT_CAP_EXCEEDED`; same-input grammar control over the full flag corpus. |
+| `exec` | Negative controls for exit codes 125, 126 and 127 and for `APPROVAL_PROVIDER_UNAVAILABLE`; same-input exit-code fixture; live PTY remains a gap. |
+| `cp` | Negative controls for `MEMBER_TYPE_REFUSED`, `LINK_ESCAPE` and `HOST_PATH_NOT_ALLOWED`; state assertion for tree-hash rollback. |
+| `ls` | State assertion for the JSON schema; negative control for the `unknown` state when the daemon is down; masking byte-grep control. |
+| `stop` | Same-input stop/start cycle; negative controls for `NOT_OWNED` and `SESSION_UNREAPED`; state assertion for port release. |
+| `rm` | Negative control for per-item refusal; state assertion by tree diff over one deletion; same-input idempotent re-remove control. |
+| `prune` | Negative controls for the four `UNCLASSIFIED` classes; state assertion for the whole-tree hash on abort; same-input dry-run and real-run plan diff. |
+| `ports` | Same-input control over 6 canonical and 10 malformed specs; state assertion for the lease table; negative controls for `PORT_IN_USE`, `PORT_RESERVED`, `BIND_FORBIDDEN` and `POLICY_DENY`. |
+| `kits` | Same-input control over the kit lifecycle corpus. |
+| `template` | Ledger entry for the recorded template roundtrip; same-input control over whiteout edge cases. |
+| `mcp` | Same-input control over add, list, call and remove; negative control for the literal-header gap. |
+| `policy approval` | Negative control for the fail-closed refusal code; same-input control over the challenge path. |
+| `secret` | Negative control for command-source rejection; redaction control over vault paths and `ls` output. |
+| `settings` | Same-input control over the full `sbx` settings name list; negative control for `SETTINGS_INVALID`. |
+| `tui` | Scripted-terminal equivalent of a same-input control: keystroke log and frame dump. |
+| `login` and `logout` | Ledger entry pairing a same-input login/logout control; negative control for the account-name gap. |
+| help layout | Ledger entry with both binary SHAs and a diff artifact before any parity claim. |
+| `policy ls` | Ledger entry with a committed baseline fixture. |
+
+## Intentional differences
+
+| Area | What differs | Basis |
+|---|---|---|
+| `policy approval` | The command is retained but hidden; `inspect`, `ls` and `respond` match the `sbx` shapes. | The documented approval surface is `policy org`. |
+| help layout | An unknown command with `--help` exits 1 instead of printing ancestor help; `template` moves to Experimental, `env`, `login` and `logout` move to Management; an Unsupported section is added; `agents` is rsbx-only. | Strict unknown-command handling, recorded as intentional. |
+| `--cloud` | `--cloud` is absent; `move`, `ttl` and `volume` return `unsupported` with exit 1. | Accepted alpha non-goal, tracked in [limits](limits.md). |
+| `mcp` header | Recorded gap in literal header handling. | Non-goal for the current release. |
 
 ## Evidence and limits
 
-All controls were recorded on 2026-11-27. Raw captures are in `/tmp/rheic-gyrel-20261127/probe-logs/`. The manifest is `/tmp/rheic-gyrel-20261127/EXECUTOR-REPORT-PROBE.md`. Artifact paths below are relative to the capture directory.
+All statuses reflect controls captured on 2026-11-27. The recorded controls below resolve
+against the machine-readable ledger `docs/controls/ledger.jsonl`, which carries each
+artifact path and digest.
 
-### E1 — same-input surface captures
+### Recorded controls
 
-| Control | Scope | Artifact |
-|---|---|---|
-| Control 1 [control: E1-01] | `version` and `--version` on both binaries, with SHA-256 | `00-control1-version-sha.txt` |
-| Control 2 [control: E1-02] | Top-level `--help` section inventory | `01-sbx-help.txt`, `02-rsbx-help.txt` |
-| Control 3 [control: E1-03] | Per-flag comparison for 8 verbs | `sbx-*-help.txt`, `rsbx-*-help.txt` |
-| Control 4 [control: E1-04] | Management verbs: template, mcp, policy, secret, settings, agents | `sbx-{template,mcp,policy,secret,settings}-help.txt`, `rsbx-{template,mcp,policy,secret,settings,agents}-help.txt` |
-| Control 5 [control: E1-05] | `prune --help` grammar | `sbx-prune-help.txt`, `rsbx-prune-help.txt` |
-| Control 6 [control: E1-06] | `ports` grammar | `sbx-ports-help.txt`, `rsbx-ports-help.txt` |
-| Control 7 [control: E1-07] | `run --detach` and detach keys | `sbx-run-detach-help.txt`, `rsbx-run-detach-help.txt` |
+| Control | Scope |
+|---|---|
+| `E1-01` | `version` and `--version` on both binaries, with SHA-256. |
+| `E1-02` | Top-level `--help` section inventory. |
+| `E1-03` | Per-flag grammar comparison for 8 verbs. |
+| `E1-04` | Management verbs: template, mcp, policy, secret, settings, agents. |
+| `E1-05` | `prune --help` grammar. |
+| `E1-06` | `ports` grammar. |
+| `E1-07` | `run --detach` and detach keys. |
+| `E3-08` | Unknown commands, documented aliases, unsupported commands. |
+| `E3-09` | Exit-code matrix for missing arguments, unknown flags and unknown commands. |
 
-### E3 — negative controls
+### Pending records
 
-| Control | Scope | Artifact |
-|---|---|---|
-| Control 8 [control: E3-08] | Unknown commands, documented aliases, unsupported commands | `09-exit-codes.txt` |
-| Control 9 [control: E3-09] | Exit-code matrix for missing arguments, unknown flags and unknown commands | `09-exit-codes.txt` |
-
-### E2 — state assertions
-
-The probe recorded none: it made no filesystem or guest-state changes. The ledger also carries historical E2 entries from B0/V1, P1.5, r5 and r6; they do not close current-pair rows.
-
-### E4 — ledger entries
-
-The ledger is `docs/controls/ledger.jsonl`. It is seeded from this manifest and the recorded probe artifacts, plus the historical B0/V1, B1/V3, P1.5 and r5/r6 entries. Entries for the current `sbx`/`rsbx` pair that are still missing stay `pending` and are not cited as evidence. Each entry records a control id, date, runner identity, component versions and SHAs, the command pair, and the artifact path.
-
-### Pending controls
-
-The following controls do not exist yet. Rows that need them for a stronger status stay `partial` or `unverified`.
-
-- E2 state assertions: `create` atomicity, `cp` rollback, `ls` JSON schema, `stop` port release, `rm` tree diff, `prune` abort hash, `ports` lease table.
-- E3 per-verb refusal codes: `create` `NAME_INVALID` and `AUDIT_CAP_EXCEEDED`; `exec` 125, 126, 127 and `APPROVAL_PROVIDER_UNAVAILABLE`; `cp` `MEMBER_TYPE_REFUSED`, `LINK_ESCAPE` and `HOST_PATH_NOT_ALLOWED`; `stop` `NOT_OWNED` and `SESSION_UNREAPED`; `ports` `PORT_IN_USE`, `PORT_RESERVED`, `BIND_FORBIDDEN` and `POLICY_DENY`; `secret` command-source rejection; `settings` `SETTINGS_INVALID`.
-- E1 runtime controls: `run` create, attach and exec cycle; `kits` lifecycle; `tui` scripted-terminal capture; `login` and `logout` same-input run; `policy ls` fixture; `policy-approval` challenge path; `help-layout` diff artifact.
-
-Rows that depend on these missing controls and stay `unverified`: `run`, `stop`, `rm`, `prune`, `kits`, `tui`, `login-logout`, `policy-ls`. The `partial` rows list their gaps in place and claim no parity. `policy-approval` and `help-layout` are `differs` on the recorded surface difference. Their runtime behaviour remains unverified.
-
-Agent sessions and authenticated Codex controls are outside this probe. See [agents](agents.md) and [limits](limits.md) for current limits.
+Entries for the current `sbx`/`rsbx` pair that do not exist yet stay `pending` in the
+ledger and are not cited as evidence. The ledger also carries historical state assertions
+from earlier rounds; they do not close current-pair rows. Agent sessions and authenticated
+Codex controls are outside this probe; see [agents](agents.md) and [limits](limits.md).
