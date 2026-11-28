@@ -1,20 +1,25 @@
-# Native runtime bundles
+# Bundle для native runtime
 
-Код runtime v0.0.41 использует неизменные native assets из [runtime v0.0.36](https://github.com/gyrel/sandboxes-runtime/releases/tag/v0.0.36). Тот релиз содержит `rheic-runtime-v0.0.36-linux-arm64.tar.gz` и `rheic-runtime-v0.0.36-darwin-arm64.tar.gz`. В каждом есть containerd, ctr, patched nerdbox shim и gvproxy, libkrun, libkrunfw, patched ARM64 kernel Image и EROFS guest rootfs. Каждый обычный файл указан в `bundle.json` с размером и SHA-256.
+Native runtime не публикуется отдельной загрузкой. Он закреплён внутри текущего alpha-bundle. Линия релиза — runtime v0.1.2 в `gyrel-sandboxes-alpha-darwin-arm64-r8.tar.gz`. Bundle содержит containerd с патчами, nerdbox shim, gvproxy, libkrun, libkrunfw, пропатченный ARM64 kernel Image и EROFS guest rootfs. Исходники bundle отмечены тегом в [runtime-репозитории](https://github.com/gyrel/sandboxes-runtime).
 
-| Asset | SHA-256 |
+| Пункт | Значение |
 |---|---|
-| Linux ARM64 archive | `97391474f9d4bb4fee7281525baad0bb20803dc90166de6f747f5af5686ad982` |
-| macOS ARM64 archive | `314968cd1ec1f5a85b4831f8ef99f42cc8c8c8380b6b7494418a552bebde17f7` |
-| Patched kernel Image в обоих | `8a1b87b1b754be382aa9fea5159a9ec49a30c08a11afff6c88b42efcf7455081` |
-| Guest rootfs в обоих | `d08f59e209e83436cf3e9e32aad6bc68bf815e99c86882e55cedd7336f416b35` |
+| Линия runtime | v0.1.2 |
+| Поставка | Закреплён внутри alpha-bundle r8 |
+| Артефакт bundle | `gyrel-sandboxes-alpha-darwin-arm64-r8.tar.gz` |
+| SHA-256 bundle | `e66b4d5fc1dab8e3bb193800a3c013057f789c454f321c55b36d528b23df8644` |
 
-Скачайте архив своей платформы и `SHA256SUMS`. Проверьте checksum архива **до извлечения**, затем извлеките в пустой приватный каталог. Из исходников того же runtime-тега проверьте точный inventory:
+## Проверка bundle
+
+Скачайте bundle и sidecar `.sha256` из [релизов проекта](https://github.com/gyrel/sandboxes/releases). Проверьте checksum архива **до извлечения**, затем извлеките его в пустой приватный каталог:
 
 ```sh
-shasum -a 256 -c SHA256SUMS
-tar -xzf rheic-runtime-v0.0.36-darwin-arm64.tar.gz -C /path/to/empty-private-dir
-go run ./cmd/runtime-bundle verify --root /path/to/empty-private-dir --platform darwin/arm64
+shasum -a 256 -c gyrel-sandboxes-alpha-darwin-arm64-r8.tar.gz.sha256
+tar -xzf gyrel-sandboxes-alpha-darwin-arm64-r8.tar.gz -C /path/to/empty-private-dir
 ```
 
-На Linux используйте Linux-архив и `linux/arm64`. Проверка подтверждает content и платформу, **но не** личность издателя или runtime behavior. GitHub asset digests совпали с локально проверенными архивами. Linux и macOS запускали pinned Alpine ARM64 guest task; это basic boot и cleanup, а не полный Docker workload, egress или policy parity. macOS dylibs подписаны ad hoc и не notarized; её libkrun и graphics dependencies взяты из Homebrew bottles. См. [ограничения](limits.md).
+Managed launcher проверяет каждый runtime-артефакт внутри bundle по SHA-256 перед каждым запуском VM и отказывается запускать непроверенные байты. Собирать и проверять runtime вручную не нужно: launcher выполняет проверку каждого артефакта при старте.
+
+## Что подтверждает проверка
+
+Launcher подтверждает целостность артефактов и платформу, **но не** личность издателя или поведение runtime. Дайджесты опубликованных assets совпали с локально проверенными архивами. Linux и macOS запускали pinned Alpine ARM64 guest task; это покрывает basic boot и очистку task, но не полный Docker workload, egress или policy parity. macOS dylibs подписаны ad hoc и не notarized; её libkrun и graphics dependencies взяты из Homebrew bottles. См. [ограничения](limits.md).

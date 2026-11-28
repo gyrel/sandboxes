@@ -17,7 +17,7 @@ from another installation.
 ## Store provider credentials
 
 OpenCode supports several providers. Store only the keys you intend to use;
-Rheic adds proxy references for the matching providers automatically:
+Gyrel adds proxy references for the matching providers automatically:
 
 ```sh
 rsbx secret set openai
