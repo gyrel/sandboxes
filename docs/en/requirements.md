@@ -2,7 +2,7 @@
 
 Gyrel is alpha software with published release artifacts. The validated native VM path currently targets macOS on Apple silicon. Build and configure the runtime artifacts before trying the VM workflow.
 
-The current release line is CLI `rsbx` v0.0.82, daemon `sandboxesd` v0.0.105, and local API contract 0.0.38, with SDK 0.0.36 and runtime v0.1.2. The current alpha bundle is `alpha-2026-11-26-r7` (`gyrel-sandboxes-alpha-darwin-arm64-r7.tar.gz`). The earlier bundle, published under the previous brand, ships CLI v0.0.74, daemon v0.0.98, and API contract 0.0.38. Install released binaries from the project releases; build from source only for development.
+The current release line is CLI `rsbx` v0.0.85, daemon `sandboxesd` v0.0.108, and local API contract 0.0.38, with SDK 0.0.36 and runtime v0.1.2. The current alpha bundle is `alpha-2026-11-28-r8` (`gyrel-sandboxes-alpha-darwin-arm64-r8.tar.gz`). The earlier bundle, published under the previous brand, ships CLI v0.0.74, daemon v0.0.98, and API contract 0.0.38. Install released binaries from the project releases; build from source only for development.
 
 ## Supported development host
 

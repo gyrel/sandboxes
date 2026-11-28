@@ -1,6 +1,6 @@
 # CLI reference
 
-The canonical user-facing executable is `rsbx`. The current release line is CLI `rsbx` v0.0.82 with daemon `sandboxesd` v0.0.105, local API contract 0.0.38, SDK 0.0.36, and runtime v0.1.2. Most commands accept `--socket PATH`; `SANDBOXES_SOCKET` can set the same default for a shell session.
+The canonical user-facing executable is `rsbx`. The current release line is CLI `rsbx` v0.0.85 with daemon `sandboxesd` v0.0.108, local API contract 0.0.38, SDK 0.0.36, and runtime v0.1.2. Most commands accept `--socket PATH`; `SANDBOXES_SOCKET` can set the same default for a shell session.
 
 > **Alpha note:** this page documents the published CLI interface. Runtime and daemon include exec/PTY paths, and the VM-backed lifecycle passed live acceptance on macOS ARM64. Full interactive agent workflows, Windows WHP, cloud commands, and platform parity remain out of scope or unverified. No independent external security review has been completed. See [requirements](requirements.md) before configuring a VM backend.
 
