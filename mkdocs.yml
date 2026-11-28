@@ -28,6 +28,7 @@ nav:
       - CLI: en/cli.md
       - Settings: en/settings.md
       - Architecture: en/architecture.md
+      - OpenCode: en/opencode.md
       - Security: en/security.md
       - FAQ: en/faq.md
 
@@ -74,6 +75,7 @@ plugins:
                 - CLI: ru/cli.md
                 - Настройки: ru/settings.md
                 - Архитектура: ru/architecture.md
+                - OpenCode: ru/opencode.md
                 - Безопасность: ru/security.md
                 - Частые вопросы: ru/faq.md
 
